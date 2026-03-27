@@ -153,8 +153,8 @@ padding:.55rem 1rem .55rem 1.1rem !important;
 /* Empty */
 .empty{text-align:center;padding:3.5rem 1rem;color:var(–mu)}
 .empty-icon{font-size:3rem;margin-bottom:.85rem}
-.empty-title{font-family:var(–fd);font-size:1.3rem;color:var(–tx2);margin-bottom:.45rem;font-style:italic}
-.empty-sub{font-size:.82rem;font-weight:300;line-height:1.5}
+.empty-title{font-family:var(–fd);font-size:1.3rem;color:var(–tx);margin-bottom:.45rem;font-style:italic}
+.empty-sub{font-size:.85rem;font-weight:400;line-height:1.5;color:var(–tx2)}
 
 /* Modals */
 .backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}
@@ -258,10 +258,10 @@ padding:.55rem 1rem .55rem 1.1rem !important;
   <div id="backupNudge" style="display:none"></div>
   <section aria-label="Library statistics">
     <div class="stats-strip" role="list">
-      <div class="stat" role="listitem" id="stA"><div class="stat-n" id="sA">0</div><div class="stat-l">Aisles</div></div>
-      <div class="stat" role="listitem" id="stB"><div class="stat-n" id="sB">0</div><div class="stat-l">Books</div></div>
-      <div class="stat" role="listitem" id="stR"><div class="stat-n" id="sR">0</div><div class="stat-l">Returned</div></div>
-      <div class="stat" role="listitem" id="stH"><div class="stat-n" id="sH">0</div><div class="stat-l">Hours</div></div>
+      <div class="stat" role="listitem" id="stA"><div class="stat-l">Aisles</div><div class="stat-n" id="sA">0</div></div>
+      <div class="stat" role="listitem" id="stB"><div class="stat-l">Books</div><div class="stat-n" id="sB">0</div></div>
+      <div class="stat" role="listitem" id="stR"><div class="stat-l">Returned</div><div class="stat-n" id="sR">0</div></div>
+      <div class="stat" role="listitem" id="stH"><div class="stat-l">Hours</div><div class="stat-n" id="sH">0</div></div>
     </div>
   </section>
   <div id="goalSec" style="display:none"></div>
@@ -466,6 +466,10 @@ padding:.55rem 1rem .55rem 1.1rem !important;
 <div style="font-size:.75rem;color:var(--mu);line-height:1.6;padding:.5rem 0;border-bottom:1px solid var(--bd);font-weight:300">Share the app URL with anyone. They open it in Safari and tap <strong style="color:var(--tx2)">Share → Add to Home Screen</strong>.</div>
 
 <div class="s-title" style="margin-top:.25rem">About</div>
+<div class="s-row">
+  <div><div class="s-lbl">How to use Stacks</div><div class="s-sub">Show the welcome guide again</div></div>
+  <button class="gbtn" id="showWelcomeBtn" style="font-size:.78rem;padding:.4rem .8rem">Show</button>
+</div>
 <div class="s-row"><span class="s-lbl">Version</span><span style="font-size:.85rem;color:var(--mu)">1.0</span></div>
 <div class="s-row"><div><div class="s-lbl">Privacy</div><div class="s-sub">All data stored on your device only. Nothing is sent anywhere.</div></div></div>
 <div class="sa"><button class="btn" id="setClose">Done</button></div>
@@ -983,9 +987,13 @@ $('expBtn').addEventListener('click',function(){
   var csv=rows.map(function(r){return r.map(function(c){return'"'+String(c).replace(/"/g,'""')+'"'}).join(',')}).join('\n');
   var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='stacks-library.csv';a.click();ann('Library exported.');
 });
+$('showWelcomeBtn').addEventListener('click',function(){
+  closeModal('mSettings');
+  setTimeout(function(){openModal('mWelcome')},200);
+});
 $('clrBtn').addEventListener('click',function(){
   if(!confirm('Delete everything and start fresh? This cannot be undone.'))return;
-  aisles=[];books=[];svA(aisles);svB(books);closeModal('mSettings');goHome();ann('Library cleared.');
+  aisles=[];books=[];svA(aisles);svB(books);try{localStorage.removeItem('st_welcomed');localStorage.removeItem('st_lastbackup')}catch(e){}closeModal('mSettings');goHome();setTimeout(function(){openModal('mWelcome')},400);ann('Library cleared.');
 });
 
 // ── Event wiring ──────────────────────────────────────────
@@ -1027,23 +1035,15 @@ $('mWelcome').addEventListener('click',function(e){
   }
 });
 
-// ── Seed ──────────────────────────────────────────────────
-if(!aisles.length){
-  aisles=[
-    {id:'a1',name:'Science Fiction',emoji:'🚀',createdAt:Date.now()-300000},
-    {id:'a2',name:'History',emoji:'🏛️',createdAt:Date.now()-200000},
-    {id:'a3',name:'Technology',emoji:'💻',createdAt:Date.now()-100000}
-  ];
-  svA(aisles);
-}
+// No seed data — app starts empty
 goHome();
 checkWelcome();
 </script>
 
 <!-- Welcome Modal -->
 
-<div class="backdrop" id="mWelcome" role="dialog" aria-modal="true" aria-labelledby="mWelcomeT">
-  <div class="sheet" style="gap:1.1rem">
+<div class="backdrop" id="mWelcome" role="dialog" aria-modal="true" aria-labelledby="mWelcomeT" style="align-items:flex-end">
+  <div class="sheet" style="gap:1.1rem;max-height:96vh">
     <div class="handle" aria-hidden="true"></div>
     <div style="text-align:center;padding:.5rem 0 .25rem">
       <div style="font-size:3rem;margin-bottom:.5rem" aria-hidden="true">📚</div>
