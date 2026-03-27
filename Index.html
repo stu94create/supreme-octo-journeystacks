@@ -6,6 +6,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="theme-color" content="#0d0b08" media="(prefers-color-scheme: dark)"/>
+<meta name="theme-color" content="#f2ead8" media="(prefers-color-scheme: light)"/>
 <meta name="apple-mobile-web-app-title" content="Stacks"/>
 <title>Stacks – Audiobook Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
@@ -523,6 +525,22 @@ header{padding:.75rem .85rem}
 main{padding:1rem .85rem calc(1.25rem + var(–sb))}
 }
 </style>
+
+<script>
+// Apply theme before page renders to prevent flash
+(function(){
+  try{
+    var cfg=JSON.parse(localStorage.getItem('st_c'))||{};
+    var t=cfg.theme||'system';
+    var e=t==='system'?(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'):t;
+    document.documentElement.setAttribute('data-theme',e);
+  }catch(ex){
+    // Default to system
+    var dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
+    document.documentElement.setAttribute('data-theme',dark?'dark':'light');
+  }
+})();
+</script>
 
 </head>
 <body>
