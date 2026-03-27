@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -59,41 +58,6 @@ html{
 –fb:‘Source Serif 4’,serif;
 –sb:env(safe-area-inset-bottom,0px);
 –st:env(safe-area-inset-top,0px);
-}
-
-[data-theme=“light”]{
-–bg:#f2ead8;
-–sf:#ede3cc;
-–sf2:#e6d8be;
-–sf3:#dacbb0;
-–bd:#c8b898;
-–bd2:#b8a880;
-–ac:#7a5c0f;
-–acl:#5a4008;
-–acd:#c89830;
-–tx:#1e1608;
-–tx2:#3a2e18;
-–mu:#7a6a50;
-–gr:#2a7a48;
-–rd:#a03030;
-–pu:#6040a0;
-}
-
-body{
-background:var(–bg);
-color:var(–tx);
-font-family:var(–fb);
-min-height:100vh;
-display:flex;
-flex-direction:column;
--webkit-text-size-adjust:100%;
-transition:background .25s,color .25s;
-}
-
-[data-theme=“dark”] body,body:not([data-theme=“light”]){
-background-image:
-radial-gradient(ellipse 80% 40% at 15% 0%,rgba(201,151,31,.07) 0%,transparent 100%),
-radial-gradient(ellipse 60% 50% at 85% 100%,rgba(90,171,114,.04) 0%,transparent 100%);
 }
 
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
@@ -536,6 +500,8 @@ cursor:pointer;text-decoration:none;transition:all .2s;
 
 .emoji-grid{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.4rem}
 .emoji-btn{background:transparent;border:1px solid transparent;border-radius:8px;padding:.25rem;font-size:1.25rem;cursor:pointer;width:36px;height:36px;transition:all .15s}
+.cpick-btn{width:100%;aspect-ratio:1/1;border-radius:6px;cursor:pointer;transition:all .15s;border:2px solid transparent;min-height:36px}
+.cpick-btn[aria-pressed=“true”]{border-color:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.4);transform:scale(1.1)}
 .emoji-btn.sel{background:rgba(201,151,31,.14);border-color:var(–ac)}
 .emoji-btn:hover{background:rgba(201,151,31,.07)}
 
@@ -555,8 +521,7 @@ main{padding:1rem .85rem calc(1.25rem + var(–sb))}
 (function(){
   try{
     var cfg=JSON.parse(localStorage.getItem('st_c'))||{};
-    var t=cfg.theme==='system'?'dark':(cfg.theme||'dark');
-    document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark');
+    document.documentElement.setAttribute('data-theme','dark');
   }catch(ex){
     // Default to system
     var dark=window.matchMedia('(prefers-color-scheme:dark)').matches;
@@ -628,7 +593,7 @@ main{padding:1rem .85rem calc(1.25rem + var(–sb))}
       </div>
       <div style="display:flex;align-items:flex-start;gap:.8rem;padding:.7rem .9rem;background:#221c14;border-radius:10px;border:1px solid #3a3020">
         <div style="font-size:1.3rem;flex-shrink:0;width:28px;text-align:center" aria-hidden="true">📥</div>
-        <div><div style="font-size:.86rem;font-weight:600;color:var(--tx);font-family:var(--fd);margin-bottom:.12rem">Import from Audible</div><div style="font-size:.73rem;color:var(--mu);line-height:1.5;font-weight:300">Copy a book link in the Audible app, tap + to add a book, then paste the link to auto-fill details.</div></div>
+        <div><div style="font-size:.86rem;font-weight:600;color:var(--tx);font-family:var(--fd);margin-bottom:.12rem">Search for book details</div><div style="font-size:.73rem;color:var(--mu);line-height:1.5;font-weight:300">When adding a book, type the title and tap Search to auto-fill the details. Always check results before saving.</div></div>
       </div>
       <div style="display:flex;align-items:flex-start;gap:.8rem;padding:.7rem .9rem;background:#221c14;border-radius:10px;border:1px solid #3a3020">
         <div style="font-size:1.3rem;flex-shrink:0;width:28px;text-align:center" aria-hidden="true">📊</div>
@@ -659,6 +624,14 @@ main{padding:1rem .85rem calc(1.25rem + var(–sb))}
     <h2 class="sheet-title" id="mAisleT">New Aisle</h2>
     <div class="field"><label for="aEm">Icon</label><input type="text" id="aEm" placeholder="" maxlength="2" enterkeyhint="next"/></div>
     <div id="aEmGrid" class="emoji-grid" role="group" aria-label="Quick pick emoji"></div>
+    <div class="field">
+      <label>Aisle colour</label>
+      <div id="aisleColourPreview" aria-live="polite" style="height:36px;border-radius:8px;border:1px solid var(--bd2);display:flex;align-items:center;padding:0 .75rem;font-size:.75rem;margin-bottom:.5rem;transition:background .2s">
+        <span id="aisleColourLabel" style="font-weight:300;font-style:italic">Gold selected</span>
+      </div>
+      <div id="aisleColourGrid" role="group" aria-label="Choose aisle colour" style="display:grid;grid-template-columns:repeat(7,1fr);gap:.45rem"></div>
+      <button type="button" id="aisleColourReset" aria-label="Reset to default gold colour" style="margin-top:.5rem;background:var(--sf3);border:1px solid var(--bd2);color:var(--mu);font-family:var(--fb);font-size:.72rem;padding:.38rem .75rem;border-radius:8px;cursor:pointer;width:100%">Reset to default</button>
+    </div>
     <div class="field"><label for="aNm">Aisle name</label><input type="text" id="aNm" placeholder="" autocomplete="off" enterkeyhint="done"/></div>
     <div class="sa"><button class="gbtn" id="aCancel">Cancel</button><button class="btn" id="aSave">Save Aisle</button></div>
   </div>
@@ -805,8 +778,8 @@ main{padding:1rem .85rem calc(1.25rem + var(–sb))}
     <div class="as-handle" aria-hidden="true"></div>
     <div class="as-title" id="confirmTitle">Are you sure?</div>
     <div id="confirmMsg" style="padding:.5rem 1.35rem .75rem;font-size:.85rem;color:var(--mu);line-height:1.5;border-bottom:1px solid var(--bd)"></div>
-    <button class="as-item danger" id="confirmOk" aria-label="Confirm delete"><span class="as-icon" aria-hidden="true">🗑️</span><span id="confirmOkLabel">Delete</span></button>
-    <button class="as-cancel" id="confirmCancel" aria-label="Cancel, keep item">Cancel</button>
+    <button type="button" class="as-item danger" id="confirmOk" aria-label="Confirm delete"><span class="as-icon" aria-hidden="true">🗑️</span><span id="confirmOkLabel">Delete</span></button>
+    <button type="button" class="as-cancel" id="confirmCancel" aria-label="Cancel, keep item">Cancel</button>
   </div>
 </div>
 
@@ -816,8 +789,8 @@ main{padding:1rem .85rem calc(1.25rem + var(–sb))}
   <div class="action-sheet">
     <div class="as-handle" aria-hidden="true"></div>
     <div class="as-title" id="asT"></div>
-    <div id="asItems"></div>
-    <button class="as-cancel" id="asCancel" aria-label="Cancel, close menu">Cancel</button>
+    <div id="asItems" role="menu" aria-label="Actions"></div>
+    <button type="button" class="as-cancel" id="asCancel" role="menuitem" aria-label="Cancel, close menu">Cancel</button>
   </div>
 </div>
 
@@ -827,12 +800,12 @@ main{padding:1rem .85rem calc(1.25rem + var(–sb))}
   <div class="action-sheet">
     <div class="as-handle" aria-hidden="true"></div>
     <div class="as-title" id="mSetT">Settings</div>
-    <button class="as-item" id="setDonate" aria-label="Support Stacks on Ko-fi — opens donation page"><span class="as-icon" aria-hidden="true">❤️</span><span>Support Stacks on Ko-fi</span></button>
-    <button class="as-item" id="setAppearance" aria-label="Appearance — theme and card style"><span class="as-icon" aria-hidden="true">🎨</span><span>Appearance</span></button>
-    <button class="as-item" id="setLibrary" aria-label="Library — hours stat and reading goal"><span class="as-icon" aria-hidden="true">📚</span><span>Library</span></button>
-    <button class="as-item" id="setSorting" aria-label="Sorting — aisle and book order"><span class="as-icon" aria-hidden="true">🔃</span><span>Sorting</span></button>
-    <button class="as-item" id="setData" aria-label="Data and Backup — backup, restore, export"><span class="as-icon" aria-hidden="true">💾</span><span>Data &amp; Backup</span></button>
-    <button class="as-item" id="setAbout" aria-label="About — version, privacy, welcome guide"><span class="as-icon" aria-hidden="true">ℹ️</span><span>About</span></button>
+    <button type="button" class="as-item" role="menuitem" id="setDonate" aria-label="Support Stacks on Ko-fi — opens donation page"><span class="as-icon" aria-hidden="true">❤️</span><span>Support Stacks on Ko-fi</span></button>
+    <button type="button" class="as-item" role="menuitem" id="setAppearance" aria-label="Appearance — theme and card style"><span class="as-icon" aria-hidden="true">🎨</span><span>Appearance</span></button>
+    <button type="button" class="as-item" role="menuitem" id="setLibrary" aria-label="Library — hours stat and reading goal"><span class="as-icon" aria-hidden="true">📚</span><span>Library</span></button>
+    <button type="button" class="as-item" role="menuitem" id="setSorting" aria-label="Sorting — aisle and book order"><span class="as-icon" aria-hidden="true">🔃</span><span>Sorting</span></button>
+    <button type="button" class="as-item" role="menuitem" id="setData" aria-label="Data and Backup — backup, restore, export"><span class="as-icon" aria-hidden="true">💾</span><span>Data &amp; Backup</span></button>
+    <button type="button" class="as-item" role="menuitem" id="setAbout" aria-label="About — version, privacy, welcome guide"><span class="as-icon" aria-hidden="true">ℹ️</span><span>About</span></button>
     <button class="as-cancel" id="setClose" aria-label="Close settings">Done</button>
   </div>
 </div>
@@ -846,10 +819,9 @@ main{padding:1rem .85rem calc(1.25rem + var(–sb))}
     <div class="as-item" style="cursor:default;flex-direction:column;align-items:flex-start;gap:.6rem">
       <div aria-hidden="true" style="font-size:.72rem;color:var(--mu);letter-spacing:.06em;text-transform:uppercase;font-weight:300">Theme</div>
       <div class="theme-pills" role="group" aria-label="Choose theme">
-        <button class="tpill" data-tp="dark" aria-pressed="false" aria-label="Dark theme">Dark</button>
-        <button class="tpill" data-tp="light" aria-pressed="false" aria-label="Light theme">Light</button>
-        <button class="tpill" data-tp="system" aria-pressed="false" aria-label="Auto theme, follows iPhone setting">Auto</button>
+        <button class="tpill active" data-tp="dark" aria-pressed="true" aria-label="Dark theme">Dark</button>
       </div>
+      <div style="font-size:.68rem;color:var(--mu);font-style:italic">More themes coming soon</div>
     </div>
     <div class="as-item" style="cursor:default;justify-content:space-between">
       <div>
@@ -871,7 +843,7 @@ main{padding:1rem .85rem calc(1.25rem + var(–sb))}
         <span class="toggle-track"></span>
       </label>
     </div>
-    <button class="as-cancel" id="appearanceBack" aria-label="Back to settings">Back</button>
+    <button type="button" class="as-cancel" id="appearanceBack" aria-label="Back to settings">Back</button>
   </div>
 </div>
 
@@ -893,7 +865,7 @@ main{padding:1rem .85rem calc(1.25rem + var(–sb))}
       <div aria-hidden="true"><div style="font-size:.92rem;color:var(--tx)">Reading goal</div><div style="font-size:.7rem;color:var(--mu);margin-top:.1rem">Books to finish this year (0 = off)</div></div>
       <input type="number" id="sGoal" min="0" max="365" placeholder="0" aria-label="Reading goal: number of books to finish this year. Zero to turn off." style="width:62px;background:var(--sf3);border:1px solid var(--bd2);color:var(--tx2);font-family:var(--fb);font-size:.86rem;padding:.38rem .6rem;border-radius:8px;outline:none;text-align:center"/>
     </div>
-    <button class="as-cancel" id="libraryBack" aria-label="Back to settings">Back</button>
+    <button type="button" class="as-cancel" id="libraryBack" aria-label="Back to settings">Back</button>
   </div>
 </div>
 
@@ -920,7 +892,7 @@ main{padding:1rem .85rem calc(1.25rem + var(–sb))}
         <option value="progress">Progress</option>
       </select>
     </div>
-    <button class="as-cancel" id="sortingBack" aria-label="Back to settings">Back</button>
+    <button type="button" class="as-cancel" id="sortingBack" aria-label="Back to settings">Back</button>
   </div>
 </div>
 
@@ -939,7 +911,7 @@ main{padding:1rem .85rem calc(1.25rem + var(–sb))}
       <div style="font-size:.76rem;font-weight:600;color:var(--acl);font-family:var(--fd)">📱 About your data</div>
       <p style="font-size:.7rem;color:var(--mu);line-height:1.65;font-weight:300">Your library is stored on this device in Safari. It stays safe as long as you don't clear Safari's website data in iPhone Settings.<br/><br/>Save this app to your home screen — tap Share in Safari then <strong style="color:var(--tx2)">Add to Home Screen</strong> (not Add Bookmark). This makes data loss much less likely.<br/><br/>Back up regularly and store the file in iCloud Drive.</p>
     </div>
-    <button class="as-cancel" id="dataBack" aria-label="Back to settings">Back</button>
+    <button type="button" class="as-cancel" id="dataBack" aria-label="Back to settings">Back</button>
   </div>
 </div>
 
@@ -955,7 +927,7 @@ main{padding:1rem .85rem calc(1.25rem + var(–sb))}
       <span>Privacy</span>
       <span style="font-size:.72rem;color:var(--mu)">All data stored on your device only. Nothing is sent anywhere.</span>
     </div>
-    <button class="as-cancel" id="aboutBack" aria-label="Back to settings">Back</button>
+    <button type="button" class="as-cancel" id="aboutBack" aria-label="Back to settings">Back</button>
   </div>
 </div>
 
@@ -1048,6 +1020,29 @@ function playSound(type){
   }catch(e){}
 }
 
+var aisleColourSel='#d4a847';
+var DEFAULT_AISLE_COLOUR='#d4a847';
+
+function hexToRgb(hex){
+  var r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  return r+','+g+','+b;
+}
+function dimColour(hex){
+  var r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  r=Math.round(r*0.5);g=Math.round(g*0.5);b=Math.round(b*0.5);
+  return '#'+(r<16?'0':'')+r.toString(16)+(g<16?'0':'')+g.toString(16)+(b<16?'0':'')+b.toString(16);
+}
+function textColourForBg(hex){
+  var r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);
+  var lum=(0.299*r+0.587*g+0.114*b)/255;
+  return lum>0.45?'#1a1410':'#f0e6d0';
+}
+function getAisleColour(aisle){
+  return (aisle&&aisle.colour)||DEFAULT_AISLE_COLOUR;
+}
+
+
+
 var SL={notstarted:'Not Started',inprogress:'Checked Out',finished:'Returned',abandoned:'Abandoned',wishlist:'Wishlist'};
 var EM=['📚','🚀','🏛️','🎭','💻','🎵','🧠','🌍','📖','⚡'];
 
@@ -1061,14 +1056,12 @@ function odT(b){if(!b.dueDate||b.status!=='inprogress')return null;var d=Math.ro
 
 // Theme
 function applyTheme(t){
-  var e=t==='system'?(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'):t;
-  document.documentElement.setAttribute('data-theme',e);
-  document.body.setAttribute('data-theme',e);
+  // Always dark
+  document.documentElement.setAttribute('data-theme','dark');
+  document.body.setAttribute('data-theme','dark');
 }
-// Force dark if theme was previously set to system (old default)
-if(cfg.theme==='system'){cfg.theme='dark';svC(cfg);}
-applyTheme(cfg.theme||'dark');
-window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(){if(cfg.theme==='system')applyTheme('system')});
+cfg.theme='dark';svC(cfg);
+applyTheme('dark');
 
 // Modal management — inert for VoiceOver
 function openModal(id){
@@ -1239,9 +1232,15 @@ function renderHome(){
     ])})})(a,ab,fin,avg);
     var card=document.createElement('button');card.className='aisle-card';
     card.setAttribute('aria-label',a.name+' aisle. '+ab.length+' book'+(ab.length!==1?'s':'')+'. '+fin+' returned. Double tap to open.');
-    card.innerHTML='<div class="aisle-card-top" aria-hidden="true"><span class="aisle-emoji">'+esc(a.emoji||'📚')+'</span><div class="aisle-name">'+esc(a.name)+'</div></div>'
+    var aColour=getAisleColour(a);
+    var aDim=dimColour(aColour);
+    var aText=textColourForBg(aColour);
+    card.style.borderColor='rgba('+hexToRgb(aColour)+',.4)';
+    card.innerHTML='<div class="aisle-card-top" aria-hidden="true" style="background:linear-gradient(160deg,'+aColour+' 0%,'+aDim+' 100%)">'
+      +'<span class="aisle-emoji" style="filter:drop-shadow(0 2px 4px rgba(0,0,0,.3))">'+esc(a.emoji||'📚')+'</span>'
+      +'<div class="aisle-name" style="color:'+aText+';text-shadow:0 1px 2px rgba(0,0,0,.2)">'+esc(a.name)+'</div></div>'
       +'<div class="aisle-card-bottom" aria-hidden="true"><div class="aisle-count">'+ab.length+' book'+(ab.length!==1?'s':'')+' · '+fin+' returned</div>'
-      +(ab.length?'<div class="aisle-prog" aria-hidden="true"><div class="aisle-prog-fill" style="width:'+avg+'%"></div></div>':'')+'</div>';
+      +(ab.length?'<div class="aisle-prog" aria-hidden="true"><div class="aisle-prog-fill" style="width:'+avg+'%;background:linear-gradient(90deg,rgba(255,255,255,.3),rgba(255,255,255,.6))"></div></div>':'')+'</div>';
     (function(id){card.addEventListener('click',function(){goAisle(id)})})(a.id);
     w.appendChild(mb);w.appendChild(card);g.appendChild(w);
   });
@@ -1267,7 +1266,10 @@ function renderAisle(){
   var cur=ab.find(function(b){return b.status==='inprogress'});
   if(cur&&!q&&st==='all'){
     var rr=document.createElement('div');rr.className='rr';rr.setAttribute('aria-label','Currently reading: '+cur.title+' by '+cur.author);
-    var rrl=document.createElement('div');rrl.className='rr-label';rrl.setAttribute('aria-hidden','true');rrl.innerHTML='📖 Currently Reading';
+    var aisleCol=getAisleColour(aisles.find(function(a){return a.id===curA})||{});
+    rr.style.borderColor='rgba('+hexToRgb(aisleCol)+',.3)';
+    rr.style.background='linear-gradient(135deg,rgba('+hexToRgb(aisleCol)+',.07),rgba('+hexToRgb(aisleCol)+',.02))';
+    var rrl=document.createElement('div');rrl.className='rr-label';rrl.setAttribute('aria-hidden','true');rrl.style.color=aisleCol;rrl.innerHTML='📖 Currently Reading';
     rr.appendChild(rrl);rr.appendChild(mkCard(cur));c.appendChild(rr);
   }
   if(sr==='author'||sr==='series'){
@@ -1312,7 +1314,10 @@ function mkCard(b){
     cc.className='book-card s-'+b.status+' compact-card'+(ov?' od':'');
     cc.setAttribute('aria-label',al);
     cc.setAttribute('tabindex','0');
-    cc.innerHTML='<div class="book-hdr" aria-hidden="true" style="padding-right:0;flex:1;min-width:0">'
+    var compCover=b.coverUrl
+      ?'<img src="'+esc(b.coverUrl)+'" alt="" aria-hidden="true" style="width:28px;height:38px;object-fit:cover;border-radius:4px;flex-shrink:0;border:1px solid var(--bd)" loading="lazy"/>'
+      :'';
+    cc.innerHTML='<div class="book-hdr" aria-hidden="true" style="padding-right:0;flex:1;min-width:0;gap:.55rem">'+compCover
       +'<div style="flex:1;min-width:0"><div class="book-title" style="font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(b.title)+'</div>'
       +'<div class="book-author">'+esc(b.author)+'</div></div></div>'
       +'<span class="badge" aria-hidden="true" style="background:'+bs+';flex-shrink:0;font-size:.62rem;white-space:nowrap">'+SL[b.status]+'</span>'
@@ -1331,7 +1336,10 @@ function mkCard(b){
   else bst='background:rgba(122,106,80,.07);color:var(--mu);border:1px solid rgba(122,106,80,.18)';
   var card=document.createElement('div');card.className='book-card s-'+b.status+(ov?' od':'');card.setAttribute('aria-label',al);
   card.setAttribute('tabindex','0');
-  card.innerHTML='<div class="book-hdr" aria-hidden="true"><div style="flex:1;min-width:0"><div class="book-title">'+esc(b.title)+'</div><div class="book-author">by '+esc(b.author)+'</div>'+(b.series?'<div class="book-series">'+esc(b.series)+'</div>':'')+(b.narrator?'<div class="book-narrator">Narrated by '+esc(b.narrator)+'</div>':'')+'</div></div>'
+  var coverHtml=b.coverUrl
+    ?'<img src="'+esc(b.coverUrl)+'" alt="" aria-hidden="true" style="width:52px;height:72px;object-fit:cover;border-radius:6px;flex-shrink:0;border:1px solid var(--bd);box-shadow:0 2px 8px rgba(0,0,0,.4)" loading="lazy"/>'
+    :'<div aria-hidden="true" style="width:52px;height:72px;border-radius:6px;background:var(--sf3);border:1px solid var(--bd);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:1.5rem">📖</div>';
+  card.innerHTML='<div class="book-hdr" aria-hidden="true" style="gap:.85rem">'+coverHtml+'<div style="flex:1;min-width:0"><div class="book-title">'+esc(b.title)+'</div><div class="book-author">by '+esc(b.author)+'</div>'+(b.series?'<div class="book-series">'+esc(b.series)+'</div>':'')+(b.narrator?'<div class="book-narrator">Narrated by '+esc(b.narrator)+'</div>':'')+'</div></div>'
     +'<div class="badges" aria-hidden="true"><span class="badge" style="'+bst+'">'+SL[b.status]+'</span>'+(b.duration?'<span class="badge badge-plain">'+b.duration+'h</span>':'')+'</div>'
     +(ov?'<div class="od-text" aria-hidden="true">'+esc(ov)+'</div>':'')
     +'<div class="prog-wrap" aria-hidden="true"><div class="prog-row"><span>Progress</span><span>'+pT(b)+'</span></div><div class="prog-track"><div class="prog-fill s-'+b.status+'" style="width:'+pct+'%"></div></div></div>'
@@ -1341,14 +1349,26 @@ function mkCard(b){
 
 // Action sheet
 function showAS(title,items){
-  $('asT').textContent=title;var con=$('asItems');con.innerHTML='';
+  $('asT').textContent=title;
+  var con=$('asItems');con.innerHTML='';
   items.forEach(function(item){
-    var btn=document.createElement('button');btn.className='as-item'+(item.d?' danger':'');btn.setAttribute('aria-label',item.l);
-    btn.innerHTML='<span class="as-icon" aria-hidden="true">'+item.i+'</span><span>'+esc(item.l)+'</span>';
+    var btn=document.createElement('button');
+    btn.type='button';
+    btn.className='as-item'+(item.d?' danger':'');
+    btn.setAttribute('role','menuitem');
+    // aria-label carries the full description — inner spans are decorative
+    btn.setAttribute('aria-label',item.l);
+    btn.innerHTML='<span class="as-icon" aria-hidden="true">'+item.i+'</span><span aria-hidden="true">'+esc(item.l)+'</span>';
     (function(fn){btn.addEventListener('click',function(){closeModal('mAS');setTimeout(fn,150)})})(item.fn);
     con.appendChild(btn);
   });
+  // Announce the menu title to VoiceOver before focusing first item
+  ann(title+' menu. '+items.length+' options.');
   openModal('mAS');
+  setTimeout(function(){
+    var first=con.querySelector('.as-item');
+    if(first)first.focus();
+  },120);
 }
 
 // Book actions
@@ -1445,6 +1465,13 @@ $('pSave').addEventListener('click',function(){
 function openInfo(id){
   var b=books.find(function(b){return b.id===id});if(!b)return;
   $('mInfoT').textContent=b.title;
+  // Show cover at top of info modal if available
+  var infoTop=$('infoC');
+  if(b.coverUrl){
+    infoTop.innerHTML='<div style="text-align:center;padding:.5rem 0 1rem"><img src="'+esc(b.coverUrl)+'" alt="'+esc(b.title)+' cover" style="max-height:160px;max-width:110px;object-fit:cover;border-radius:8px;box-shadow:0 4px 16px rgba(0,0,0,.5);border:1px solid var(--bd)"/></div>';
+  } else {
+    infoTop.innerHTML='';
+  }
   var rows=[['Title',b.title],['Author',b.author],b.narrator?['Narrator',b.narrator]:null,b.series?['Series',b.series]:null,b.duration?['Duration',b.duration+'h']:null,(b.totalChapters||0)>0?['Total Chapters',b.totalChapters]:null,['Status',SL[b.status]],['Progress',Math.round(b.progress||0)+'%'],(b.totalChapters||0)>0?['Current Chapter','Ch '+(b.currentChapter||0)+' of '+b.totalChapters]:null,b.dueDate?['Due Date',fD(b.dueDate)]:null,['Date Added',fD(b.addedAt)],['Date Started',b.dateStarted?fD(b.dateStarted):'Not yet started'],['Date Finished',b.dateFinished?fD(b.dateFinished):'Not yet finished'],b.dateStarted&&b.dateFinished?['Time to Finish',dB(b.dateStarted,b.dateFinished)+' days']:null,b.notes?['Notes',b.notes]:null].filter(Boolean);
   $('infoC').innerHTML=rows.map(function(r){return'<div class="info-row" aria-label="'+esc(r[0])+': '+esc(String(r[1]))+'"><span class="info-lbl" aria-hidden="true">'+esc(r[0])+'</span><span class="info-val" aria-hidden="true">'+esc(String(r[1]))+'</span></div>'}).join('');
   openModal('mInfo');
@@ -1462,6 +1489,56 @@ function openMove(id){
 
 // Aisle modal
 var aES='📚';
+
+var CPICK_COLOURS=[
+  '#e05555','#c03030','#d44478','#b02860','#e07830','#c05520','#e0a030',
+  '#d4a847','#b88820','#c8c030','#50b050','#308830','#50c890','#208860',
+  '#40b0b0','#4488cc','#2860a8','#8855cc','#6030a8','#aa55cc','#888888',
+  '#555555','#aa8855','#7a6040','#e84848','#48c8e8','#c848e8','#48e868'
+];
+var CPICK_NAMES={
+  '#e05555':'Red','#c03030':'Dark Red','#d44478':'Pink','#b02860':'Dark Pink',
+  '#e07830':'Orange','#c05520':'Dark Orange','#e0a030':'Amber',
+  '#d4a847':'Gold','#b88820':'Dark Gold','#c8c030':'Yellow',
+  '#50b050':'Green','#308830':'Dark Green','#50c890':'Teal Green','#208860':'Dark Teal',
+  '#40b0b0':'Teal','#4488cc':'Blue','#2860a8':'Dark Blue',
+  '#8855cc':'Purple','#6030a8':'Dark Purple','#aa55cc':'Violet',
+  '#888888':'Grey','#555555':'Dark Grey','#aa8855':'Brown','#7a6040':'Dark Brown',
+  '#e84848':'Bright Red','#48c8e8':'Sky Blue','#c848e8':'Magenta','#48e868':'Lime'
+};
+
+function updColourPreview(hex){
+  var p=$('aisleColourPreview');
+  var lbl=$('aisleColourLabel');
+  if(p){p.style.background=hex;p.style.color=textColourForBg(hex)}
+  if(lbl){lbl.textContent=(CPICK_NAMES[hex]||hex.toUpperCase())+' selected'}
+}
+
+function buildColourGrid(){
+  var grid=$('aisleColourGrid');if(!grid)return;
+  grid.innerHTML='';
+  CPICK_COLOURS.forEach(function(hex){
+    var btn=document.createElement('button');
+    btn.type='button';
+    btn.className='cpick-btn';
+    btn.setAttribute('aria-label',(CPICK_NAMES[hex]||hex)+' colour');
+    btn.setAttribute('aria-pressed',aisleColourSel===hex?'true':'false');
+    btn.style.background=hex;
+    if(aisleColourSel===hex){
+      btn.style.borderColor='#fff';
+      btn.style.boxShadow='0 0 0 2px rgba(255,255,255,.4)';
+      btn.style.transform='scale(1.1)';
+    }
+    btn.addEventListener('click',function(){
+      aisleColourSel=hex;
+      updColourPreview(hex);
+      buildColourGrid();
+      ann((CPICK_NAMES[hex]||hex)+' selected');
+    });
+    grid.appendChild(btn);
+  });
+}
+
 function buildEG(){
   var g=$('aEmGrid');g.innerHTML='';
   EM.forEach(function(e){var btn=document.createElement('button');btn.className='emoji-btn'+(aES===e?' sel':'');btn.type='button';btn.textContent=e;btn.setAttribute('aria-label','Use '+e);btn.setAttribute('aria-pressed',aES===e?'true':'false');btn.addEventListener('click',function(){aES=e;$('aEm').value=e;buildEG()});g.appendChild(btn)});
@@ -1470,16 +1547,25 @@ function openAisleModal(id){
   eAId=id||null;var a=id?aisles.find(function(a){return a.id===id}):null;
   $('mAisleT').textContent=a?'Edit Aisle':'New Aisle';
   aES=a?(a.emoji||'📚'):'📚';$('aEm').value=aES;$('aNm').value=a?a.name:'';
-  buildEG();openModal('mAisle');
+  aisleColourSel=a?(a.colour||DEFAULT_AISLE_COLOUR):DEFAULT_AISLE_COLOUR;
+  updColourPreview(aisleColourSel);
+  buildEG();buildColourGrid();openModal('mAisle');
 }
+
+$('aisleColourReset').addEventListener('click',function(){
+  aisleColourSel=DEFAULT_AISLE_COLOUR;
+  updColourPreview(DEFAULT_AISLE_COLOUR);
+  ann('Colour reset to default gold');
+});
 $('aEm').addEventListener('input',function(){aES=this.value||'📚';buildEG()});
 $('aNm').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();saveAisle()}});
 $('aCancel').addEventListener('click',function(){closeModal('mAisle')});
 $('aSave').addEventListener('click',saveAisle);
 function saveAisle(){
   var name=$('aNm').value.trim();if(!name){ann('Please enter an aisle name.');return}
-  if(eAId){aisles=aisles.map(function(a){return a.id===eAId?Object.assign({},a,{name:name,emoji:$('aEm').value.trim()||'📚'}):a})}
-  else{aisles.push({id:Date.now().toString(),name:name,emoji:$('aEm').value.trim()||'📚',createdAt:Date.now()})}
+  var emoji=$('aEm').value.trim()||'📚';
+  if(eAId){aisles=aisles.map(function(a){return a.id===eAId?Object.assign({},a,{name:name,emoji:emoji,colour:aisleColourSel}):a})}
+  else{aisles.push({id:Date.now().toString(),name:name,emoji:emoji,colour:aisleColourSel,createdAt:Date.now()})}
   svA(aisles);closeModal('mAisle');renderHome();ann('"'+name+'" '+(eAId?'updated':'created')+'.');playSound(eAId?'save':'add');
 }
 
@@ -1548,7 +1634,10 @@ function saveBook(){
   if(!title){ann('Please enter a title.');goStep(2);$('bTi').focus();return}
   if(!author){ann('Please enter an author.');goStep(2);$('bAu').focus();return}
   var ex=eBId?books.find(function(b){return b.id===eBId}):null;
-  var data={id:eBId||Date.now().toString(),aisleId:ex?ex.aisleId:curA,title:title,author:author,narrator:$('bNa').value.trim(),series:$('bSe').value.trim(),duration:$('bDu').value.trim(),totalChapters:parseInt($('bCh').value)||0,currentChapter:ex?ex.currentChapter||0:0,status:$('bSt').value,progress:ex?ex.progress||0:0,notes:$('bNo').value.trim(),dueDate:parseDueDate(),addedAt:ex?ex.addedAt:Date.now(),dateStarted:ex?ex.dateStarted:null,dateFinished:ex?ex.dateFinished:null};
+  // Use imported cover if available, otherwise keep existing
+  var coverUrl=window._importedCover||(ex?ex.coverUrl:null);
+  window._importedCover=null;
+  var data={id:eBId||Date.now().toString(),aisleId:ex?ex.aisleId:curA,title:title,author:author,narrator:$('bNa').value.trim(),series:$('bSe').value.trim(),duration:$('bDu').value.trim(),totalChapters:parseInt($('bCh').value)||0,currentChapter:ex?ex.currentChapter||0:0,status:$('bSt').value,progress:ex?ex.progress||0:0,notes:$('bNo').value.trim(),dueDate:parseDueDate(),coverUrl:coverUrl,addedAt:ex?ex.addedAt:Date.now(),dateStarted:ex?ex.dateStarted:null,dateFinished:ex?ex.dateFinished:null};
   if(data.status==='finished'){data.progress=100;if(data.totalChapters>0)data.currentChapter=data.totalChapters;if(!data.dateFinished)data.dateFinished=new Date().toISOString()}
   if(eBId)books=books.map(function(b){return b.id===eBId?data:b});else books.push(data);
   svB(books);closeModal('mBook');if(curA)renderAisle();else renderHome();ann('"'+title+'" '+(eBId?'updated':'added')+'.');playSound(eBId?'save':'add');
@@ -1572,7 +1661,6 @@ $('impBtn').addEventListener('click',function(){
         $('impSt').textContent='No results found for "'+title+'". Try fewer words or a slightly different title.';
         ann('No results found');return;
       }
-      // Use first result
       var vi=items[0].volumeInfo||{};
       var filled=[];
       if(vi.title&&!$('bTi').value){$('bTi').value=vi.title;filled.push('title')}
@@ -1589,11 +1677,19 @@ $('impBtn').addEventListener('click',function(){
         $('bDu').value=Math.round((vi.pageCount/100*1.4)*2)/2;
         filled.push('estimated duration');
       }
+      // Store cover image URL — prefer larger image
+      var img=vi.imageLinks;
+      if(img){
+        var coverUrl=img.extraLarge||img.large||img.medium||img.thumbnail||img.smallThumbnail||'';
+        // Use https and higher resolution
+        coverUrl=coverUrl.replace('http://','https://').replace('zoom=1','zoom=3');
+        if(coverUrl)window._importedCover=coverUrl;
+      }
       var name=vi.title||title;
       $('impSt').textContent=filled.length
-        ?'✅ '+name+(filled.indexOf('narrator')>=0?' · narrator found':'')+'. Check all details before saving.'
+        ?'✅ '+name+(window._importedCover?' · cover found':'')+(filled.indexOf('narrator')>=0?' · narrator found':'')+'. Check all details before saving.'
         :'Found "'+name+'" but limited data — fill in manually.';
-      ann('Book found: '+name);
+      ann('Book found: '+name+(window._importedCover?' with cover image':''));
       setTimeout(afterImport,300);
     })
     .catch(function(err){
