@@ -11,231 +11,507 @@
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap" rel="stylesheet"/>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+
 :root{
-  --bg:#0f0d0a;--sf:#1a1510;--sf2:#221c14;--sf3:#2a2318;
-  --bd:#3a3020;--bd2:#4a3f2a;
-  --ac:#c9971f;--acl:#e8b84b;--acd:#8a6510;
-  --tx:#f2e8d5;--tx2:#c8b89a;--mu:#7a6a50;
-  --gr:#5aab72;--rd:#c05050;--pu:#8a60b0;
-  --r:14px;--fd:'Playfair Display',serif;--fb:'Source Serif 4',serif;
-  --sb:env(safe-area-inset-bottom,0px);
+–bg:#0d0b08;
+–sf:#181310;
+–sf2:#201a12;
+–sf3:#28211a;
+–bd:#38301f;
+–bd2:#4a3f28;
+–ac:#c9971f;
+–acl:#e8b84b;
+–acd:#7a5c0f;
+–tx:#f0e6d0;
+–tx2:#c0aa85;
+–mu:#7a6a50;
+–gr:#5aab72;
+–rd:#c05050;
+–pu:#8a60b0;
+–r:14px;
+–fd:‘Playfair Display’,serif;
+–fb:‘Source Serif 4’,serif;
+–sb:env(safe-area-inset-bottom,0px);
+–st:env(safe-area-inset-top,0px);
 }
-[data-theme="light"]{
-  --bg:#f5efe4;--sf:#ede4d4;--sf2:#e4d8c4;--sf3:#d8c9b0;
-  --bd:#c8b898;--bd2:#b8a880;
-  --ac:#8a6010;--acl:#6a4808;--acd:#c89030;
-  --tx:#2a1f0e;--tx2:#4a3820;--mu:#8a7860;
-  --gr:#2a7a48;--rd:#a03030;--pu:#6040a0;
+
+[data-theme=“light”]{
+–bg:#f2ead8;
+–sf:#e8dfc8;
+–sf2:#ddd4ba;
+–sf3:#d0c7ac;
+–bd:#bfb598;
+–bd2:#a89e80;
+–ac:#7a5c0f;
+–acl:#5a4008;
+–acd:#c89830;
+–tx:#1e1608;
+–tx2:#3a2e18;
+–mu:#7a6a50;
+–gr:#2a7a48;
+–rd:#a03030;
+–pu:#6040a0;
 }
-body{background:var(--bg);color:var(--tx);font-family:var(--fb);min-height:100vh;display:flex;flex-direction:column;-webkit-text-size-adjust:100%;transition:background .3s,color .3s}
-[data-theme="dark"]{background-image:radial-gradient(ellipse at 20% 0%,rgba(201,151,31,.06) 0%,transparent 60%),radial-gradient(ellipse at 80% 100%,rgba(90,171,114,.04) 0%,transparent 60%)}
+
+body{
+background:var(–bg);
+color:var(–tx);
+font-family:var(–fb);
+min-height:100vh;
+display:flex;
+flex-direction:column;
+-webkit-text-size-adjust:100%;
+transition:background .25s,color .25s;
+}
+
+[data-theme=“dark”] body,body:not([data-theme=“light”]){
+background-image:
+radial-gradient(ellipse 80% 40% at 15% 0%,rgba(201,151,31,.07) 0%,transparent 100%),
+radial-gradient(ellipse 60% 50% at 85% 100%,rgba(90,171,114,.04) 0%,transparent 100%);
+}
+
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-/* Header */
-header{background:var(–sf);border-bottom:1px solid var(–bd2);padding:.9rem 1.1rem;display:flex;align-items:center;gap:.85rem;position:sticky;top:0;z-index:50;box-shadow:0 2px 20px rgba(0,0,0,.2)}
-.logo{font-family:var(–fd);font-size:1.6rem;font-weight:900;color:var(–acl);letter-spacing:-.02em;line-height:1}
-.logo-tag{font-size:.62rem;color:var(–mu);font-style:italic;font-family:var(–fb);font-weight:300;letter-spacing:.04em}
-.hbtn{background:var(–sf2);border:1px solid var(–bd2);color:var(–tx2);width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:all .15s}
-.hbtn:hover{border-color:var(–ac);color:var(–acl)}
-.hbtn.add{background:linear-gradient(135deg,var(–acl),var(–acd));border-color:var(–ac);color:#0f0d0a;font-size:1.3rem;font-weight:700;box-shadow:0 2px 12px rgba(201,151,31,.25)}
-.backbtn{background:none;border:1px solid var(–bd2);color:var(–tx2);font-family:var(–fb);font-size:.8rem;padding:.35rem .85rem;border-radius:8px;cursor:pointer;display:none;white-space:nowrap;transition:all .15s}
+/* ── Header ──────────────────────────────── */
+header{
+background:var(–sf);
+border-bottom:1px solid var(–bd2);
+padding:.85rem 1.1rem;
+display:flex;align-items:center;gap:.75rem;
+position:sticky;top:0;z-index:50;
+box-shadow:0 1px 0 var(–bd),0 4px 24px rgba(0,0,0,.25);
+}
+.logo{
+font-family:var(–fd);
+font-size:1.55rem;font-weight:900;
+color:var(–acl);
+letter-spacing:-.025em;line-height:1;
+}
+.logo-tag{
+font-size:.6rem;color:var(–mu);
+font-style:italic;font-family:var(–fb);
+font-weight:300;letter-spacing:.05em;margin-top:.1rem;
+}
+.hbtn{
+background:var(–sf2);
+border:1px solid var(–bd2);
+color:var(–tx2);
+width:34px;height:34px;border-radius:50%;
+cursor:pointer;display:flex;align-items:center;justify-content:center;
+font-size:.88rem;transition:all .15s;flex-shrink:0;
+}
+.hbtn:hover{border-color:var(–ac);color:var(–acl);background:var(–sf3)}
+.hbtn.add{
+background:var(–acl);
+border-color:var(–acl);
+color:#0d0b08;
+font-size:1.25rem;font-weight:700;
+box-shadow:0 2px 10px rgba(232,184,75,.3);
+}
+.hbtn.add:hover{background:var(–ac);border-color:var(–ac)}
+.hbtn.help{
+font-family:var(–fd);font-weight:700;font-size:.88rem;color:var(–acl);
+border-color:rgba(232,184,75,.3);
+}
+.backbtn{
+background:none;border:1px solid var(–bd2);color:var(–tx2);
+font-family:var(–fb);font-size:.78rem;padding:.32rem .8rem;
+border-radius:8px;cursor:pointer;display:none;white-space:nowrap;
+transition:all .15s;
+}
 .backbtn.show{display:block}
 .backbtn:hover{border-color:var(–ac);color:var(–acl)}
 
-/* Main */
-main{flex:1;max-width:700px;width:100%;margin:0 auto;padding:1.25rem 1rem calc(1.25rem + var(–sb));display:flex;flex-direction:column;gap:1.25rem}
+/* ── Main ────────────────────────────────── */
+main{
+flex:1;max-width:680px;width:100%;margin:0 auto;
+padding:1.25rem 1rem calc(1.5rem + var(–sb));
+display:flex;flex-direction:column;gap:1.1rem;
+}
 
-/* Overdue banner */
-.od-banner{background:linear-gradient(135deg,rgba(192,80,80,.14),rgba(192,80,80,.05));border:1px solid rgba(192,80,80,.32);border-radius:var(–r);padding:.85rem 1rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;transition:all .15s}
-.od-banner:hover{border-color:rgba(192,80,80,.55)}
-.od-title{font-size:.82rem;font-weight:600;color:var(–rd);font-family:var(–fd);margin-bottom:.12rem}
-.od-sub{font-size:.7rem;color:var(–mu);line-height:1.4}
+/* ── Banners ─────────────────────────────── */
+.od-banner{
+background:linear-gradient(135deg,rgba(192,80,80,.12),rgba(192,80,80,.04));
+border:1px solid rgba(192,80,80,.3);border-radius:var(–r);
+padding:.8rem 1rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;
+}
+.od-banner:hover{border-color:rgba(192,80,80,.5)}
+.od-title{font-size:.8rem;font-weight:600;color:var(–rd);font-family:var(–fd);margin-bottom:.1rem}
+.od-sub{font-size:.68rem;color:var(–mu);line-height:1.4}
 
-/* Stats */
-.stats-strip{background:var(–sf2);border:1px solid var(–bd2);border-radius:var(–r);display:flex;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.12)}
-.stat{flex:1;padding:.85rem .5rem;text-align:center;position:relative}
-.stat+.stat::before{content:’’;position:absolute;left:0;top:20%;height:60%;width:1px;background:var(–bd2)}
-.stat-n{font-family:var(–fd);font-size:1.6rem;font-weight:700;color:var(–acl);line-height:1}
-.stat-l{font-size:.58rem;color:var(–mu);margin-top:.25rem;letter-spacing:.1em;text-transform:uppercase;font-weight:300}
+.backup-nudge{
+background:linear-gradient(135deg,rgba(201,151,31,.09),rgba(201,151,31,.03));
+border:1px solid rgba(201,151,31,.2);border-radius:var(–r);
+padding:.8rem 1rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;
+}
+.backup-nudge:hover{border-color:rgba(201,151,31,.4)}
+.nudge-title{font-size:.8rem;font-weight:600;color:var(–acl);font-family:var(–fd);margin-bottom:.1rem}
+.nudge-sub{font-size:.68rem;color:var(–mu);line-height:1.4}
 
-/* Goal bar */
-.goal-bar{background:var(–sf2);border:1px solid var(–bd2);border-radius:var(–r);padding:.85rem 1rem}
-.goal-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.5rem}
+/* ── Stats ───────────────────────────────── */
+.stats-strip{
+display:grid;grid-template-columns:repeat(4,1fr);
+gap:.6rem;
+}
+.stat{
+background:var(–sf2);
+border:1px solid var(–bd);
+border-radius:12px;
+padding:.85rem .5rem;
+text-align:center;
+position:relative;
+overflow:hidden;
+transition:border-color .15s;
+}
+.stat::after{
+content:’’;
+position:absolute;
+bottom:0;left:20%;right:20%;height:2px;
+background:linear-gradient(90deg,transparent,var(–ac),transparent);
+opacity:0;transition:opacity .2s;
+}
+.stat:hover::after{opacity:.6}
+.stat-l{
+font-size:.6rem;color:var(–mu);
+letter-spacing:.09em;text-transform:uppercase;font-weight:300;
+margin-bottom:.35rem;
+}
+.stat-n{
+font-family:var(–fd);font-size:1.65rem;font-weight:700;
+color:var(–acl);line-height:1;
+text-shadow:0 0 20px rgba(232,184,75,.12);
+}
+
+/* ── Goal bar ────────────────────────────── */
+.goal-bar{
+background:var(–sf2);border:1px solid var(–bd);border-radius:var(–r);
+padding:.9rem 1.1rem;
+}
+.goal-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:.55rem}
 .goal-label{font-family:var(–fd);font-size:.85rem;color:var(–tx2);font-style:italic}
-.goal-count{font-size:.78rem;color:var(–mu)}
-.goal-track{height:8px;background:rgba(128,100,50,.12);border-radius:4px;overflow:hidden}
-.goal-fill{height:100%;background:linear-gradient(90deg,var(–acd),var(–acl));border-radius:4px;transition:width .5s}
+.goal-count{font-size:.78rem;color:var(–mu);font-weight:300}
+.goal-track{height:7px;background:rgba(128,100,50,.12);border-radius:4px;overflow:hidden}
+.goal-fill{height:100%;background:linear-gradient(90deg,var(–acd),var(–acl));border-radius:4px;transition:width .6s cubic-bezier(.4,0,.2,1)}
 .goal-fill.done{background:linear-gradient(90deg,#3a8a55,var(–gr))}
 
-/* Aisle grid */
-.aisle-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(155px,1fr));gap:1rem}
+/* ── Aisle grid ──────────────────────────── */
+.aisle-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:.85rem}
 .aisle-wrap{position:relative}
-.mbtn{position:absolute;top:.6rem;right:.6rem;background:rgba(15,13,10,.6);border:1px solid var(–bd2);color:var(–mu);font-family:var(–fb);font-size:.58rem;padding:.2rem .5rem;border-radius:6px;cursor:pointer;z-index:2;white-space:nowrap;backdrop-filter:blur(4px);transition:all .15s}
+.mbtn{
+position:absolute;top:.55rem;right:.55rem;
+background:rgba(10,8,5,.65);
+border:1px solid var(–bd2);color:var(–mu);
+font-family:var(–fb);font-size:.58rem;padding:.18rem .48rem;
+border-radius:5px;cursor:pointer;z-index:2;white-space:nowrap;
+backdrop-filter:blur(6px);transition:all .15s;
+}
 .mbtn:hover{border-color:var(–ac);color:var(–acl)}
-.aisle-card{background:var(–sf2);border:1px solid var(–bd2);border-radius:var(–r);padding:2.9rem 1rem 1.1rem;cursor:pointer;text-align:left;width:100%;color:var(–tx);font-family:var(–fb);display:block;transition:all .2s;position:relative;overflow:hidden}
-.aisle-card::before{content:’’;position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(–acd),var(–acl),var(–acd));opacity:0;transition:opacity .2s}
-.aisle-card:hover,.aisle-card:focus-visible{border-color:var(–ac);outline:none;transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.3)}
-.aisle-card:hover::before,.aisle-card:focus-visible::before{opacity:1}
-.aisle-emoji{font-size:2rem;line-height:1;margin-bottom:.5rem}
-.aisle-name{font-family:var(–fd);font-size:1rem;font-weight:700}
-.aisle-count{font-size:.68rem;color:var(–mu);margin:.25rem 0 .6rem;font-weight:300}
-.aisle-prog{height:4px;background:rgba(128,100,50,.12);border-radius:2px;overflow:hidden}
+.aisle-card{
+background:var(–sf2);
+border:1px solid var(–bd);
+border-radius:var(–r);
+padding:0;cursor:pointer;text-align:left;width:100%;
+color:var(–tx);font-family:var(–fb);
+display:flex;flex-direction:column;
+transition:all .2s;overflow:hidden;
+position:relative;
+}
+.aisle-card-top{
+padding:1.1rem 1rem .75rem;
+background:linear-gradient(160deg,var(–sf3) 0%,var(–sf2) 100%);
+flex:1;
+}
+.aisle-card-bottom{
+padding:.6rem 1rem;
+background:rgba(0,0,0,.15);
+border-top:1px solid var(–bd);
+display:flex;align-items:center;justify-content:space-between;
+}
+.aisle-card:hover,.aisle-card:focus-visible{
+border-color:var(–ac);outline:none;
+transform:translateY(-3px);
+box-shadow:0 10px 28px rgba(0,0,0,.35),0 0 0 1px var(–acd);
+}
+.aisle-emoji{font-size:2.2rem;line-height:1;margin-bottom:.5rem;display:block}
+.aisle-name{font-family:var(–fd);font-size:.95rem;font-weight:700;line-height:1.3;color:var(–tx)}
+.aisle-count{font-size:.65rem;color:var(–mu);font-weight:300}
+.aisle-prog{height:3px;background:rgba(255,255,255,.07);border-radius:2px;overflow:hidden;flex:1;margin-left:.75rem}
 .aisle-prog-fill{height:100%;background:linear-gradient(90deg,var(–acd),var(–acl));border-radius:2px}
 
-/* Toolbar */
-.toolbar{display:flex;gap:.6rem;flex-wrap:wrap;align-items:center}
-.si-wrap{position:relative;flex:1;min-width:140px}
-.si{width:100%;background:var(–sf2);border:1px solid var(–bd2);color:var(–tx);font-family:var(–fb);font-size:.88rem;padding:.65rem .9rem .65rem 2.1rem;border-radius:10px;outline:none;-webkit-appearance:none}
-.si:focus{border-color:var(–ac)}
-.si-icon{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(–mu);font-size:.82rem;pointer-events:none}
-.fsel{background:var(–sf2);border:1px solid var(–bd2);color:var(–tx);font-family:var(–fb);font-size:.82rem;padding:.65rem .75rem;border-radius:10px;outline:none;-webkit-appearance:none;cursor:pointer}
+/* ── Toolbar ─────────────────────────────── */
+.toolbar{display:flex;gap:.55rem;flex-wrap:wrap;align-items:center}
+.si-wrap{position:relative;flex:1;min-width:130px}
+.si{
+width:100%;background:var(–sf2);border:1px solid var(–bd2);
+color:var(–tx);font-family:var(–fb);font-size:.86rem;
+padding:.62rem .9rem .62rem 2.1rem;border-radius:10px;
+outline:none;-webkit-appearance:none;transition:border-color .15s;
+}
+.si:focus{border-color:var(–ac);box-shadow:0 0 0 3px rgba(201,151,31,.1)}
+.si-icon{position:absolute;left:.75rem;top:50%;transform:translateY(-50%);color:var(–mu);font-size:.8rem;pointer-events:none}
+.fsel{
+background:var(–sf2);border:1px solid var(–bd2);color:var(–tx);
+font-family:var(–fb);font-size:.8rem;padding:.62rem .75rem;
+border-radius:10px;outline:none;-webkit-appearance:none;cursor:pointer;
+transition:border-color .15s;
+}
 .fsel:focus{border-color:var(–ac)}
 
-/* Book list */
-.book-list{display:flex;flex-direction:column;gap:.85rem}
-.grp-hdr{font-family:var(–fd);font-size:.9rem;font-weight:700;color:var(–acl);padding:.5rem 0 .3rem;border-bottom:1px solid var(–bd2);margin-top:.5rem;letter-spacing:.02em}
-
-/* Full book card */
-.book-wrap{position:relative}
-.book-card{background:var(–sf2);border:1px solid var(–bd);border-radius:var(–r);padding:.95rem 1rem .95rem 1.1rem;display:flex;flex-direction:column;gap:.65rem;margin-top:.28rem;position:relative;overflow:hidden;transition:border-color .15s}
-.book-card::before{content:’’;position:absolute;left:0;top:0;bottom:0;width:4px;border-radius:var(–r) 0 0 var(–r)}
-.book-card.s-notstarted::before{background:var(–mu)}
-.book-card.s-inprogress::before{background:linear-gradient(180deg,var(–acl),var(–acd))}
-.book-card.s-finished::before{background:linear-gradient(180deg,var(–gr),#3a8a55)}
-.book-card.s-abandoned::before{background:var(–rd)}
-.book-card.s-wishlist::before{background:var(–pu)}
-.book-card.od{border-color:rgba(192,80,80,.38)}
-.book-hdr{display:flex;align-items:flex-start;gap:.85rem;padding-right:5.5rem}
-.book-title{font-family:var(–fd);font-size:.98rem;font-weight:700;line-height:1.35;color:var(–tx)}
-.book-author{font-size:.75rem;color:var(–tx2);font-style:italic;margin-top:.12rem}
-.book-series{font-size:.68rem;color:var(–ac);margin-top:.1rem}
-.book-narrator{font-size:.65rem;color:var(–mu);margin-top:.08rem}
-.badges{display:flex;gap:.4rem;flex-wrap:wrap;align-items:center}
-.badge{font-size:.58rem;padding:.2rem .6rem;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
-.badge-plain{background:var(–sf3);color:var(–mu);border:1px solid var(–bd)}
-.prog-wrap{display:flex;flex-direction:column;gap:.32rem}
-.prog-row{display:flex;justify-content:space-between;font-size:.66rem;color:var(–mu);font-weight:300;letter-spacing:.02em}
-.prog-track{height:6px;background:rgba(128,100,50,.1);border-radius:3px;overflow:hidden}
-.prog-fill{height:100%;border-radius:3px;transition:width .5s}
-.prog-fill.s-inprogress{background:linear-gradient(90deg,var(–acd),var(–acl))}
-.prog-fill.s-finished{background:linear-gradient(90deg,#3a8a55,var(–gr))}
-.prog-fill.s-notstarted,.prog-fill.s-wishlist{background:var(–mu)}
-.prog-fill.s-abandoned{background:var(–rd)}
-.od-text{font-size:.7rem;color:var(–rd);font-weight:600}
-.book-notes{font-size:.73rem;color:var(–mu);font-style:italic;border-left:2px solid var(–bd2);padding-left:.65rem;line-height:1.55;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;font-weight:300}
-
-/* COMPACT card — single row layout, very different from normal */
-.compact-card{
-flex-direction:row !important;
-align-items:center !important;
-gap:.65rem !important;
-padding:.55rem 1rem .55rem 1.1rem !important;
+/* ── Book list ───────────────────────────── */
+.book-list{display:flex;flex-direction:column;gap:.8rem}
+.grp-hdr{
+font-family:var(–fd);font-size:.88rem;font-weight:700;
+color:var(–acl);padding:.45rem 0 .3rem;
+border-bottom:1px solid var(–bd2);margin-top:.4rem;letter-spacing:.02em;
 }
-.compact-card .book-hdr{padding-right:0;flex:1;min-width:0}
-.compact-card .book-title{font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.compact-card .book-author{display:none}
-.compact-card .book-series{display:none}
-.compact-card .book-narrator{display:none}
-.compact-card .badges{display:none}
-.compact-card .od-text{display:none}
-.compact-card .book-notes{display:none}
-.compact-card .prog-wrap{width:80px;flex-shrink:0}
-.compact-card .prog-row{display:none}
-.compact-card .prog-track{height:4px}
-.compact-card .mbtn-compact{position:static;background:none;border:none;color:var(–mu);font-size:.9rem;padding:.2rem;cursor:pointer;flex-shrink:0}
 
 /* Reading room */
-.rr{background:linear-gradient(135deg,rgba(201,151,31,.08),rgba(201,151,31,.02));border:1px solid rgba(201,151,31,.25);border-radius:var(–r);padding:1rem 1.1rem;margin-bottom:.35rem;position:relative;overflow:hidden}
-.rr::before{content:’’;position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(–ac),transparent);opacity:.4}
-.rr-label{font-size:.62rem;color:var(–ac);letter-spacing:.12em;text-transform:uppercase;margin-bottom:.65rem;font-weight:300;display:flex;align-items:center;gap:.5rem}
-.rr-label::after{content:’’;flex:1;height:1px;background:linear-gradient(90deg,rgba(201,151,31,.25),transparent)}
+.rr{
+background:linear-gradient(135deg,rgba(201,151,31,.07),rgba(201,151,31,.02));
+border:1px solid rgba(201,151,31,.22);border-radius:var(–r);
+padding:.9rem 1rem;margin-bottom:.25rem;position:relative;overflow:hidden;
+}
+.rr::before{
+content:’’;position:absolute;top:0;left:0;right:0;height:2px;
+background:linear-gradient(90deg,transparent,var(–ac),transparent);opacity:.35;
+}
+.rr-label{
+font-size:.6rem;color:var(–ac);letter-spacing:.12em;text-transform:uppercase;
+margin-bottom:.6rem;font-weight:300;display:flex;align-items:center;gap:.5rem;
+}
+.rr-label::after{content:’’;flex:1;height:1px;background:linear-gradient(90deg,rgba(201,151,31,.2),transparent)}
 
-/* Empty */
-.empty{text-align:center;padding:3.5rem 1rem;color:var(–mu)}
-.empty-icon{font-size:3rem;margin-bottom:.85rem}
-.empty-title{font-family:var(–fd);font-size:1.3rem;color:var(–tx);margin-bottom:.45rem;font-style:italic}
-.empty-sub{font-size:.85rem;font-weight:400;line-height:1.5;color:var(–tx2)}
+/* Book card */
+.book-wrap{position:relative}
+.book-card{
+background:var(–sf2);
+border:1px solid var(–bd);
+border-radius:var(–r);
+padding:.9rem 1rem .9rem 1.15rem;
+display:flex;flex-direction:column;gap:.6rem;
+margin-top:.25rem;position:relative;overflow:hidden;
+transition:border-color .15s,box-shadow .15s;
+}
+.book-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.book-card::before{
+content:’’;position:absolute;left:0;top:0;bottom:0;width:4px;
+border-radius:var(–r) 0 0 var(–r);
+}
+.book-card.s-notstarted::before{background:rgba(122,106,80,.5)}
+.book-card.s-inprogress::before{background:linear-gradient(180deg,var(–acl),var(–acd))}
+.book-card.s-finished::before{background:linear-gradient(180deg,#6dca88,#3a8a55)}
+.book-card.s-abandoned::before{background:var(–rd)}
+.book-card.s-wishlist::before{background:var(–pu)}
+.book-card.s-inprogress{border-color:var(–bd2)}
+.book-card.od{border-color:rgba(192,80,80,.35)}
+
+.book-hdr{display:flex;align-items:flex-start;gap:0;padding-right:5rem}
+.book-title{font-family:var(–fd);font-size:.95rem;font-weight:700;line-height:1.35;color:var(–tx)}
+.book-author{font-size:.73rem;color:var(–tx2);font-style:italic;margin-top:.1rem}
+.book-series{font-size:.67rem;color:var(–ac);margin-top:.08rem;letter-spacing:.01em}
+.book-narrator{font-size:.64rem;color:var(–mu);margin-top:.06rem}
+
+.badges{display:flex;gap:.35rem;flex-wrap:wrap;align-items:center}
+.badge{font-size:.57rem;padding:.18rem .58rem;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.badge-plain{background:var(–sf3);color:var(–mu);border:1px solid var(–bd)}
+
+.prog-wrap{display:flex;flex-direction:column;gap:.3rem}
+.prog-row{display:flex;justify-content:space-between;font-size:.65rem;color:var(–mu);font-weight:300;letter-spacing:.01em}
+.prog-track{height:5px;background:rgba(128,100,50,.1);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1)}
+.prog-fill.s-inprogress{background:linear-gradient(90deg,var(–acd),var(–acl))}
+.prog-fill.s-finished{background:linear-gradient(90deg,#3a8a55,#6dca88)}
+.prog-fill.s-notstarted,.prog-fill.s-wishlist{background:rgba(122,106,80,.4)}
+.prog-fill.s-abandoned{background:var(–rd)}
+
+.od-text{font-size:.68rem;color:var(–rd);font-weight:600}
+.book-notes{
+font-size:.72rem;color:var(–mu);font-style:italic;
+border-left:2px solid var(–bd2);padding-left:.6rem;
+line-height:1.55;overflow:hidden;
+display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;
+font-weight:300;
+}
+
+/* Compact card */
+.compact-card{
+flex-direction:row !important;align-items:center !important;
+gap:.6rem !important;padding:.5rem 1rem .5rem 1.15rem !important;
+}
+.compact-card .book-hdr{padding-right:0;flex:1;min-width:0}
+.compact-card .book-author{font-size:.65rem}
+.compact-card .book-series,.compact-card .book-narrator,.compact-card .badges,
+.compact-card .od-text,.compact-card .book-notes,.compact-card .prog-wrap{display:none}
+.compact-card .compact-prog{display:flex !important}
+.compact-prog{
+display:none;width:56px;flex-shrink:0;
+flex-direction:column;align-items:flex-end;gap:.2rem;
+}
+.compact-pct{font-size:.65rem;color:var(–mu);font-weight:300}
+.compact-track{width:100%;height:3px;background:rgba(128,100,50,.12);border-radius:2px;overflow:hidden}
+.compact-fill{height:100%;border-radius:2px}
+
+/* Empty state */
+.empty{
+text-align:center;padding:3rem 1rem;
+display:flex;flex-direction:column;align-items:center;gap:.6rem;
+}
+.empty-icon{font-size:3.5rem;filter:drop-shadow(0 4px 16px rgba(201,151,31,.15))}
+.empty-title{font-family:var(–fd);font-size:1.4rem;color:var(–tx);font-style:italic;line-height:1.3}
+.empty-sub{font-size:.82rem;color:var(–tx2);line-height:1.6;max-width:280px}
+.welcome-btn{
+margin-top:.5rem;
+display:inline-flex;align-items:center;gap:.5rem;
+padding:.72rem 1.4rem;
+background:linear-gradient(135deg,rgba(232,184,75,.14),rgba(201,151,31,.06));
+border:1px solid rgba(232,184,75,.28);border-radius:30px;
+color:var(–acl);font-family:var(–fd);font-weight:700;font-size:.88rem;
+cursor:pointer;transition:all .2s;
+}
+.welcome-btn:hover{border-color:var(–ac);box-shadow:0 0 20px rgba(201,151,31,.15)}
+.tap-hint{font-size:.75rem;color:var(–mu);margin-top:.35rem}
 
 /* Modals */
-.backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:200;align-items:flex-end;justify-content:center;backdrop-filter:blur(3px)}
+.backdrop{
+display:none;position:fixed;inset:0;
+background:rgba(0,0,0,.78);z-index:200;
+align-items:flex-end;justify-content:center;
+backdrop-filter:blur(4px);
+}
 .backdrop.open{display:flex}
-.sheet{background:var(–sf);border:1px solid var(–bd2);border-radius:20px 20px 0 0;padding:1.5rem 1.25rem calc(1.5rem + var(–sb));width:100%;max-width:640px;max-height:92vh;overflow-y:auto;display:flex;flex-direction:column;gap:.95rem;box-shadow:0 -8px 40px rgba(0,0,0,.4)}
-.handle{width:40px;height:4px;background:var(–bd2);border-radius:2px;margin:0 auto .6rem}
-.sheet-title{font-family:var(–fd);font-size:1.35rem;font-weight:700;color:var(–acl);letter-spacing:-.01em}
-.field{display:flex;flex-direction:column;gap:.38rem}
-.field label{font-size:.7rem;color:var(–mu);letter-spacing:.08em;text-transform:uppercase;font-weight:300}
-.field input,.field select,.field textarea{background:var(–sf3);border:1px solid var(–bd2);color:var(–tx);font-family:var(–fb);font-size:.9rem;padding:.7rem .95rem;border-radius:10px;outline:none;width:100%;-webkit-appearance:none;transition:border-color .15s}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(–ac);box-shadow:0 0 0 3px rgba(201,151,31,.1)}
+.sheet{
+background:var(–sf);
+border:1px solid var(–bd2);
+border-radius:20px 20px 0 0;
+padding:1.5rem 1.25rem calc(1.5rem + var(–sb));
+width:100%;max-width:640px;max-height:92vh;
+overflow-y:auto;display:flex;flex-direction:column;gap:.9rem;
+box-shadow:0 -12px 50px rgba(0,0,0,.5),0 -1px 0 var(–bd2);
+}
+.handle{width:40px;height:4px;background:var(–bd2);border-radius:2px;margin:0 auto .55rem}
+.sheet-title{font-family:var(–fd);font-size:1.3rem;font-weight:700;color:var(–acl);letter-spacing:-.015em}
+
+.field{display:flex;flex-direction:column;gap:.32rem}
+.field label{font-size:.68rem;color:var(–mu);letter-spacing:.08em;text-transform:uppercase;font-weight:300}
+.field input,.field select,.field textarea{
+background:var(–sf3);border:1px solid var(–bd2);color:var(–tx);
+font-family:var(–fb);font-size:.9rem;padding:.68rem .9rem;
+border-radius:10px;outline:none;width:100%;-webkit-appearance:none;
+transition:border-color .15s;
+}
+.field input:focus,.field select:focus,.field textarea:focus{
+border-color:var(–ac);box-shadow:0 0 0 3px rgba(201,151,31,.1);
+}
 .field textarea{resize:vertical;min-height:76px;line-height:1.5}
-.frow{display:flex;gap:.75rem}
+.frow{display:flex;gap:.7rem}
 .frow .field{flex:1}
-.sa{display:flex;gap:.6rem;justify-content:flex-end;flex-wrap:wrap;margin-top:.5rem}
-.btn{background:linear-gradient(135deg,var(–acl),var(–ac));color:#0f0d0a;border:none;font-family:var(–fd);font-weight:700;font-size:.9rem;padding:.7rem 1.2rem;border-radius:10px;cursor:pointer;box-shadow:0 2px 12px rgba(201,151,31,.2);transition:all .15s}
-.gbtn{background:var(–sf3);color:var(–tx2);border:1px solid var(–bd2);font-family:var(–fd);font-weight:600;font-size:.88rem;padding:.7rem 1.2rem;border-radius:10px;cursor:pointer;transition:all .15s}
+.sa{display:flex;gap:.55rem;justify-content:flex-end;flex-wrap:wrap;margin-top:.4rem}
+
+.btn{
+background:linear-gradient(135deg,var(–acl),var(–ac));
+color:#0d0b08;border:none;
+font-family:var(–fd);font-weight:700;font-size:.88rem;
+padding:.68rem 1.15rem;border-radius:10px;cursor:pointer;
+box-shadow:0 2px 10px rgba(201,151,31,.2);transition:all .15s;
+}
+.btn:hover{box-shadow:0 4px 18px rgba(201,151,31,.3)}
+.gbtn{
+background:var(–sf3);color:var(–tx2);border:1px solid var(–bd2);
+font-family:var(–fd);font-weight:600;font-size:.88rem;
+padding:.68rem 1.15rem;border-radius:10px;cursor:pointer;transition:all .15s;
+}
 .gbtn:hover{border-color:var(–ac);color:var(–acl)}
-.dbtn{background:transparent;color:var(–rd);border:1px solid rgba(192,80,80,.22);font-family:var(–fd);font-weight:600;font-size:.82rem;padding:.6rem .95rem;border-radius:10px;cursor:pointer}
+.dbtn{
+background:transparent;color:var(–rd);
+border:1px solid rgba(192,80,80,.22);
+font-family:var(–fd);font-weight:600;font-size:.82rem;
+padding:.58rem .9rem;border-radius:10px;cursor:pointer;
+}
 
 /* Action sheet */
-.action-sheet{background:var(–sf);border:1px solid var(–bd2);border-radius:20px 20px 0 0;width:100%;max-width:640px;padding-bottom:calc(1.5rem + var(–sb));overflow:hidden;box-shadow:0 -8px 40px rgba(0,0,0,.4)}
+.action-sheet{
+background:var(–sf);border:1px solid var(–bd2);
+border-radius:20px 20px 0 0;width:100%;max-width:640px;
+padding-bottom:calc(1.5rem + var(–sb));overflow:hidden;
+box-shadow:0 -12px 50px rgba(0,0,0,.5);
+}
 .as-handle{width:40px;height:4px;background:var(–bd2);border-radius:2px;margin:1rem auto .5rem}
-.as-title{font-family:var(–fd);font-size:1rem;font-weight:700;color:var(–acl);padding:.5rem 1.35rem .8rem;border-bottom:1px solid var(–bd);letter-spacing:-.01em}
-.as-item{display:flex;align-items:center;gap:.9rem;width:100%;padding:1.05rem 1.35rem;background:none;border:none;border-bottom:1px solid rgba(58,48,32,.35);cursor:pointer;font-family:var(–fb);font-size:.95rem;color:var(–tx);text-align:left;transition:background .1s}
-.as-item:hover,.as-item:focus-visible{background:rgba(201,151,31,.06);outline:none}
+.as-title{
+font-family:var(–fd);font-size:1rem;font-weight:700;color:var(–acl);
+padding:.5rem 1.35rem .75rem;border-bottom:1px solid var(–bd);
+}
+.as-item{
+display:flex;align-items:center;gap:.85rem;width:100%;
+padding:1rem 1.35rem;background:none;border:none;
+border-bottom:1px solid rgba(56,48,31,.4);
+cursor:pointer;font-family:var(–fb);font-size:.92rem;color:var(–tx);
+text-align:left;transition:background .1s;
+}
+.as-item:hover,.as-item:focus-visible{background:rgba(201,151,31,.05);outline:none}
 .as-item.danger{color:var(–rd)}
-.as-icon{font-size:1.1rem;width:26px;text-align:center;flex-shrink:0}
-.as-cancel{display:block;width:calc(100% - 2.5rem);margin:.85rem 1.25rem 0;padding:.9rem;background:var(–sf3);border:1px solid var(–bd2);border-radius:12px;color:var(–tx2);font-family:var(–fd);font-weight:700;font-size:.95rem;cursor:pointer;transition:all .15s}
+.as-icon{font-size:1.05rem;width:24px;text-align:center;flex-shrink:0}
+.as-cancel{
+display:block;width:calc(100% - 2.5rem);margin:.8rem 1.25rem 0;
+padding:.88rem;background:var(–sf3);border:1px solid var(–bd2);
+border-radius:12px;color:var(–tx2);font-family:var(–fd);
+font-weight:700;font-size:.92rem;cursor:pointer;transition:all .15s;
+}
 .as-cancel:hover{border-color:var(–ac);color:var(–acl)}
 
 /* Progress picker */
-.prog-picker{display:flex;flex-direction:column;align-items:center;gap:1.1rem;padding:.5rem 0}
-.mode-btns{display:flex;gap:.5rem;background:var(–sf3);padding:.3rem;border-radius:10px;border:1px solid var(–bd)}
-.mode-btn{background:none;border:none;color:var(–mu);font-family:var(–fb);font-size:.82rem;padding:.4rem 1.1rem;border-radius:8px;cursor:pointer;transition:all .15s}
+.prog-picker{display:flex;flex-direction:column;align-items:center;gap:1rem;padding:.5rem 0}
+.mode-btns{display:flex;gap:.4rem;background:var(–sf3);padding:.28rem;border-radius:10px;border:1px solid var(–bd)}
+.mode-btn{background:none;border:none;color:var(–mu);font-family:var(–fb);font-size:.8rem;padding:.38rem 1rem;border-radius:8px;cursor:pointer;transition:all .15s}
 .mode-btn.active{background:var(–sf2);color:var(–acl);box-shadow:0 1px 4px rgba(0,0,0,.2)}
-.prog-big{font-family:var(–fd);font-size:3rem;font-weight:900;color:var(–acl);line-height:1}
+.prog-big{font-family:var(–fd);font-size:3.2rem;font-weight:900;color:var(–acl);line-height:1;letter-spacing:-.02em}
 .prog-range{width:100%;accent-color:var(–acl);height:6px;cursor:pointer}
-.prog-hint{font-size:.78rem;color:var(–mu);text-align:center;font-weight:300}
+.prog-hint{font-size:.76rem;color:var(–mu);text-align:center;font-weight:300}
 
 /* Info */
-.info-row{display:flex;justify-content:space-between;align-items:baseline;padding:.6rem 0;border-bottom:1px solid rgba(58,48,32,.25);gap:1rem}
-.info-lbl{font-size:.75rem;color:var(–mu);flex-shrink:0;font-weight:300;letter-spacing:.03em}
-.info-val{font-size:.85rem;text-align:right;color:var(–tx2)}
+.info-row{display:flex;justify-content:space-between;align-items:baseline;padding:.58rem 0;border-bottom:1px solid rgba(56,48,31,.3);gap:1rem}
+.info-lbl{font-size:.73rem;color:var(–mu);flex-shrink:0;font-weight:300;letter-spacing:.02em}
+.info-val{font-size:.84rem;text-align:right;color:var(–tx2)}
 
 /* Settings */
-.s-title{font-family:var(–fd);font-size:.85rem;color:var(–ac);margin-bottom:.3rem;letter-spacing:.04em;font-style:italic}
-.s-row{display:flex;justify-content:space-between;align-items:center;padding:.7rem 0;border-bottom:1px solid rgba(58,48,32,.25);gap:1rem}
-.s-lbl{font-size:.88rem;color:var(–tx)}
-.s-sub{font-size:.7rem;color:var(–mu);margin-top:.15rem;font-weight:300;line-height:1.4}
-.s-sel{background:var(–sf3);border:1px solid var(–bd2);color:var(–tx2);font-family:var(–fb);font-size:.78rem;padding:.4rem .65rem;border-radius:8px;outline:none}
+.s-title{font-family:var(–fd);font-size:.82rem;color:var(–ac);margin-bottom:.28rem;letter-spacing:.04em;font-style:italic}
+.s-row{display:flex;justify-content:space-between;align-items:center;padding:.68rem 0;border-bottom:1px solid rgba(56,48,31,.25);gap:1rem}
+.s-lbl{font-size:.86rem;color:var(–tx)}
+.s-sub{font-size:.68rem;color:var(–mu);margin-top:.12rem;font-weight:300;line-height:1.4}
+.s-sel{background:var(–sf3);border:1px solid var(–bd2);color:var(–tx2);font-family:var(–fb);font-size:.76rem;padding:.38rem .62rem;border-radius:8px;outline:none}
+
 .toggle{position:relative;width:44px;height:26px;flex-shrink:0}
 .toggle input{opacity:0;width:0;height:0}
 .toggle-track{position:absolute;inset:0;background:var(–bd2);border-radius:13px;cursor:pointer;transition:background .2s}
 .toggle input:checked+.toggle-track{background:var(–ac)}
-.toggle-track::after{content:’’;position:absolute;width:20px;height:20px;left:3px;top:3px;background:white;border-radius:50%;transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.toggle-track::after{content:’’;position:absolute;width:20px;height:20px;left:3px;top:3px;background:white;border-radius:50%;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.3)}
 .toggle input:checked+.toggle-track::after{transform:translateX(18px)}
-.theme-pills{display:flex;gap:.4rem}
-.tpill{background:var(–sf3);border:1px solid var(–bd2);color:var(–mu);font-family:var(–fb);font-size:.75rem;padding:.35rem .75rem;border-radius:20px;cursor:pointer;transition:all .15s}
+
+.theme-pills{display:flex;gap:.35rem}
+.tpill{background:var(–sf3);border:1px solid var(–bd2);color:var(–mu);font-family:var(–fb);font-size:.74rem;padding:.33rem .72rem;border-radius:20px;cursor:pointer;transition:all .15s}
 .tpill.active{border-color:var(–ac);color:var(–acl);background:rgba(201,151,31,.1)}
 
-/* Donate */
-.donate-btn{display:flex;align-items:center;justify-content:center;gap:.6rem;width:100%;padding:.9rem;background:linear-gradient(135deg,rgba(201,151,31,.1),rgba(138,101,16,.05));border:1px solid rgba(201,151,31,.22);border-radius:12px;color:var(–acl);font-family:var(–fd);font-weight:700;font-size:.95rem;cursor:pointer;text-decoration:none;transition:all .2s}
-.donate-btn:hover{box-shadow:0 0 24px rgba(201,151,31,.14);border-color:var(–ac)}
+.donate-btn{
+display:flex;align-items:center;justify-content:center;gap:.55rem;width:100%;
+padding:.88rem;background:linear-gradient(135deg,rgba(201,151,31,.1),rgba(138,101,16,.04));
+border:1px solid rgba(201,151,31,.22);border-radius:12px;
+color:var(–acl);font-family:var(–fd);font-weight:700;font-size:.92rem;
+cursor:pointer;text-decoration:none;transition:all .2s;
+}
+.donate-btn:hover{box-shadow:0 0 24px rgba(201,151,31,.15);border-color:var(–ac)}
 
-/* Import box */
-.import-box{background:linear-gradient(135deg,rgba(201,151,31,.07),rgba(201,151,31,.02));border:1px solid rgba(201,151,31,.15);border-radius:10px;padding:.85rem 1rem}
+.import-box{background:linear-gradient(135deg,rgba(201,151,31,.07),rgba(201,151,31,.02));border:1px solid rgba(201,151,31,.15);border-radius:10px;padding:.8rem 1rem}
+.data-info{background:rgba(201,151,31,.05);border:1px solid rgba(201,151,31,.13);border-radius:10px;padding:.85rem 1rem;margin-top:.25rem}
 
-/* Backup nudge */
-.backup-nudge{background:linear-gradient(135deg,rgba(201,151,31,.1),rgba(201,151,31,.04));border:1px solid rgba(201,151,31,.22);border-radius:var(–r);padding:.75rem 1rem;display:flex;align-items:center;gap:.75rem;cursor:pointer}
-.backup-nudge:hover{border-color:rgba(201,151,31,.4)}
-.nudge-title{font-size:.78rem;font-weight:600;color:var(–acl);font-family:var(–fd);margin-bottom:.1rem}
-.nudge-sub{font-size:.68rem;color:var(–mu);line-height:1.4}
-
-/* Emoji */
-.emoji-grid{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:.45rem}
-.emoji-btn{background:transparent;border:1px solid transparent;border-radius:8px;padding:.25rem;font-size:1.3rem;cursor:pointer;width:38px;height:38px;transition:all .15s}
-.emoji-btn.sel{background:rgba(201,151,31,.15);border-color:var(–ac)}
+.emoji-grid{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.4rem}
+.emoji-btn{background:transparent;border:1px solid transparent;border-radius:8px;padding:.25rem;font-size:1.25rem;cursor:pointer;width:36px;height:36px;transition:all .15s}
+.emoji-btn.sel{background:rgba(201,151,31,.14);border-color:var(–ac)}
 .emoji-btn:hover{background:rgba(201,151,31,.07)}
 
-@media(max-width:400px){.aisle-grid{grid-template-columns:1fr 1fr}.frow{flex-direction:column}}
+@media(max-width:380px){
+.aisle-grid{grid-template-columns:1fr 1fr}
+.frow{flex-direction:column}
+.stats-strip{grid-template-columns:repeat(2,1fr)}
+}
 </style>
 
 </head>
@@ -248,7 +524,8 @@ padding:.55rem 1rem .55rem 1.1rem !important;
     <div class="logo" id="hTitle">Stacks</div>
     <div class="logo-tag" id="hSub">Your audiobook collection</div>
   </div>
-  <div style="display:flex;gap:.5rem">
+  <div style="display:flex;gap:.45rem">
+    <button class="hbtn help" id="helpBtn" aria-label="Help — open welcome guide">?</button>
     <button class="hbtn" id="settingsBtn" aria-label="Settings">⚙️</button>
     <button class="hbtn add" id="addBtn" aria-label="New aisle">+</button>
   </div>
@@ -283,13 +560,53 @@ padding:.55rem 1rem .55rem 1.1rem !important;
 </main>
 </div>
 
+<!-- Welcome Modal -->
+
+<div class="backdrop" id="mWelcome" role="dialog" aria-modal="true" aria-labelledby="mWelcomeT">
+  <div class="sheet" style="gap:1rem">
+    <div class="handle" aria-hidden="true"></div>
+    <div style="text-align:center;padding:.25rem 0">
+      <div style="font-size:2.8rem;margin-bottom:.5rem" aria-hidden="true">📚</div>
+      <h2 class="sheet-title" id="mWelcomeT" style="text-align:center;font-size:1.5rem">Welcome to Stacks</h2>
+      <p style="font-size:.8rem;color:var(--mu);font-style:italic;margin-top:.25rem;font-weight:300">Your personal audiobook library</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.7rem">
+      <div style="display:flex;align-items:flex-start;gap:.8rem;padding:.7rem .9rem;background:var(--sf2);border-radius:10px;border:1px solid var(--bd)">
+        <div style="font-size:1.3rem;flex-shrink:0;width:28px;text-align:center" aria-hidden="true">🏛️</div>
+        <div><div style="font-size:.86rem;font-weight:600;color:var(--tx);font-family:var(--fd);margin-bottom:.12rem">Create aisles</div><div style="font-size:.73rem;color:var(--mu);line-height:1.5;font-weight:300">Organise your books by genre, series or mood. Tap + to create your first aisle.</div></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:.8rem;padding:.7rem .9rem;background:var(--sf2);border-radius:10px;border:1px solid var(--bd)">
+        <div style="font-size:1.3rem;flex-shrink:0;width:28px;text-align:center" aria-hidden="true">📥</div>
+        <div><div style="font-size:.86rem;font-weight:600;color:var(--tx);font-family:var(--fd);margin-bottom:.12rem">Import from Audible</div><div style="font-size:.73rem;color:var(--mu);line-height:1.5;font-weight:300">Copy a book link in the Audible app, tap + to add a book, then paste the link to auto-fill details.</div></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:.8rem;padding:.7rem .9rem;background:var(--sf2);border-radius:10px;border:1px solid var(--bd)">
+        <div style="font-size:1.3rem;flex-shrink:0;width:28px;text-align:center" aria-hidden="true">📊</div>
+        <div><div style="font-size:.86rem;font-weight:600;color:var(--tx);font-family:var(--fd);margin-bottom:.12rem">Track your progress</div><div style="font-size:.73rem;color:var(--mu);line-height:1.5;font-weight:300">Tap the menu button on any book to update progress by chapter or percentage.</div></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:.8rem;padding:.7rem .9rem;background:var(--sf2);border-radius:10px;border:1px solid var(--bd)">
+        <div style="font-size:1.3rem;flex-shrink:0;width:28px;text-align:center" aria-hidden="true">📱</div>
+        <div><div style="font-size:.86rem;font-weight:600;color:var(--tx);font-family:var(--fd);margin-bottom:.12rem">Save to your home screen</div><div style="font-size:.73rem;color:var(--mu);line-height:1.5;font-weight:300">In Safari tap Share → Add to Home Screen. Make sure it says Add to Home Screen not Add Bookmark — this opens it as a full screen app.</div></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:.8rem;padding:.7rem .9rem;background:rgba(192,80,80,.08);border-radius:10px;border:1px solid rgba(192,80,80,.25)">
+        <div style="font-size:1.3rem;flex-shrink:0;width:28px;text-align:center" aria-hidden="true">📱</div>
+        <div><div style="font-size:.86rem;font-weight:600;color:var(--rd);font-family:var(--fd);margin-bottom:.12rem">Add to Home Screen to protect your data</div><div style="font-size:.73rem;color:var(--tx2);line-height:1.6;font-weight:300">In Safari tap <strong style="color:var(--tx)">Share → Add to Home Screen</strong>. Make sure it says <strong style="color:var(--tx)">Add to Home Screen</strong> and not Add Bookmark. This tells iOS to treat Stacks like a real app and makes it much less likely to clear your data.</div></div>
+      </div>
+      <div style="display:flex;align-items:flex-start;gap:.8rem;padding:.7rem .9rem;background:rgba(192,80,80,.08);border-radius:10px;border:1px solid rgba(192,80,80,.25)">
+        <div style="font-size:1.3rem;flex-shrink:0;width:28px;text-align:center" aria-hidden="true">⚠️</div>
+        <div><div style="font-size:.86rem;font-weight:600;color:var(--rd);font-family:var(--fd);margin-bottom:.12rem">Back up — your data can be lost</div><div style="font-size:.73rem;color:var(--tx2);line-height:1.6;font-weight:300">Your library is stored on this device only. If Safari clears its data your library will be gone with no way to recover it. Go to <strong style="color:var(--tx)">Settings → Backup</strong> and save the file to iCloud Drive or email it to yourself. Do this regularly.</div></div>
+      </div>
+    </div>
+    <button class="btn" id="welcomeClose" style="width:100%;font-size:1rem;padding:.85rem;margin-top:.25rem">Get Started</button>
+  </div>
+</div>
+
 <!-- Aisle Modal -->
 
 <div class="backdrop" id="mAisle" role="dialog" aria-modal="true" aria-labelledby="mAisleT">
   <div class="sheet">
     <div class="handle" aria-hidden="true"></div>
     <h2 class="sheet-title" id="mAisleT">New Aisle</h2>
-    <div class="field"><label for="aEm">Icon</label><input type="text" id="aEm" placeholder="📚" maxlength="2" enterkeyhint="next"/></div>
+    <div class="field"><label for="aEm">Icon</label><input type="text" id="aEm" placeholder="" maxlength="2" enterkeyhint="next"/></div>
     <div id="aEmGrid" class="emoji-grid" role="group" aria-label="Quick pick emoji"></div>
     <div class="field"><label for="aNm">Aisle name</label><input type="text" id="aNm" placeholder="" autocomplete="off" enterkeyhint="done"/></div>
     <div class="sa"><button class="gbtn" id="aCancel">Cancel</button><button class="btn" id="aSave">Save Aisle</button></div>
@@ -303,13 +620,13 @@ padding:.55rem 1rem .55rem 1.1rem !important;
     <div class="handle" aria-hidden="true"></div>
     <h2 class="sheet-title" id="mBookT">Add Book</h2>
     <div class="import-box">
-      <div style="font-size:.78rem;color:var(--acl);font-weight:600;margin-bottom:.28rem;font-family:var(--fd)">📥 Import from Audible</div>
-      <div style="font-size:.7rem;color:var(--mu);margin-bottom:.65rem;line-height:1.45">Paste an Audible book link below to auto-fill the details.</div>
+      <div style="font-size:.76rem;color:var(--acl);font-weight:600;margin-bottom:.25rem;font-family:var(--fd)">📥 Import from Audible</div>
+      <div style="font-size:.68rem;color:var(--mu);margin-bottom:.6rem;line-height:1.45">Paste an Audible book link below to auto-fill the details.</div>
       <div style="display:flex;gap:.5rem">
-        <input type="url" id="audPaste" placeholder="Paste Audible link here…" inputmode="url" aria-label="Paste Audible link" style="flex:1;background:var(--sf);border:1px solid var(--bd2);color:var(--tx);font-family:var(--fb);font-size:.82rem;padding:.5rem .75rem;border-radius:8px;outline:none;-webkit-appearance:none"/>
-        <button class="gbtn" id="impBtn" aria-label="Import from Audible link" style="font-size:.82rem;padding:.5rem .8rem;flex-shrink:0">Import</button>
+        <input type="url" id="audPaste" placeholder="" inputmode="url" aria-label="Paste Audible link" style="flex:1;background:var(--sf);border:1px solid var(--bd2);color:var(--tx);font-family:var(--fb);font-size:.82rem;padding:.5rem .75rem;border-radius:8px;outline:none;-webkit-appearance:none"/>
+        <button class="gbtn" id="impBtn" aria-label="Import from Audible link" style="font-size:.8rem;padding:.5rem .78rem;flex-shrink:0">Import</button>
       </div>
-      <div id="impSt" style="font-size:.7rem;color:var(--mu);margin-top:.4rem;font-style:italic;min-height:1rem;line-height:1.4" aria-live="polite"></div>
+      <div id="impSt" style="font-size:.68rem;color:var(--mu);margin-top:.38rem;font-style:italic;min-height:1rem;line-height:1.4" aria-live="polite"></div>
     </div>
     <div class="field"><label for="bTi">Title *</label><input type="text" id="bTi" placeholder="" autocomplete="off" enterkeyhint="next"/></div>
     <div class="frow">
@@ -342,7 +659,7 @@ padding:.55rem 1rem .55rem 1.1rem !important;
   <div class="sheet">
     <div class="handle" aria-hidden="true"></div>
     <h2 class="sheet-title" id="mProgT">Update Progress</h2>
-    <div id="pBI" style="font-size:.85rem;color:var(--mu);font-style:italic;font-weight:300"></div>
+    <div id="pBI" style="font-size:.84rem;color:var(--mu);font-style:italic;font-weight:300"></div>
     <div class="prog-picker">
       <div class="mode-btns" id="modeBtns"><button class="mode-btn active" data-mode="percent" aria-pressed="true">Percentage</button><button class="mode-btn" data-mode="chapter" aria-pressed="false">Chapters</button></div>
       <div class="prog-big" id="pVal" aria-live="polite">0%</div>
@@ -392,94 +709,81 @@ padding:.55rem 1rem .55rem 1.1rem !important;
   <div class="sheet">
     <div class="handle" aria-hidden="true"></div>
     <h2 class="sheet-title" id="mSetT">Settings</h2>
-
-```
-<div class="s-title">Support</div>
-<a href="https://ko-fi.com/st94410093" target="_blank" rel="noopener" class="donate-btn" aria-label="Support Stacks on Ko-fi — opens donation page">❤️ Support Stacks on Ko-fi</a>
-<p style="font-size:.7rem;color:var(--mu);line-height:1.55;margin-top:-.4rem;font-weight:300">Stacks is free. If you find it useful, a small donation helps keep it going.</p>
-
-<div class="s-title" style="margin-top:.25rem">Appearance</div>
-<div class="s-row">
-  <div><div class="s-lbl">Theme</div><div class="s-sub">Dark, light, or follow your iPhone</div></div>
-  <div class="theme-pills">
-    <button class="tpill" data-tp="dark" aria-pressed="false">Dark</button>
-    <button class="tpill" data-tp="light" aria-pressed="false">Light</button>
-    <button class="tpill" data-tp="system" aria-pressed="false">Auto</button>
-  </div>
-</div>
-<div class="s-row">
-  <div><div class="s-lbl">Compact book cards</div><div class="s-sub">Single-row view — title and progress only, fits more on screen</div></div>
-  <label class="toggle" aria-label="Compact book cards">
-    <input type="checkbox" id="sCom"/>
-    <span class="toggle-track"></span>
-  </label>
-</div>
-
-<div class="s-title" style="margin-top:.25rem">Library</div>
-<div class="s-row">
-  <div><div class="s-lbl">Hours stat shows</div><div class="s-sub">What the hours number counts</div></div>
-  <select id="sHrs" class="s-sel" aria-label="Hours stat shows">
-    <option value="total">Total — all books</option>
-    <option value="listened">Listened — returned only</option>
-    <option value="remaining">Remaining — in progress</option>
-  </select>
-</div>
-<div class="s-row">
-  <div><div class="s-lbl">Reading goal</div><div class="s-sub">Books to finish this year (0 = off)</div></div>
-  <input type="number" id="sGoal" min="0" max="365" placeholder="0" aria-label="Yearly reading goal" style="width:64px;background:var(--sf3);border:1px solid var(--bd2);color:var(--tx2);font-family:var(--fb);font-size:.88rem;padding:.4rem .6rem;border-radius:8px;outline:none;text-align:center"/>
-</div>
-
-<div class="s-title" style="margin-top:.25rem">Sorting</div>
-<div class="s-row">
-  <div><div class="s-lbl">Sort aisles</div><div class="s-sub">Order on home screen</div></div>
-  <select id="sAS" class="s-sel" aria-label="Sort aisles by"><option value="dateCreated">Date created</option><option value="alphabetical">Alphabetically</option></select>
-</div>
-<div class="s-row">
-  <div><div class="s-lbl">Default book sort</div><div class="s-sub">Inside each aisle</div></div>
-  <select id="sBS" class="s-sel" aria-label="Default book sort"><option value="recent">Recently added</option><option value="title">Title A–Z</option><option value="author">Author A–Z</option><option value="series">Series</option><option value="progress">Progress</option></select>
-</div>
-
-<div class="s-title" style="margin-top:.25rem">Data &amp; Backup</div>
-<div class="s-row">
-  <div><div class="s-lbl">Backup library</div><div class="s-sub" id="lastBackupLbl">Saves everything — aisles, books, progress, notes</div></div>
-  <button class="gbtn" id="backupBtn" style="font-size:.78rem;padding:.4rem .8rem">Backup</button>
-</div>
-<div class="s-row">
-  <div><div class="s-lbl">Restore from backup</div><div class="s-sub">Pick a .json backup file to restore</div></div>
-  <button class="gbtn" id="restoreBtn" style="font-size:.78rem;padding:.4rem .8rem">Restore</button>
-</div>
-<input type="file" id="restoreFile" accept=".json" style="display:none" aria-label="Choose backup file"/>
-<div class="s-row">
-  <div><div class="s-lbl">Export as CSV</div><div class="s-sub">Spreadsheet format for viewing outside the app</div></div>
-  <button class="gbtn" id="expBtn" style="font-size:.78rem;padding:.4rem .8rem">Export</button>
-</div>
-<div class="s-row">
-  <div><div class="s-lbl">Clear all data</div><div class="s-sub">Delete everything and start fresh</div></div>
-  <button class="dbtn" id="clrBtn" style="font-size:.78rem;padding:.4rem .8rem">Clear</button>
-</div>
-<div style="background:rgba(201,151,31,.06);border:1px solid rgba(201,151,31,.15);border-radius:10px;padding:.85rem 1rem;margin-top:.25rem">
-  <div style="font-size:.78rem;font-weight:600;color:var(--acl);font-family:var(--fd);margin-bottom:.4rem">📱 About your data</div>
-  <p style="font-size:.72rem;color:var(--mu);line-height:1.65;font-weight:300">Your library is stored on this device in Safari. It stays safe as long as you don't clear Safari's website data in iPhone Settings.<br/><br/>For the best experience, save this app to your home screen — tap Share in Safari then Add to Home Screen. On the next screen make sure it says <strong style="color:var(--tx2)">Add to Home Screen</strong> and not just Add Bookmark. This tells iOS to treat Stacks like a real app, opens it full screen without the Safari address bar, and makes data loss much less likely.<br/><br/>Back up regularly using the Backup button above. Store the file in iCloud Drive or email it to yourself so you can restore if anything goes wrong.</p>
-</div>
-
-<div class="s-title" style="margin-top:.25rem">Share the App</div>
-<div style="font-size:.75rem;color:var(--mu);line-height:1.6;padding:.5rem 0;border-bottom:1px solid var(--bd);font-weight:300">Share the app URL with anyone. They open it in Safari and tap <strong style="color:var(--tx2)">Share → Add to Home Screen</strong>.</div>
-
-<div class="s-title" style="margin-top:.25rem">About</div>
-<div class="s-row">
-  <div><div class="s-lbl">How to use Stacks</div><div class="s-sub">Show the welcome guide again</div></div>
-  <button class="gbtn" id="showWelcomeBtn" style="font-size:.78rem;padding:.4rem .8rem">Show</button>
-</div>
-<div class="s-row"><span class="s-lbl">Version</span><span style="font-size:.85rem;color:var(--mu)">1.0</span></div>
-<div class="s-row"><div><div class="s-lbl">Privacy</div><div class="s-sub">All data stored on your device only. Nothing is sent anywhere.</div></div></div>
-<div class="sa"><button class="btn" id="setClose">Done</button></div>
-```
-
+    <div class="s-title">Support</div>
+    <a href="https://ko-fi.com/st94410093" target="_blank" rel="noopener" class="donate-btn" aria-label="Support Stacks on Ko-fi">❤️ Support Stacks on Ko-fi</a>
+    <p style="font-size:.68rem;color:var(--mu);line-height:1.55;margin-top:-.35rem;font-weight:300">Stacks is free. If you find it useful, a small donation helps keep it going.</p>
+    <div class="s-title" style="margin-top:.15rem">Appearance</div>
+    <div class="s-row">
+      <div><div class="s-lbl">Theme</div><div class="s-sub">Dark, light, or follow your iPhone</div></div>
+      <div class="theme-pills">
+        <button class="tpill" data-tp="dark" aria-pressed="false">Dark</button>
+        <button class="tpill" data-tp="light" aria-pressed="false">Light</button>
+        <button class="tpill" data-tp="system" aria-pressed="false">Auto</button>
+      </div>
+    </div>
+    <div class="s-row">
+      <div><div class="s-lbl">Compact book cards</div><div class="s-sub">Single row — title and progress only</div></div>
+      <label class="toggle" aria-label="Compact book cards">
+        <input type="checkbox" id="sCom"/>
+        <span class="toggle-track"></span>
+      </label>
+    </div>
+    <div class="s-title" style="margin-top:.15rem">Library</div>
+    <div class="s-row">
+      <div><div class="s-lbl">Hours stat shows</div><div class="s-sub">What the hours number counts</div></div>
+      <select id="sHrs" class="s-sel" aria-label="Hours stat shows">
+        <option value="total">Total — all books</option>
+        <option value="listened">Listened — returned only</option>
+        <option value="remaining">Remaining — in progress</option>
+      </select>
+    </div>
+    <div class="s-row">
+      <div><div class="s-lbl">Reading goal</div><div class="s-sub">Books to finish this year (0 = off)</div></div>
+      <input type="number" id="sGoal" min="0" max="365" placeholder="0" aria-label="Yearly reading goal" style="width:62px;background:var(--sf3);border:1px solid var(--bd2);color:var(--tx2);font-family:var(--fb);font-size:.86rem;padding:.38rem .6rem;border-radius:8px;outline:none;text-align:center"/>
+    </div>
+    <div class="s-title" style="margin-top:.15rem">Sorting</div>
+    <div class="s-row">
+      <div><div class="s-lbl">Sort aisles</div><div class="s-sub">Order on home screen</div></div>
+      <select id="sAS" class="s-sel" aria-label="Sort aisles by"><option value="dateCreated">Date created</option><option value="alphabetical">Alphabetically</option></select>
+    </div>
+    <div class="s-row">
+      <div><div class="s-lbl">Default book sort</div><div class="s-sub">Inside each aisle</div></div>
+      <select id="sBS" class="s-sel" aria-label="Default book sort"><option value="recent">Recently added</option><option value="title">Title A–Z</option><option value="author">Author A–Z</option><option value="series">Series</option><option value="progress">Progress</option></select>
+    </div>
+    <div class="s-title" style="margin-top:.15rem">Data &amp; Backup</div>
+    <div class="s-row">
+      <div><div class="s-lbl">Backup library</div><div class="s-sub" id="lastBackupLbl">Saves everything — aisles, books, progress, notes</div></div>
+      <button class="gbtn" id="backupBtn" style="font-size:.76rem;padding:.38rem .78rem">Backup</button>
+    </div>
+    <div class="s-row">
+      <div><div class="s-lbl">Restore from backup</div><div class="s-sub">Pick a .json backup file to restore</div></div>
+      <button class="gbtn" id="restoreBtn" style="font-size:.76rem;padding:.38rem .78rem">Restore</button>
+    </div>
+    <input type="file" id="restoreFile" accept=".json" style="display:none" aria-label="Choose backup file"/>
+    <div class="s-row">
+      <div><div class="s-lbl">Export as CSV</div><div class="s-sub">Spreadsheet format for viewing elsewhere</div></div>
+      <button class="gbtn" id="expBtn" style="font-size:.76rem;padding:.38rem .78rem">Export</button>
+    </div>
+    <div class="s-row">
+      <div><div class="s-lbl">Clear all data</div><div class="s-sub">Delete everything and start fresh</div></div>
+      <button class="dbtn" id="clrBtn" style="font-size:.76rem;padding:.38rem .78rem">Clear</button>
+    </div>
+    <div class="data-info">
+      <div style="font-size:.76rem;font-weight:600;color:var(--acl);font-family:var(--fd);margin-bottom:.38rem">📱 About your data</div>
+      <p style="font-size:.7rem;color:var(--mu);line-height:1.65;font-weight:300">Your library is stored on this device in Safari. It stays safe as long as you don't clear Safari's website data in iPhone Settings.<br/><br/>For the best experience, save this app to your home screen — tap Share in Safari then Add to Home Screen. On the next screen make sure it says <strong style="color:var(--tx2)">Add to Home Screen</strong> and not Add Bookmark. This opens it full screen and makes data loss much less likely.<br/><br/>Back up regularly using the Backup button above and store the file in iCloud Drive or email it to yourself.</p>
+    </div>
+    <div class="s-title" style="margin-top:.15rem">About</div>
+    <div class="s-row">
+      <div><div class="s-lbl">How to use Stacks</div><div class="s-sub">Show the welcome guide again</div></div>
+      <button class="gbtn" id="showWelcomeBtn" style="font-size:.76rem;padding:.38rem .78rem">Show</button>
+    </div>
+    <div class="s-row"><span class="s-lbl">Version</span><span style="font-size:.84rem;color:var(--mu)">1.0</span></div>
+    <div class="s-row"><div><div class="s-lbl">Privacy</div><div class="s-sub">All data stored on your device only. Nothing is sent anywhere.</div></div></div>
+    <div class="sa"><button class="btn" id="setClose">Done</button></div>
   </div>
 </div>
 
 <script>
-// ── Storage ──────────────────────────────────────────────
 var M={};
 function sg(k){try{return localStorage.getItem(k)}catch(e){return M[k]||null}}
 function ss(k,v){try{localStorage.setItem(k,v)}catch(e){M[k]=v}}
@@ -503,7 +807,7 @@ function dB(a,b){return a&&b?Math.round((new Date(b)-new Date(a))/(864e5)):null}
 function pT(b){if(b.status==='finished')return'100%';if((b.totalChapters||0)>0)return'Ch '+(b.currentChapter||0)+'/'+b.totalChapters+' · '+Math.round(b.progress||0)+'%';return Math.round(b.progress||0)+'%'}
 function odT(b){if(!b.dueDate||b.status!=='inprogress')return null;var d=Math.round((new Date(b.dueDate)-new Date())/(864e5));if(d<0)return'⚠️ '+Math.abs(d)+' day'+(Math.abs(d)!==1?'s':'')+' overdue';if(d===0)return'⚠️ Due today';if(d<=3)return'Due in '+d+' day'+(d!==1?'s':'');return null}
 
-// ── Theme ─────────────────────────────────────────────────
+// Theme
 function applyTheme(t){
   var e=t==='system'?(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'):t;
   document.documentElement.setAttribute('data-theme',e);
@@ -512,13 +816,12 @@ function applyTheme(t){
 applyTheme(cfg.theme||'system');
 window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(){if(cfg.theme==='system')applyTheme('system')});
 
-// ── Modal focus — inert for VoiceOver ─────────────────────
+// Modal management — inert for VoiceOver
 function openModal(id){
   $(id).classList.add('open');
   var pw=$('pw');if(pw){pw.setAttribute('inert','');pw.setAttribute('aria-hidden','true')}
   setTimeout(function(){
-    var m=$(id).querySelector('.sheet,.action-sheet');
-    if(!m)return;
+    var m=$(id).querySelector('.sheet,.action-sheet');if(!m)return;
     var f=m.querySelector('button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])');
     if(f)f.focus();
   },80);
@@ -530,58 +833,99 @@ function closeModal(id){
   }
 }
 
-// ── Stats ─────────────────────────────────────────────────
+// Stats
 function updStats(){
   var na=aisles.length,nb=books.length,nr=books.filter(function(b){return b.status==='finished'}).length;
   var hrs=0,hl='Hours';
   if(cfg.hrs==='listened'){hrs=books.filter(function(b){return b.status==='finished'}).reduce(function(s,b){return s+(parseFloat(b.duration)||0)},0);hl='Listened'}
-  else if(cfg.hrs==='remaining'){hrs=books.filter(function(b){return b.status==='inprogress'}).reduce(function(s,b){var d=parseFloat(b.duration)||0;return s+(d*(1-(b.progress||0)/100))},0);hl='Remaining'}
-  else{hrs=books.reduce(function(s,b){return s+(parseFloat(b.duration)||0)},0);hl='Hours'}
+  else if(cfg.hrs==='remaining'){hrs=books.filter(function(b){return b.status==='inprogress'}).reduce(function(s,b){return s+(parseFloat(b.duration)||0)*(1-(b.progress||0)/100)},0);hl='Remaining'}
+  else{hrs=books.reduce(function(s,b){return s+(parseFloat(b.duration)||0)},0)}
   $('sA').textContent=na;$('sB').textContent=nb;$('sR').textContent=nr;
   $('sH').textContent=hrs%1===0?Math.round(hrs):hrs.toFixed(1);
   $('stH').querySelector('.stat-l').textContent=hl;
-  // Clear VoiceOver labels
   $('stA').setAttribute('aria-label',na+' aisle'+(na!==1?'s':'')+' in your library');
   $('stB').setAttribute('aria-label',nb+' book'+(nb!==1?'s':'')+' in your collection');
   $('stR').setAttribute('aria-label',nr+' book'+(nr!==1?'s':'')+' returned to the shelf');
   var hv=hrs%1===0?Math.round(hrs):parseFloat(hrs.toFixed(1));
-  var hd=cfg.hrs==='listened'?hv+' hours listened across returned books':cfg.hrs==='remaining'?hv+' hours remaining in checked out books':hv+' total hours across all books';
-  $('stH').setAttribute('aria-label',hd);
+  $('stH').setAttribute('aria-label',hv+(cfg.hrs==='listened'?' hours listened':cfg.hrs==='remaining'?' hours remaining':' total hours'));
 }
 
-// ── Overdue banner ────────────────────────────────────────
+// Overdue banner
 function updOD(){
   var b=$('odBanner');
-  var od=books.filter(function(x){if(!x.dueDate||x.status!=='inprogress')return false;return Math.round((new Date(x.dueDate)-new Date())/(864e5))<=3});
+  var od=books.filter(function(x){return x.dueDate&&x.status==='inprogress'&&Math.round((new Date(x.dueDate)-new Date())/(864e5))<=3});
   if(!od.length){b.style.display='none';return}
   var past=od.filter(function(x){return Math.round((new Date(x.dueDate)-new Date())/(864e5))<0});
   var title=past.length?past.length+' book'+(past.length!==1?'s':'')+' overdue':od.length+' book'+(od.length!==1?'s':'')+' due very soon';
   var names=od.map(function(x){return x.title}).join(', ');
   b.style.display='';
-  b.innerHTML='<div class="od-banner" role="alert" aria-label="'+esc(title)+'. '+esc(names)+'. Tap to go to the book.">'
-    +'<div style="font-size:1.3rem;flex-shrink:0" aria-hidden="true">📚</div>'
+  b.innerHTML='<div class="od-banner" role="alert" aria-label="'+esc(title)+'. '+esc(names)+'. Tap to view.">'
+    +'<div style="font-size:1.25rem;flex-shrink:0" aria-hidden="true">📚</div>'
     +'<div style="flex:1"><div class="od-title">'+esc(title)+'</div><div class="od-sub">'+esc(names)+'</div></div>'
-    +'<div style="color:var(--rd);font-size:.9rem;flex-shrink:0" aria-hidden="true">→</div></div>';
-  b.querySelector('.od-banner').addEventListener('click',function(){
-    if(od.length===1&&od[0].aisleId)goAisle(od[0].aisleId);
-    ann('Overdue: '+names);
-  });
+    +'<div style="color:var(--rd);font-size:.85rem;flex-shrink:0" aria-hidden="true">→</div></div>';
+  b.querySelector('.od-banner').addEventListener('click',function(){if(od.length===1&&od[0].aisleId)goAisle(od[0].aisleId)});
 }
 
-// ── Goal ──────────────────────────────────────────────────
+// Goal
 function updGoal(){
   var gs=$('goalSec');
   if(!cfg.goal||cfg.goal<=0){gs.style.display='none';return}
   var fin=books.filter(function(b){return b.status==='finished'}).length;
-  var pct=Math.min(100,Math.round((fin/cfg.goal)*100));
-  var done=fin>=cfg.goal;
+  var pct=Math.min(100,Math.round((fin/cfg.goal)*100));var done=fin>=cfg.goal;
   gs.style.display='';
-  gs.innerHTML='<div class="goal-bar" aria-label="Reading goal: '+fin+' of '+cfg.goal+' books finished this year. '+pct+' percent.">'
+  gs.innerHTML='<div class="goal-bar" aria-label="Reading goal: '+fin+' of '+cfg.goal+' books, '+pct+' percent">'
     +'<div class="goal-row"><span class="goal-label">📖 '+(done?'Goal reached! 🎉':'Reading Goal')+'</span><span class="goal-count">'+fin+' / '+cfg.goal+'</span></div>'
     +'<div class="goal-track"><div class="goal-fill'+(done?' done':'')+'" style="width:'+pct+'%" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"></div></div></div>';
 }
 
-// ── Nav ───────────────────────────────────────────────────
+// Backup nudge
+function getLastBackup(){try{return parseInt(sg('st_lb'))||0}catch{return 0}}
+function setLastBackup(){try{ss('st_lb',Date.now())}catch(e){}}
+function updBackupNudge(){
+  var n=$('backupNudge');if(!n)return;
+  var lb=getLastBackup();var days=lb?Math.floor((Date.now()-lb)/(864e5)):999;
+  if(days<30){n.style.display='none';return}
+  var msg=lb?'Last backed up '+days+' days ago':'No backup yet';
+  n.style.display='';
+  n.innerHTML='<div class="backup-nudge" role="note" aria-label="'+esc(msg)+'. Tap to back up now.">'
+    +'<div style="font-size:1.25rem;flex-shrink:0" aria-hidden="true">💾</div>'
+    +'<div style="flex:1"><div class="nudge-title">Back up your library</div><div class="nudge-sub">'+esc(msg)+'</div></div>'
+    +'<div style="color:var(--acl);font-size:.85rem;flex-shrink:0" aria-hidden="true">→</div></div>';
+  n.querySelector('.backup-nudge').addEventListener('click',doBackup);
+}
+function updLastBackupLabel(){
+  var lb=getLastBackup();var lbl=$('lastBackupLbl');if(!lbl)return;
+  if(!lb){lbl.textContent='No backup yet — back up now to protect your library';lbl.style.color='var(--rd)';return}
+  var days=Math.floor((Date.now()-lb)/(864e5));
+  lbl.style.color=days>30?'var(--rd)':days>7?'var(--acl)':'var(--mu)';
+  lbl.textContent=days===0?'Last backed up today ✅':days===1?'Last backed up yesterday':'Last backed up '+days+' days ago';
+}
+function doBackup(){
+  var data={version:1,exported:new Date().toISOString(),aisles:aisles,books:books,settings:cfg};
+  var a=document.createElement('a');
+  a.href='data:application/json;charset=utf-8,'+encodeURIComponent(JSON.stringify(data,null,2));
+  a.download='stacks-backup-'+new Date().toISOString().split('T')[0]+'.json';
+  a.click();setLastBackup();updLastBackupLabel();updBackupNudge();
+  ann('Library backed up. Save the file in iCloud Drive or email it to yourself.');
+}
+function doRestore(file){
+  if(!file)return;
+  var r=new FileReader();
+  r.onload=function(e){
+    try{
+      var d=JSON.parse(e.target.result);
+      if(!d.aisles||!d.books){ann('Invalid backup file.');return}
+      if(!confirm('Restore from this backup? This will replace your current library.'))return;
+      aisles=d.aisles||[];books=d.books||[];if(d.settings)cfg=Object.assign(cfg,d.settings);
+      svA(aisles);svB(books);svC(cfg);setLastBackup();
+      closeModal('mSettings');applyTheme(cfg.theme||'system');goHome();
+      ann('Library restored. '+aisles.length+' aisles and '+books.length+' books.');
+    }catch(err){ann('Could not read backup file.');}
+  };
+  r.readAsText(file);
+}
+
+// Nav
 function goHome(){
   curA=null;$('backBtn').classList.remove('show');$('hTitle').textContent='Stacks';$('hSub').textContent='Your audiobook collection';
   $('tbAisle').style.display='none';$('tbAisle').setAttribute('aria-hidden','true');
@@ -596,7 +940,7 @@ function goAisle(id){
   renderAisle();ann('Entered '+a.name+' aisle');
 }
 
-// ── Render Home ───────────────────────────────────────────
+// Render home
 function renderHome(){
   updStats();updOD();updGoal();updBackupNudge();
   var c=$('ct');
@@ -604,7 +948,16 @@ function renderHome(){
   if(cfg.as==='alphabetical')s.sort(function(a,b){return a.name.localeCompare(b.name)});
   else s.sort(function(a,b){return a.createdAt-b.createdAt});
   c.innerHTML='';
-  if(!s.length){c.innerHTML='<div class="empty"><div class="empty-icon" aria-hidden="true">🏛️</div><div class="empty-title">Your Stacks are empty</div><div class="empty-sub">Tap + to create your first aisle</div></div>';return}
+  if(!s.length){
+    var emp=document.createElement('div');emp.className='empty';
+    emp.innerHTML='<div class="empty-icon" aria-hidden="true">📚</div>'
+      +'<div class="empty-title">Welcome to Stacks</div>'
+      +'<div class="empty-sub">Your personal audiobook library. Create aisles to organise your books.</div>'
+      +'<button class="welcome-btn" aria-label="Open welcome guide — how to get started">📖 How to get started</button>'
+      +'<div class="tap-hint">Then tap <strong style="color:var(--tx2)">+</strong> to create your first aisle</div>';
+    emp.querySelector('.welcome-btn').addEventListener('click',function(){openModal('mWelcome')});
+    c.appendChild(emp);return;
+  }
   var g=document.createElement('div');g.className='aisle-grid';g.setAttribute('role','list');
   s.forEach(function(a){
     var ab=books.filter(function(b){return b.aisleId===a.id});
@@ -613,20 +966,22 @@ function renderHome(){
     var w=document.createElement('div');w.className='aisle-wrap';w.setAttribute('role','listitem');
     var mb=document.createElement('button');mb.className='mbtn';mb.textContent=a.name+' menu';mb.setAttribute('aria-label',a.name+' — tap for actions');
     (function(a,ab,fin,avg){mb.addEventListener('click',function(e){e.stopPropagation();showAS(a.name,[
-      {i:'📊',l:'View Statistics',fn:function(){ann(a.name+': '+ab.length+' book'+(ab.length!==1?'s':'')+', '+fin+' returned to the shelf, '+Math.round(avg)+'% average progress')}},
+      {i:'📊',l:'View Statistics',fn:function(){ann(a.name+': '+ab.length+' book'+(ab.length!==1?'s':'')+', '+fin+' returned, '+Math.round(avg)+'% average progress')}},
       {i:'✏️',l:'Edit Aisle',fn:function(){openAisleModal(a.id)}},
       {i:'🗑️',l:'Delete Aisle',fn:function(){delAisle(a.id)},d:true}
     ])})})(a,ab,fin,avg);
     var card=document.createElement('button');card.className='aisle-card';
     card.setAttribute('aria-label',a.name+' aisle. '+ab.length+' book'+(ab.length!==1?'s':'')+'. '+fin+' returned. Double tap to open.');
-    card.innerHTML='<div class="aisle-emoji" aria-hidden="true">'+esc(a.emoji||'📚')+'</div><div class="aisle-name">'+esc(a.name)+'</div><div class="aisle-count">'+ab.length+' book'+(ab.length!==1?'s':'')+' · '+fin+' returned</div>'+(ab.length?'<div class="aisle-prog" aria-hidden="true"><div class="aisle-prog-fill" style="width:'+avg+'%"></div></div>':'');
+    card.innerHTML='<div class="aisle-card-top"><span class="aisle-emoji" aria-hidden="true">'+esc(a.emoji||'📚')+'</span><div class="aisle-name">'+esc(a.name)+'</div></div>'
+      +'<div class="aisle-card-bottom"><div class="aisle-count">'+ab.length+' book'+(ab.length!==1?'s':'')+' · '+fin+' returned</div>'
+      +(ab.length?'<div class="aisle-prog" aria-hidden="true"><div class="aisle-prog-fill" style="width:'+avg+'%"></div></div>':'')+'</div>';
     (function(id){card.addEventListener('click',function(){goAisle(id)})})(a.id);
     w.appendChild(mb);w.appendChild(card);g.appendChild(w);
   });
   c.appendChild(g);
 }
 
-// ── Render Aisle ──────────────────────────────────────────
+// Render aisle
 function renderAisle(){
   updStats();updOD();updGoal();
   var c=$('ct'),q=($('srch').value||'').toLowerCase(),st=$('fSt').value,sr=$('fSr').value;
@@ -641,7 +996,7 @@ function renderAisle(){
   else res.sort(function(a,b){return b.addedAt-a.addedAt});
   $('stMsg').textContent=res.length+' book'+(res.length!==1?'s':'')+' shown.';
   c.innerHTML='';
-  if(!res.length){c.innerHTML='<div class="empty"><div class="empty-icon" aria-hidden="true">📖</div><div class="empty-title">'+(ab.length?'No books match':'This aisle is empty')+'</div><div class="empty-sub">'+(ab.length?'Try a different filter':'Tap + to add your first book')+'</div></div>';return}
+  if(!res.length){c.innerHTML='<div class="empty"><div class="empty-icon" aria-hidden="true">📖</div><div class="empty-title">'+(ab.length?'No books match':'This aisle is empty')+'</div><div class="empty-sub">'+(ab.length?'Try a different filter or search term':'Tap + to add your first book to this aisle')+'</div></div>';return}
   var cur=ab.find(function(b){return b.status==='inprogress'});
   if(cur&&!q&&st==='all'){
     var rr=document.createElement('div');rr.className='rr';rr.setAttribute('aria-label','Currently reading: '+cur.title+' by '+cur.author);
@@ -655,15 +1010,14 @@ function renderAisle(){
     Object.keys(groups).sort().forEach(function(g){
       var h=document.createElement('div');h.className='grp-hdr';h.textContent=g;h.setAttribute('role','heading');h.setAttribute('aria-level','3');
       l.appendChild(h);groups[g].forEach(function(b){l.appendChild(mkCard(b))});
-    });
-    c.appendChild(l);
+    });c.appendChild(l);
   } else {
     var l2=document.createElement('div');l2.className='book-list';l2.setAttribute('role','list');
     res.forEach(function(b){l2.appendChild(mkCard(b))});c.appendChild(l2);
   }
 }
 
-// ── Book card ─────────────────────────────────────────────
+// Book card
 function mkCard(b){
   var pct=b.status==='finished'?100:(b.progress||0),ov=odT(b);
   var w=document.createElement('div');w.className='book-wrap';w.setAttribute('role','listitem');
@@ -681,47 +1035,44 @@ function mkCard(b){
   var al=[b.title,'by '+b.author,b.series||'',b.narrator?'narrated by '+b.narrator:'',SL[b.status],(b.totalChapters||0)>0?'chapter '+(b.currentChapter||0)+' of '+b.totalChapters:'',Math.round(pct)+' percent complete',ov||''].filter(Boolean).join('. ');
 
   if(cfg.compact){
-    // Compact: single row — title, status badge, mini progress bar, menu
-    var card=document.createElement('div');
-    card.className='book-card s-'+b.status+' compact-card'+(ov?' od':'');
-    card.setAttribute('aria-label',al);
     var bs='';
     if(b.status==='inprogress')bs='rgba(201,151,31,.1);color:var(--acl);border:1px solid rgba(201,151,31,.2)';
     else if(b.status==='finished')bs='rgba(90,171,114,.08);color:var(--gr);border:1px solid rgba(90,171,114,.2)';
     else if(b.status==='abandoned')bs='rgba(192,80,80,.08);color:var(--rd);border:1px solid rgba(192,80,80,.18)';
     else if(b.status==='wishlist')bs='rgba(138,96,176,.08);color:var(--pu);border:1px solid rgba(138,96,176,.18)';
     else bs='rgba(122,106,80,.08);color:var(--mu);border:1px solid rgba(122,106,80,.2)';
-    card.innerHTML='<div class="book-hdr" style="padding-right:0;flex:1;min-width:0;gap:.5rem">'
+    var cc=document.createElement('div');
+    cc.className='book-card s-'+b.status+' compact-card'+(ov?' od':'');
+    cc.setAttribute('aria-label',al);
+    cc.innerHTML='<div class="book-hdr" style="padding-right:0;flex:1;min-width:0">'
       +'<div style="flex:1;min-width:0"><div class="book-title" style="font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(b.title)+'</div>'
-      +'<div style="font-size:.68rem;color:var(--mu);font-style:italic;margin-top:.08rem">'+esc(b.author)+'</div></div></div>'
-      +'<span class="badge" style="background:'+bs+';flex-shrink:0;font-size:.55rem">'+SL[b.status]+'</span>'
-      +'<div style="width:64px;flex-shrink:0"><div class="prog-track" style="height:4px" role="progressbar" aria-valuenow="'+Math.round(pct)+'" aria-valuemin="0" aria-valuemax="100" aria-label="'+Math.round(pct)+' percent">'
-      +'<div class="prog-fill s-'+b.status+'" style="width:'+pct+'%"></div></div></div>';
-    w.appendChild(mb);w.appendChild(card);return w;
+      +'<div class="book-author">'+esc(b.author)+'</div></div></div>'
+      +'<span class="badge" style="background:'+bs+';flex-shrink:0;font-size:.54rem;white-space:nowrap">'+SL[b.status]+'</span>'
+      +'<div class="compact-prog compact-prog" style="display:flex">'
+      +'<div class="compact-pct">'+Math.round(pct)+'%</div>'
+      +'<div class="compact-track"><div class="compact-fill s-'+b.status+'" style="width:'+pct+'%;height:100%;border-radius:2px;'+(b.status==='finished'?'background:linear-gradient(90deg,#3a8a55,var(--gr))':b.status==='inprogress'?'background:linear-gradient(90deg,var(--acd),var(--acl))':'background:rgba(122,106,80,.4)')+'"></div></div>'
+      +'</div>';
+    w.appendChild(mb);w.appendChild(cc);return w;
   }
 
-  // Full card
-  var bs='';
-  if(b.status==='inprogress')bs='background:rgba(201,151,31,.08);color:var(--acl);border:1px solid rgba(201,151,31,.2)';
-  else if(b.status==='finished')bs='background:rgba(90,171,114,.08);color:var(--gr);border:1px solid rgba(90,171,114,.2)';
-  else if(b.status==='abandoned')bs='background:rgba(192,80,80,.08);color:var(--rd);border:1px solid rgba(192,80,80,.18)';
-  else if(b.status==='wishlist')bs='background:rgba(138,96,176,.08);color:var(--pu);border:1px solid rgba(138,96,176,.18)';
-  else bs='background:rgba(122,106,80,.08);color:var(--mu);border:1px solid rgba(122,106,80,.2)';
-  var card=document.createElement('div');
-  card.className='book-card s-'+b.status+(ov?' od':'');
-  card.setAttribute('aria-label',al);
+  var bst='';
+  if(b.status==='inprogress')bst='background:rgba(201,151,31,.08);color:var(--acl);border:1px solid rgba(201,151,31,.18)';
+  else if(b.status==='finished')bst='background:rgba(90,171,114,.08);color:var(--gr);border:1px solid rgba(90,171,114,.18)';
+  else if(b.status==='abandoned')bst='background:rgba(192,80,80,.08);color:var(--rd);border:1px solid rgba(192,80,80,.16)';
+  else if(b.status==='wishlist')bst='background:rgba(138,96,176,.08);color:var(--pu);border:1px solid rgba(138,96,176,.16)';
+  else bst='background:rgba(122,106,80,.07);color:var(--mu);border:1px solid rgba(122,106,80,.18)';
+  var card=document.createElement('div');card.className='book-card s-'+b.status+(ov?' od':'');card.setAttribute('aria-label',al);
   card.innerHTML='<div class="book-hdr"><div style="flex:1;min-width:0"><div class="book-title">'+esc(b.title)+'</div><div class="book-author">by '+esc(b.author)+'</div>'+(b.series?'<div class="book-series">'+esc(b.series)+'</div>':'')+(b.narrator?'<div class="book-narrator">Narrated by '+esc(b.narrator)+'</div>':'')+'</div></div>'
-    +'<div class="badges"><span class="badge" style="'+bs+'">'+SL[b.status]+'</span>'+(b.duration?'<span class="badge badge-plain">'+b.duration+'h</span>':'')+'</div>'
+    +'<div class="badges"><span class="badge" style="'+bst+'">'+SL[b.status]+'</span>'+(b.duration?'<span class="badge badge-plain">'+b.duration+'h</span>':'')+'</div>'
     +(ov?'<div class="od-text">'+esc(ov)+'</div>':'')
     +'<div class="prog-wrap" role="group" aria-label="Progress: '+Math.round(pct)+' percent"><div class="prog-row"><span>Progress</span><span>'+pT(b)+'</span></div><div class="prog-track" role="progressbar" aria-valuenow="'+Math.round(pct)+'" aria-valuemin="0" aria-valuemax="100"><div class="prog-fill s-'+b.status+'" style="width:'+pct+'%"></div></div></div>'
     +(b.notes?'<div class="book-notes">'+esc(b.notes)+'</div>':'');
   w.appendChild(mb);w.appendChild(card);return w;
 }
 
-// ── Action sheet ──────────────────────────────────────────
+// Action sheet
 function showAS(title,items){
-  $('asT').textContent=title;
-  var con=$('asItems');con.innerHTML='';
+  $('asT').textContent=title;var con=$('asItems');con.innerHTML='';
   items.forEach(function(item){
     var btn=document.createElement('button');btn.className='as-item'+(item.d?' danger':'');btn.setAttribute('aria-label',item.l);
     btn.innerHTML='<span class="as-icon" aria-hidden="true">'+item.i+'</span><span>'+esc(item.l)+'</span>';
@@ -731,7 +1082,7 @@ function showAS(title,items){
   openModal('mAS');
 }
 
-// ── Book actions ──────────────────────────────────────────
+// Book actions
 function markDone(id){
   books=books.map(function(b){if(b.id!==id)return b;return Object.assign({},b,{status:'finished',progress:100,currentChapter:b.totalChapters||b.currentChapter||0,dateStarted:b.dateStarted||new Date().toISOString(),dateFinished:new Date().toISOString()})});
   svB(books);if(curA)renderAisle();else renderHome();
@@ -751,7 +1102,7 @@ function shareBook(id){
   var b=books.find(function(b){return b.id===id});if(!b)return;
   var t='"'+b.title+'" by '+b.author+(b.narrator?', narrated by '+b.narrator:'')+(b.series?' ('+b.series+')':'');
   if(navigator.share){navigator.share({title:b.title,text:t}).catch(function(){})}
-  else if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){ann('Copied: '+t)}).catch(function(){})}
+  else if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){ann('Copied to clipboard')}).catch(function(){})}
 }
 function viewSeries(id){
   var b=books.find(function(b){return b.id===id});
@@ -760,7 +1111,7 @@ function viewSeries(id){
   ann(b.series+': '+sb.map(function(x){return x.title}).join(', '));
 }
 
-// ── Progress ──────────────────────────────────────────────
+// Progress
 function openProg(id){
   var b=books.find(function(b){return b.id===id});if(!b)return;
   pBId=id;var hc=(b.totalChapters||0)>0;pMode=hc?'chapter':'percent';
@@ -771,20 +1122,11 @@ function updMB(){document.querySelectorAll('#modeBtns .mode-btn').forEach(functi
 function updP(){
   var b=books.find(function(b){return b.id===pBId});if(!b)return;
   var hc=(b.totalChapters||0)>0;var r=$('pRange');
-  if(pMode==='chapter'&&hc){
-    r.max=b.totalChapters;r.step=1;r.value=b.currentChapter||0;
-    $('pVal').textContent='Ch '+(b.currentChapter||0);
-    $('pHint').textContent='Chapter '+(b.currentChapter||0)+' of '+b.totalChapters+' · '+Math.round(b.progress||0)+'%';
-    r.setAttribute('aria-label','Chapter picker. Currently chapter '+(b.currentChapter||0)+' of '+b.totalChapters);
-  } else {
-    r.max=100;r.step=1;r.value=Math.round(b.status==='finished'?100:(b.progress||0));
-    $('pVal').textContent=Math.round(b.progress||0)+'%';$('pHint').textContent='';
-    r.setAttribute('aria-label','Percentage picker. Currently '+Math.round(b.progress||0)+' percent');
-  }
+  if(pMode==='chapter'&&hc){r.max=b.totalChapters;r.step=1;r.value=b.currentChapter||0;$('pVal').textContent='Ch '+(b.currentChapter||0);$('pHint').textContent='Chapter '+(b.currentChapter||0)+' of '+b.totalChapters+' · '+Math.round(b.progress||0)+'%';r.setAttribute('aria-label','Chapter picker. Currently chapter '+(b.currentChapter||0)+' of '+b.totalChapters)}
+  else{r.max=100;r.step=1;r.value=Math.round(b.status==='finished'?100:(b.progress||0));$('pVal').textContent=Math.round(b.progress||0)+'%';$('pHint').textContent='';r.setAttribute('aria-label','Percentage picker. Currently '+Math.round(b.progress||0)+' percent')}
 }
 $('pRange').addEventListener('input',function(){
-  var b=books.find(function(b){return b.id===pBId});if(!b)return;
-  var v=parseInt(this.value,10);
+  var b=books.find(function(b){return b.id===pBId});if(!b)return;var v=parseInt(this.value,10);
   if(pMode==='chapter'&&(b.totalChapters||0)>0){b.currentChapter=v;b.progress=(v/b.totalChapters)*100;$('pVal').textContent='Ch '+v;$('pHint').textContent='Chapter '+v+' of '+b.totalChapters+' · '+Math.round(b.progress)+'%'}
   else{b.progress=v;$('pVal').textContent=v+'%'}
 });
@@ -796,7 +1138,7 @@ $('pSave').addEventListener('click',function(){
   svB(books);closeModal('mProg');if(curA)renderAisle();ann('Progress saved. '+Math.round(b.progress)+' percent.');
 });
 
-// ── Info ──────────────────────────────────────────────────
+// Info
 function openInfo(id){
   var b=books.find(function(b){return b.id===id});if(!b)return;
   $('mInfoT').textContent=b.title;
@@ -805,26 +1147,21 @@ function openInfo(id){
   openModal('mInfo');
 }
 
-// ── Move ──────────────────────────────────────────────────
+// Move
 function openMove(id){
   mBId=id;var b=books.find(function(b){return b.id===id});
   var oth=aisles.filter(function(a){return a.id!==b.aisleId});
   if(!oth.length){ann('No other aisles. Create one first.');return}
-  $('moveC').innerHTML=oth.map(function(a){return'<button class="as-item" data-dest="'+a.id+'" aria-label="Move to '+esc(a.name)+', '+books.filter(function(x){return x.aisleId===a.id}).length+' books"><span class="as-icon" aria-hidden="true">'+esc(a.emoji||'📚')+'</span><span style="flex:1">'+esc(a.name)+'</span><span style="font-size:.72rem;color:var(--mu)">'+books.filter(function(x){return x.aisleId===a.id}).length+' books</span></button>'}).join('');
+  $('moveC').innerHTML=oth.map(function(a){return'<button class="as-item" data-dest="'+a.id+'" aria-label="Move to '+esc(a.name)+'"><span class="as-icon" aria-hidden="true">'+esc(a.emoji||'📚')+'</span><span style="flex:1">'+esc(a.name)+'</span><span style="font-size:.7rem;color:var(--mu)">'+books.filter(function(x){return x.aisleId===a.id}).length+' books</span></button>'}).join('');
   document.querySelectorAll('#moveC [data-dest]').forEach(function(btn){btn.addEventListener('click',function(){var did=this.dataset.dest;var dest=aisles.find(function(a){return a.id===did});books=books.map(function(b){return b.id===mBId?Object.assign({},b,{aisleId:did}):b});svB(books);closeModal('mMove');if(curA)renderAisle();else renderHome();ann('"'+(books.find(function(b){return b.id===mBId})||{title:''}).title+'" moved to '+(dest?dest.name:'aisle')+'.')})});
   openModal('mMove');
 }
 
-// ── Aisle modal ───────────────────────────────────────────
+// Aisle modal
 var aES='📚';
 function buildEG(){
   var g=$('aEmGrid');g.innerHTML='';
-  EM.forEach(function(e){
-    var btn=document.createElement('button');btn.className='emoji-btn'+(aES===e?' sel':'');btn.type='button';btn.textContent=e;
-    btn.setAttribute('aria-label','Use '+e+' as icon');btn.setAttribute('aria-pressed',aES===e?'true':'false');
-    btn.addEventListener('click',function(){aES=e;$('aEm').value=e;buildEG()});
-    g.appendChild(btn);
-  });
+  EM.forEach(function(e){var btn=document.createElement('button');btn.className='emoji-btn'+(aES===e?' sel':'');btn.type='button';btn.textContent=e;btn.setAttribute('aria-label','Use '+e);btn.setAttribute('aria-pressed',aES===e?'true':'false');btn.addEventListener('click',function(){aES=e;$('aEm').value=e;buildEG()});g.appendChild(btn)});
 }
 function openAisleModal(id){
   eAId=id||null;var a=id?aisles.find(function(a){return a.id===id}):null;
@@ -838,13 +1175,12 @@ $('aCancel').addEventListener('click',function(){closeModal('mAisle')});
 $('aSave').addEventListener('click',saveAisle);
 function saveAisle(){
   var name=$('aNm').value.trim();if(!name){ann('Please enter an aisle name.');return}
-  var emoji=$('aEm').value.trim()||'📚';
-  if(eAId){aisles=aisles.map(function(a){return a.id===eAId?Object.assign({},a,{name:name,emoji:emoji}):a})}
-  else{aisles.push({id:Date.now().toString(),name:name,emoji:emoji,createdAt:Date.now()})}
+  if(eAId){aisles=aisles.map(function(a){return a.id===eAId?Object.assign({},a,{name:name,emoji:$('aEm').value.trim()||'📚'}):a})}
+  else{aisles.push({id:Date.now().toString(),name:name,emoji:$('aEm').value.trim()||'📚',createdAt:Date.now()})}
   svA(aisles);closeModal('mAisle');renderHome();ann('"'+name+'" '+(eAId?'updated':'created')+'.');
 }
 
-// ── Book modal ────────────────────────────────────────────
+// Book modal
 function openBookModal(id){
   eBId=id||null;var b=id?books.find(function(b){return b.id===id}):null;
   $('mBookT').textContent=b?'Edit Book':'Add Book';
@@ -867,7 +1203,7 @@ function saveBook(){
   svB(books);closeModal('mBook');if(curA)renderAisle();else renderHome();ann('"'+title+'" '+(eBId?'updated':'added')+'.');
 }
 
-// ── Audible import ────────────────────────────────────────
+// Audible import
 $('impBtn').addEventListener('click',function(){
   var text=($('audPaste').value||'').trim();
   var ok=text&&(text.includes('audible.com')||text.includes('audible.co.uk')||text.includes('audible.com.au')||text.includes('adbl.co'));
@@ -881,81 +1217,23 @@ $('impBtn').addEventListener('click',function(){
       if(doc.title&&!$('bTi').value)$('bTi').value=doc.title;
       if(doc.author_name&&!$('bAu').value)$('bAu').value=doc.author_name[0]||'';
       if(doc.number_of_pages_median&&!$('bDu').value)$('bDu').value=Math.round((doc.number_of_pages_median/100*1.5)*2)/2;
-      $('impSt').textContent=doc.title?'✅ Imported: '+doc.title:'Book not found. Fill in manually.';
+      $('impSt').textContent=doc.title?'✅ Imported: '+doc.title:'Book not found — fill in manually.';
       ann(doc.title?'Book imported: '+doc.title:'Book not found');
-    }).catch(function(){$('impSt').textContent='Could not fetch. Fill in manually.';});
+    }).catch(function(){$('impSt').textContent='Could not fetch details. Fill in manually.';});
 });
 function extASIN(url){var p=[/\/([A-Z0-9]{10})(?:\?|$|\/)/,/asin=([A-Z0-9]{10})/,/\/dp\/([A-Z0-9]{10})/];for(var i=0;i<p.length;i++){var m=url.match(p[i]);if(m)return m[1]}return url.split('/').pop().split('?')[0]}
 
-// ── Backup & Restore ─────────────────────────────────────
-function getLastBackup(){try{return parseInt(sg('st_lastbackup'))||0}catch{return 0}}
-function setLastBackup(){try{ss('st_lastbackup',Date.now())}catch(e){}}
+// Welcome
+function closeWelcome(){closeModal('mWelcome');ann('Welcome guide closed. Tap the plus button to create your first aisle.')}
+$('welcomeClose').addEventListener('click',closeWelcome);
+$('mWelcome').addEventListener('click',function(e){if(e.target===this)closeWelcome()});
+$('helpBtn').addEventListener('click',function(){openModal('mWelcome')});
 
-function updLastBackupLabel(){
-  var lb=getLastBackup();
-  var lbl=$('lastBackupLbl');if(!lbl)return;
-  if(!lb){lbl.textContent='No backup yet — back up now to protect your library';lbl.style.color='var(--rd)';return}
-  var days=Math.floor((Date.now()-lb)/(864e5));
-  if(days===0){lbl.textContent='Last backed up today ✅';lbl.style.color='var(--gr)'}
-  else if(days===1){lbl.textContent='Last backed up yesterday';lbl.style.color='var(--mu)'}
-  else if(days<=7){lbl.textContent='Last backed up '+days+' days ago';lbl.style.color='var(--mu)'}
-  else if(days<=30){lbl.textContent='Last backed up '+days+' days ago — consider backing up soon';lbl.style.color='var(--acl)'}
-  else{lbl.textContent='Last backed up '+days+' days ago — back up now!';lbl.style.color='var(--rd)'}
-}
-
-function doBackup(){
-  var data={version:1,exported:new Date().toISOString(),aisles:aisles,books:books,settings:cfg};
-  var json=JSON.stringify(data,null,2);
-  var a=document.createElement('a');
-  var date=new Date().toISOString().split('T')[0];
-  a.href='data:application/json;charset=utf-8,'+encodeURIComponent(json);
-  a.download='stacks-backup-'+date+'.json';
-  a.click();
-  setLastBackup();
-  updLastBackupLabel();
-  updBackupNudge();
-  ann('Library backed up. Save the file somewhere safe like iCloud Drive.');
-}
-
-function doRestore(file){
-  if(!file)return;
-  var reader=new FileReader();
-  reader.onload=function(e){
-    try{
-      var data=JSON.parse(e.target.result);
-      if(!data.aisles||!data.books){ann('Invalid backup file. Please choose a Stacks backup.');return}
-      if(!confirm('Restore from this backup? This will replace your current library.'))return;
-      aisles=data.aisles||[];books=data.books||[];
-      if(data.settings)cfg=Object.assign(cfg,data.settings);
-      svA(aisles);svB(books);svC(cfg);
-      setLastBackup();
-      closeModal('mSettings');
-      applyTheme(cfg.theme||'system');
-      goHome();
-      ann('Library restored from backup. '+aisles.length+' aisles and '+books.length+' books.');
-    } catch(err){ann('Could not read backup file. Make sure it is a valid Stacks backup.');}
-  };
-  reader.readAsText(file);
-}
-
-function updBackupNudge(){
-  var n=$('backupNudge');if(!n)return;
-  var lb=getLastBackup();
-  var days=lb?Math.floor((Date.now()-lb)/(864e5)):999;
-  if(days<30){n.style.display='none';return}
-  var msg=lb?'Last backed up '+days+' days ago':'No backup yet';
-  n.style.display='';
-  n.innerHTML='<div class="backup-nudge" role="note" aria-label="Backup reminder. '+msg+'. Tap to back up now.">'
-    +'<div style="font-size:1.3rem;flex-shrink:0" aria-hidden="true">💾</div>'
-    +'<div style="flex:1"><div class="nudge-title">Back up your library</div><div class="nudge-sub">'+msg+' — tap to back up now</div></div>'
-    +'<div style="color:var(--acl);font-size:.9rem;flex-shrink:0" aria-hidden="true">→</div></div>';
-  n.querySelector('.backup-nudge').addEventListener('click',function(){doBackup()});
-}
-
-// ── Settings ──────────────────────────────────────────────
-$('settingsBtn').addEventListener('click',function(){updLastBackupLabel();
+// Settings
+$('settingsBtn').addEventListener('click',function(){
   $('sAS').value=cfg.as;$('sBS').value=cfg.bs;$('sHrs').value=cfg.hrs||'total';
   $('sGoal').value=cfg.goal||0;$('sCom').checked=!!(cfg.compact);
+  updLastBackupLabel();
   document.querySelectorAll('[data-tp]').forEach(function(btn){var a=btn.dataset.tp===(cfg.theme||'system');btn.classList.toggle('active',a);btn.setAttribute('aria-pressed',a?'true':'false')});
   openModal('mSettings');
 });
@@ -970,11 +1248,7 @@ document.querySelectorAll('[data-tp]').forEach(function(btn){
     ann('Theme: '+(cfg.theme==='system'?'following iPhone setting':cfg.theme+' mode'));
   });
 });
-$('sCom').addEventListener('change',function(){
-  cfg.compact=this.checked;svC(cfg);
-  if(curA)renderAisle();
-  ann(cfg.compact?'Compact cards on':'Compact cards off');
-});
+$('sCom').addEventListener('change',function(){cfg.compact=this.checked;svC(cfg);if(curA)renderAisle();ann(cfg.compact?'Compact cards on':'Compact cards off')});
 $('sHrs').addEventListener('change',function(){cfg.hrs=this.value;svC(cfg);updStats()});
 $('sAS').addEventListener('change',function(){cfg.as=this.value;svC(cfg)});
 $('sBS').addEventListener('change',function(){cfg.bs=this.value;svC(cfg)});
@@ -987,19 +1261,18 @@ $('expBtn').addEventListener('click',function(){
   var csv=rows.map(function(r){return r.map(function(c){return'"'+String(c).replace(/"/g,'""')+'"'}).join(',')}).join('\n');
   var a=document.createElement('a');a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);a.download='stacks-library.csv';a.click();ann('Library exported.');
 });
-$('showWelcomeBtn').addEventListener('click',function(){
-  closeModal('mSettings');
-  setTimeout(function(){openModal('mWelcome')},200);
-});
 $('clrBtn').addEventListener('click',function(){
   if(!confirm('Delete everything and start fresh? This cannot be undone.'))return;
-  aisles=[];books=[];svA(aisles);svB(books);try{localStorage.removeItem('st_welcomed');localStorage.removeItem('st_lastbackup')}catch(e){}closeModal('mSettings');goHome();setTimeout(function(){openModal('mWelcome')},400);ann('Library cleared.');
+  aisles=[];books=[];svA(aisles);svB(books);
+  try{localStorage.removeItem('st_lb')}catch(e){}
+  closeModal('mSettings');goHome();
+  setTimeout(function(){openModal('mWelcome')},400);
+  ann('Library cleared.');
 });
+$('showWelcomeBtn').addEventListener('click',function(){closeModal('mSettings');setTimeout(function(){openModal('mWelcome')},250)});
 
-// ── Event wiring ──────────────────────────────────────────
-['mAisle','mBook','mProg','mInfo','mMove','mAS','mSettings'].forEach(function(id){
-  $(id).addEventListener('click',function(e){if(e.target===this)closeModal(id)});
-});
+// Close handlers
+['mAisle','mBook','mProg','mInfo','mMove','mAS','mSettings'].forEach(function(id){$(id).addEventListener('click',function(e){if(e.target===this)closeModal(id)})});
 $('pCancel').addEventListener('click',function(){closeModal('mProg')});
 $('infoClose').addEventListener('click',function(){closeModal('mInfo')});
 $('moveCancel').addEventListener('click',function(){closeModal('mMove')});
@@ -1014,69 +1287,8 @@ document.addEventListener('keydown',function(e){
   ['mAisle','mBook','mProg','mInfo','mMove','mAS','mSettings'].forEach(function(id){if($(id).classList.contains('open'))closeModal(id)});
 });
 
-// ── Welcome ──────────────────────────────────────────────
-function checkWelcome(){
-  try{
-    if(!sg('st_welcomed')){
-      setTimeout(function(){openModal('mWelcome')},400);
-    }
-  }catch(e){}
-}
-$('welcomeClose').addEventListener('click',function(){
-  closeModal('mWelcome');
-  try{ss('st_welcomed','1')}catch(e){}
-  ann('Welcome to Stacks. Tap the plus button to create your first aisle.');
-});
-// Tapping backdrop also dismisses
-$('mWelcome').addEventListener('click',function(e){
-  if(e.target===this){
-    closeModal('mWelcome');
-    try{ss('st_welcomed','1')}catch(e){}
-  }
-});
-
-// No seed data — app starts empty
 goHome();
-checkWelcome();
 </script>
-
-<!-- Welcome Modal -->
-
-<div class="backdrop" id="mWelcome" role="dialog" aria-modal="true" aria-labelledby="mWelcomeT" style="align-items:flex-end">
-  <div class="sheet" style="gap:1.1rem;max-height:96vh">
-    <div class="handle" aria-hidden="true"></div>
-    <div style="text-align:center;padding:.5rem 0 .25rem">
-      <div style="font-size:3rem;margin-bottom:.5rem" aria-hidden="true">📚</div>
-      <h2 class="sheet-title" id="mWelcomeT" style="text-align:center;font-size:1.6rem">Welcome to Stacks</h2>
-      <p style="font-size:.82rem;color:var(--mu);font-style:italic;margin-top:.3rem;font-weight:300">Your personal audiobook library</p>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:.75rem">
-      <div style="display:flex;align-items:flex-start;gap:.85rem">
-        <div style="font-size:1.4rem;flex-shrink:0;width:32px;text-align:center" aria-hidden="true">🏛️</div>
-        <div><div style="font-size:.88rem;font-weight:600;color:var(--tx);font-family:var(--fd);margin-bottom:.15rem">Create aisles</div><div style="font-size:.75rem;color:var(--mu);line-height:1.5;font-weight:300">Organise your books into aisles — by genre, series, mood, or anything you like.</div></div>
-      </div>
-      <div style="display:flex;align-items:flex-start;gap:.85rem">
-        <div style="font-size:1.4rem;flex-shrink:0;width:32px;text-align:center" aria-hidden="true">📥</div>
-        <div><div style="font-size:.88rem;font-weight:600;color:var(--tx);font-family:var(--fd);margin-bottom:.15rem">Import from Audible</div><div style="font-size:.75rem;color:var(--mu);line-height:1.5;font-weight:300">Copy a book link in the Audible app, tap + to add a book, and paste the link to auto-fill the details.</div></div>
-      </div>
-      <div style="display:flex;align-items:flex-start;gap:.85rem">
-        <div style="font-size:1.4rem;flex-shrink:0;width:32px;text-align:center" aria-hidden="true">📊</div>
-        <div><div style="font-size:.88rem;font-weight:600;color:var(--tx);font-family:var(--fd);margin-bottom:.15rem">Track your progress</div><div style="font-size:.75rem;color:var(--mu);line-height:1.5;font-weight:300">Tap the menu button on any book to update your progress by chapter or percentage.</div></div>
-      </div>
-      <div style="display:flex;align-items:flex-start;gap:.85rem">
-        <div style="font-size:1.4rem;flex-shrink:0;width:32px;text-align:center" aria-hidden="true">📱</div>
-        <div><div style="font-size:.88rem;font-weight:600;color:var(--tx);font-family:var(--fd);margin-bottom:.15rem">Save to your home screen</div><div style="font-size:.75rem;color:var(--mu);line-height:1.5;font-weight:300">In Safari tap Share → Add to Home Screen. Make sure it says Add to Home Screen, not Add Bookmark, so it opens as a full screen app.</div></div>
-      </div>
-      <div style="display:flex;align-items:flex-start;gap:.85rem">
-        <div style="font-size:1.4rem;flex-shrink:0;width:32px;text-align:center" aria-hidden="true">💾</div>
-        <div><div style="font-size:.88rem;font-weight:600;color:var(--tx);font-family:var(--fd);margin-bottom:.15rem">Back up regularly</div><div style="font-size:.75rem;color:var(--mu);line-height:1.5;font-weight:300">Your data lives on this device. Use Backup in Settings to save a file to iCloud Drive or email it to yourself.</div></div>
-      </div>
-    </div>
-    <div style="border-top:1px solid var(--bd);padding-top:.85rem;text-align:center">
-      <button class="btn" id="welcomeClose" style="width:100%;font-size:1rem;padding:.85rem">Get Started</button>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>
