@@ -78,8 +78,8 @@ background:var(–sf);
 border-bottom:1px solid var(–bd2);
 padding:.85rem 1.1rem;
 display:flex;align-items:center;gap:.75rem;
-position:sticky;top:0;z-index:50;
-box-shadow:0 1px 0 var(–bd),0 4px 24px rgba(0,0,0,.25);
+position:sticky;top:0;z-index:100;
+box-shadow:0 1px 0 var(–bd),0 4px 24px rgba(0,0,0,.35);
 }
 .logo{
 font-family:var(–fd);
@@ -127,6 +127,7 @@ main{
 flex:1;max-width:680px;width:100%;margin:0 auto;
 padding:1.25rem 1rem calc(1.5rem + var(–sb));
 display:flex;flex-direction:column;gap:1.1rem;
+position:relative;z-index:1;
 }
 
 /* ── Banners ─────────────────────────────── */
@@ -199,11 +200,12 @@ padding:.9rem 1.1rem;
 .aisle-wrap{position:relative}
 .mbtn{
 position:absolute;top:.55rem;right:.55rem;
-background:rgba(10,8,5,.65);
+background:rgba(10,8,5,.7);
 border:1px solid var(–bd2);color:var(–mu);
-font-family:var(–fb);font-size:.58rem;padding:.18rem .48rem;
-border-radius:5px;cursor:pointer;z-index:2;white-space:nowrap;
+font-size:.75rem;padding:.15rem .45rem;
+border-radius:5px;cursor:pointer;z-index:2;
 backdrop-filter:blur(6px);transition:all .15s;
+line-height:1;letter-spacing:.1em;
 }
 .mbtn:hover{border-color:var(–ac);color:var(–acl)}
 .aisle-card{
@@ -291,8 +293,12 @@ padding:.9rem 1rem .9rem 1.15rem;
 display:flex;flex-direction:column;gap:.6rem;
 margin-top:.25rem;position:relative;overflow:hidden;
 transition:border-color .15s,box-shadow .15s;
+cursor:default;
 }
 .book-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.2)}
+.book-card:focus{outline:3px solid var(–acl);outline-offset:2px;box-shadow:0 0 0 3px rgba(232,184,75,.2)}
+.book-card:focus:not(:focus-visible){outline:none}
+.book-card:focus-visible{outline:3px solid var(–acl);outline-offset:2px}
 .book-card::before{
 content:’’;position:absolute;left:0;top:0;bottom:0;width:4px;
 border-radius:var(–r) 0 0 var(–r);
@@ -312,16 +318,16 @@ border-radius:var(–r) 0 0 var(–r);
 .book-narrator{font-size:.64rem;color:var(–mu);margin-top:.06rem}
 
 .badges{display:flex;gap:.35rem;flex-wrap:wrap;align-items:center}
-.badge{font-size:.57rem;padding:.18rem .58rem;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
+.badge{font-size:.65rem;padding:.2rem .6rem;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;font-weight:600}
 .badge-plain{background:var(–sf3);color:var(–mu);border:1px solid var(–bd)}
 
 .prog-wrap{display:flex;flex-direction:column;gap:.3rem}
 .prog-row{display:flex;justify-content:space-between;font-size:.65rem;color:var(–mu);font-weight:300;letter-spacing:.01em}
-.prog-track{height:5px;background:rgba(128,100,50,.1);border-radius:3px;overflow:hidden}
+.prog-track{height:5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
 .prog-fill{height:100%;border-radius:3px;transition:width .5s cubic-bezier(.4,0,.2,1)}
 .prog-fill.s-inprogress{background:linear-gradient(90deg,var(–acd),var(–acl))}
 .prog-fill.s-finished{background:linear-gradient(90deg,#3a8a55,#6dca88)}
-.prog-fill.s-notstarted,.prog-fill.s-wishlist{background:rgba(122,106,80,.4)}
+.prog-fill.s-notstarted,.prog-fill.s-wishlist{background:rgba(122,106,80,.5)}
 .prog-fill.s-abandoned{background:var(–rd)}
 
 .od-text{font-size:.68rem;color:var(–rd);font-weight:600}
@@ -511,6 +517,10 @@ cursor:pointer;text-decoration:none;transition:all .2s;
 .aisle-grid{grid-template-columns:1fr 1fr}
 .frow{flex-direction:column}
 .stats-strip{grid-template-columns:repeat(2,1fr)}
+header{padding:.75rem .85rem}
+.logo{font-size:1.25rem}
+.hbtn{width:30px;height:30px;font-size:.8rem}
+main{padding:1rem .85rem calc(1.25rem + var(–sb))}
 }
 </style>
 
@@ -524,7 +534,7 @@ cursor:pointer;text-decoration:none;transition:all .2s;
     <div class="logo" id="hTitle">Stacks</div>
     <div class="logo-tag" id="hSub">Your audiobook collection</div>
   </div>
-  <div style="display:flex;gap:.45rem">
+  <div style="display:flex;gap:.38rem">
     <button class="hbtn help" id="helpBtn" aria-label="Help — open welcome guide">?</button>
     <button class="hbtn" id="settingsBtn" aria-label="Settings">⚙️</button>
     <button class="hbtn add" id="addBtn" aria-label="New aisle">+</button>
@@ -621,7 +631,7 @@ cursor:pointer;text-decoration:none;transition:all .2s;
     <h2 class="sheet-title" id="mBookT">Add Book</h2>
     <div class="import-box">
       <div style="font-size:.76rem;color:var(--acl);font-weight:600;margin-bottom:.25rem;font-family:var(--fd)">📥 Import from Audible</div>
-      <div style="font-size:.68rem;color:var(--mu);margin-bottom:.6rem;line-height:1.5">Paste an Audible link and the book title, then tap Import to auto-fill.</div>
+      <div style="font-size:.68rem;color:var(--mu);margin-bottom:.6rem;line-height:1.5">Paste an Audible link and the book title, then tap Import to auto-fill. <strong style="color:var(--tx2)">Results are not guaranteed</strong> — always check and fill in any missing details manually.</div>
       <div style="display:flex;flex-direction:column;gap:.4rem">
         <input type="url" id="audPaste" placeholder="Paste Audible link" inputmode="url" aria-label="Paste Audible link" style="background:var(--sf);border:1px solid var(--bd2);color:var(--tx);font-family:var(--fb);font-size:.82rem;padding:.5rem .75rem;border-radius:8px;outline:none;-webkit-appearance:none;width:100%"/>
         <div style="display:flex;gap:.4rem">
@@ -706,83 +716,131 @@ cursor:pointer;text-decoration:none;transition:all .2s;
   </div>
 </div>
 
-<!-- Settings Modal -->
+<!-- Settings Main Sheet -->
 
 <div class="backdrop" id="mSettings" role="dialog" aria-modal="true" aria-labelledby="mSetT">
-  <div class="sheet">
-    <div class="handle" aria-hidden="true"></div>
-    <h2 class="sheet-title" id="mSetT">Settings</h2>
-    <div class="s-title">Support</div>
-    <a href="https://ko-fi.com/st94410093" target="_blank" rel="noopener" class="donate-btn" aria-label="Support Stacks on Ko-fi">❤️ Support Stacks on Ko-fi</a>
-    <p style="font-size:.68rem;color:var(--mu);line-height:1.55;margin-top:-.35rem;font-weight:300">Stacks is free. If you find it useful, a small donation helps keep it going.</p>
-    <div class="s-title" style="margin-top:.15rem">Appearance</div>
-    <div class="s-row">
-      <div><div class="s-lbl">Theme</div><div class="s-sub">Dark, light, or follow your iPhone</div></div>
-      <div class="theme-pills">
-        <button class="tpill" data-tp="dark" aria-pressed="false">Dark</button>
-        <button class="tpill" data-tp="light" aria-pressed="false">Light</button>
-        <button class="tpill" data-tp="system" aria-pressed="false">Auto</button>
+  <div class="action-sheet">
+    <div class="as-handle" aria-hidden="true"></div>
+    <div class="as-title" id="mSetT">Settings</div>
+    <button class="as-item" id="setDonate" aria-label="Support Stacks on Ko-fi — opens donation page"><span class="as-icon" aria-hidden="true">❤️</span><span>Support Stacks on Ko-fi</span></button>
+    <button class="as-item" id="setAppearance" aria-label="Appearance — theme and card style"><span class="as-icon" aria-hidden="true">🎨</span><span>Appearance</span></button>
+    <button class="as-item" id="setLibrary" aria-label="Library — hours stat and reading goal"><span class="as-icon" aria-hidden="true">📚</span><span>Library</span></button>
+    <button class="as-item" id="setSorting" aria-label="Sorting — aisle and book order"><span class="as-icon" aria-hidden="true">🔃</span><span>Sorting</span></button>
+    <button class="as-item" id="setData" aria-label="Data and Backup — backup, restore, export"><span class="as-icon" aria-hidden="true">💾</span><span>Data &amp; Backup</span></button>
+    <button class="as-item" id="setAbout" aria-label="About — version, privacy, welcome guide"><span class="as-icon" aria-hidden="true">ℹ️</span><span>About</span></button>
+    <button class="as-cancel" id="setClose" aria-label="Close settings">Done</button>
+  </div>
+</div>
+
+<!-- Settings: Appearance -->
+
+<div class="backdrop" id="mSetAppearance" role="dialog" aria-modal="true" aria-labelledby="mSetAppearanceT">
+  <div class="action-sheet">
+    <div class="as-handle" aria-hidden="true"></div>
+    <div class="as-title" id="mSetAppearanceT">Appearance</div>
+    <div class="as-item" style="cursor:default;flex-direction:column;align-items:flex-start;gap:.6rem">
+      <div aria-hidden="true" style="font-size:.72rem;color:var(--mu);letter-spacing:.06em;text-transform:uppercase;font-weight:300">Theme</div>
+      <div class="theme-pills" role="group" aria-label="Choose theme">
+        <button class="tpill" data-tp="dark" aria-pressed="false" aria-label="Dark theme">Dark</button>
+        <button class="tpill" data-tp="light" aria-pressed="false" aria-label="Light theme">Light</button>
+        <button class="tpill" data-tp="system" aria-pressed="false" aria-label="Auto theme, follows iPhone setting">Auto</button>
       </div>
     </div>
-    <div class="s-row">
-      <div><div class="s-lbl">Compact book cards</div><div class="s-sub">Single row — title and progress only</div></div>
-      <label class="toggle" aria-label="Compact book cards">
+    <div class="as-item" style="cursor:default;justify-content:space-between">
+      <div>
+        <div style="font-size:.92rem;color:var(--tx)">Compact book cards</div>
+        <div style="font-size:.7rem;color:var(--mu);margin-top:.1rem">Single row — title and progress only</div>
+      </div>
+      <label class="toggle" aria-label="Compact book cards: single row view, title and progress only">
         <input type="checkbox" id="sCom"/>
         <span class="toggle-track"></span>
       </label>
     </div>
-    <div class="s-title" style="margin-top:.15rem">Library</div>
-    <div class="s-row">
-      <div><div class="s-lbl">Hours stat shows</div><div class="s-sub">What the hours number counts</div></div>
-      <select id="sHrs" class="s-sel" aria-label="Hours stat shows">
+    <button class="as-cancel" id="appearanceBack" aria-label="Back to settings">Back</button>
+  </div>
+</div>
+
+<!-- Settings: Library -->
+
+<div class="backdrop" id="mSetLibrary" role="dialog" aria-modal="true" aria-labelledby="mSetLibraryT">
+  <div class="action-sheet">
+    <div class="as-handle" aria-hidden="true"></div>
+    <div class="as-title" id="mSetLibraryT">Library</div>
+    <div class="as-item" style="cursor:default;justify-content:space-between">
+      <div aria-hidden="true"><div style="font-size:.92rem;color:var(--tx)">Hours stat shows</div><div style="font-size:.7rem;color:var(--mu);margin-top:.1rem">What the hours number counts</div></div>
+      <select id="sHrs" style="background:var(--sf3);border:1px solid var(--bd2);color:var(--tx2);font-family:var(--fb);font-size:.78rem;padding:.4rem .62rem;border-radius:8px;outline:none" aria-label="Hours stat: choose what the hours number counts">
         <option value="total">Total — all books</option>
         <option value="listened">Listened — returned only</option>
         <option value="remaining">Remaining — in progress</option>
       </select>
     </div>
-    <div class="s-row">
-      <div><div class="s-lbl">Reading goal</div><div class="s-sub">Books to finish this year (0 = off)</div></div>
-      <input type="number" id="sGoal" min="0" max="365" placeholder="0" aria-label="Yearly reading goal" style="width:62px;background:var(--sf3);border:1px solid var(--bd2);color:var(--tx2);font-family:var(--fb);font-size:.86rem;padding:.38rem .6rem;border-radius:8px;outline:none;text-align:center"/>
+    <div class="as-item" style="cursor:default;justify-content:space-between">
+      <div aria-hidden="true"><div style="font-size:.92rem;color:var(--tx)">Reading goal</div><div style="font-size:.7rem;color:var(--mu);margin-top:.1rem">Books to finish this year (0 = off)</div></div>
+      <input type="number" id="sGoal" min="0" max="365" placeholder="0" aria-label="Reading goal: number of books to finish this year. Zero to turn off." style="width:62px;background:var(--sf3);border:1px solid var(--bd2);color:var(--tx2);font-family:var(--fb);font-size:.86rem;padding:.38rem .6rem;border-radius:8px;outline:none;text-align:center"/>
     </div>
-    <div class="s-title" style="margin-top:.15rem">Sorting</div>
-    <div class="s-row">
-      <div><div class="s-lbl">Sort aisles</div><div class="s-sub">Order on home screen</div></div>
-      <select id="sAS" class="s-sel" aria-label="Sort aisles by"><option value="dateCreated">Date created</option><option value="alphabetical">Alphabetically</option></select>
+    <button class="as-cancel" id="libraryBack" aria-label="Back to settings">Back</button>
+  </div>
+</div>
+
+<!-- Settings: Sorting -->
+
+<div class="backdrop" id="mSetSorting" role="dialog" aria-modal="true" aria-labelledby="mSetSortingT">
+  <div class="action-sheet">
+    <div class="as-handle" aria-hidden="true"></div>
+    <div class="as-title" id="mSetSortingT">Sorting</div>
+    <div class="as-item" style="cursor:default;justify-content:space-between">
+      <div aria-hidden="true"><div style="font-size:.92rem;color:var(--tx)">Sort aisles</div><div style="font-size:.7rem;color:var(--mu);margin-top:.1rem">Order on home screen</div></div>
+      <select id="sAS" style="background:var(--sf3);border:1px solid var(--bd2);color:var(--tx2);font-family:var(--fb);font-size:.78rem;padding:.4rem .62rem;border-radius:8px;outline:none" aria-label="Sort aisles: choose date created or alphabetically">
+        <option value="dateCreated">Date created</option>
+        <option value="alphabetical">Alphabetically</option>
+      </select>
     </div>
-    <div class="s-row">
-      <div><div class="s-lbl">Default book sort</div><div class="s-sub">Inside each aisle</div></div>
-      <select id="sBS" class="s-sel" aria-label="Default book sort"><option value="recent">Recently added</option><option value="title">Title A–Z</option><option value="author">Author A–Z</option><option value="series">Series</option><option value="progress">Progress</option></select>
+    <div class="as-item" style="cursor:default;justify-content:space-between">
+      <div aria-hidden="true"><div style="font-size:.92rem;color:var(--tx)">Default book sort</div><div style="font-size:.7rem;color:var(--mu);margin-top:.1rem">Inside each aisle</div></div>
+      <select id="sBS" style="background:var(--sf3);border:1px solid var(--bd2);color:var(--tx2);font-family:var(--fb);font-size:.78rem;padding:.4rem .62rem;border-radius:8px;outline:none" aria-label="Default book sort inside each aisle">
+        <option value="recent">Recently added</option>
+        <option value="title">Title A–Z</option>
+        <option value="author">Author A–Z</option>
+        <option value="series">Series</option>
+        <option value="progress">Progress</option>
+      </select>
     </div>
-    <div class="s-title" style="margin-top:.15rem">Data &amp; Backup</div>
-    <div class="s-row">
-      <div><div class="s-lbl">Backup library</div><div class="s-sub" id="lastBackupLbl">Saves everything — aisles, books, progress, notes</div></div>
-      <button class="gbtn" id="backupBtn" style="font-size:.76rem;padding:.38rem .78rem">Backup</button>
-    </div>
-    <div class="s-row">
-      <div><div class="s-lbl">Restore from backup</div><div class="s-sub">Pick a .json backup file to restore</div></div>
-      <button class="gbtn" id="restoreBtn" style="font-size:.76rem;padding:.38rem .78rem">Restore</button>
-    </div>
+    <button class="as-cancel" id="sortingBack" aria-label="Back to settings">Back</button>
+  </div>
+</div>
+
+<!-- Settings: Data & Backup -->
+
+<div class="backdrop" id="mSetData" role="dialog" aria-modal="true" aria-labelledby="mSetDataT">
+  <div class="action-sheet">
+    <div class="as-handle" aria-hidden="true"></div>
+    <div class="as-title" id="mSetDataT">Data &amp; Backup</div>
+    <button class="as-item" id="backupBtn" aria-label="Backup library — saves everything to a file"><span class="as-icon" aria-hidden="true">💾</span><span>Backup library<br/><span style="font-size:.72rem;color:var(--mu)" id="lastBackupLbl">Saves everything — aisles, books, progress, notes</span></span></button>
+    <button class="as-item" id="restoreBtn" aria-label="Restore library from a backup file"><span class="as-icon" aria-hidden="true">📂</span><span>Restore from backup<br/><span style="font-size:.72rem;color:var(--mu)">Pick a .json backup file</span></span></button>
     <input type="file" id="restoreFile" accept=".json" style="display:none" aria-label="Choose backup file"/>
-    <div class="s-row">
-      <div><div class="s-lbl">Export as CSV</div><div class="s-sub">Spreadsheet format for viewing elsewhere</div></div>
-      <button class="gbtn" id="expBtn" style="font-size:.76rem;padding:.38rem .78rem">Export</button>
+    <button class="as-item" id="expBtn" aria-label="Export library as CSV spreadsheet file"><span class="as-icon" aria-hidden="true">📊</span><span>Export as CSV<br/><span style="font-size:.72rem;color:var(--mu)">Spreadsheet format for viewing elsewhere</span></span></button>
+    <button class="as-item danger" id="clrBtn" aria-label="Clear all data — delete everything and start fresh"><span class="as-icon" aria-hidden="true">🗑️</span><span>Clear all data<br/><span style="font-size:.72rem;color:var(--mu)">Delete everything and start fresh</span></span></button>
+    <div class="as-item" style="cursor:default;flex-direction:column;gap:.5rem;border-bottom:none">
+      <div style="font-size:.76rem;font-weight:600;color:var(--acl);font-family:var(--fd)">📱 About your data</div>
+      <p style="font-size:.7rem;color:var(--mu);line-height:1.65;font-weight:300">Your library is stored on this device in Safari. It stays safe as long as you don't clear Safari's website data in iPhone Settings.<br/><br/>Save this app to your home screen — tap Share in Safari then <strong style="color:var(--tx2)">Add to Home Screen</strong> (not Add Bookmark). This makes data loss much less likely.<br/><br/>Back up regularly and store the file in iCloud Drive.</p>
     </div>
-    <div class="s-row">
-      <div><div class="s-lbl">Clear all data</div><div class="s-sub">Delete everything and start fresh</div></div>
-      <button class="dbtn" id="clrBtn" style="font-size:.76rem;padding:.38rem .78rem">Clear</button>
+    <button class="as-cancel" id="dataBack" aria-label="Back to settings">Back</button>
+  </div>
+</div>
+
+<!-- Settings: About -->
+
+<div class="backdrop" id="mSetAbout" role="dialog" aria-modal="true" aria-labelledby="mSetAboutT">
+  <div class="action-sheet">
+    <div class="as-handle" aria-hidden="true"></div>
+    <div class="as-title" id="mSetAboutT">About</div>
+    <button class="as-item" id="showWelcomeBtn" aria-label="Show welcome guide — how to use Stacks"><span class="as-icon" aria-hidden="true">📖</span><span>How to use Stacks<br/><span style="font-size:.72rem;color:var(--mu)">Show the welcome guide again</span></span></button>
+    <div class="as-item" style="cursor:default;justify-content:space-between"><span>Version</span><span style="color:var(--mu);font-size:.85rem">1.0</span></div>
+    <div class="as-item" style="cursor:default;flex-direction:column;gap:.2rem;border-bottom:none">
+      <span>Privacy</span>
+      <span style="font-size:.72rem;color:var(--mu)">All data stored on your device only. Nothing is sent anywhere.</span>
     </div>
-    <div class="data-info">
-      <div style="font-size:.76rem;font-weight:600;color:var(--acl);font-family:var(--fd);margin-bottom:.38rem">📱 About your data</div>
-      <p style="font-size:.7rem;color:var(--mu);line-height:1.65;font-weight:300">Your library is stored on this device in Safari. It stays safe as long as you don't clear Safari's website data in iPhone Settings.<br/><br/>For the best experience, save this app to your home screen — tap Share in Safari then Add to Home Screen. On the next screen make sure it says <strong style="color:var(--tx2)">Add to Home Screen</strong> and not Add Bookmark. This opens it full screen and makes data loss much less likely.<br/><br/>Back up regularly using the Backup button above and store the file in iCloud Drive or email it to yourself.</p>
-    </div>
-    <div class="s-title" style="margin-top:.15rem">About</div>
-    <div class="s-row">
-      <div><div class="s-lbl">How to use Stacks</div><div class="s-sub">Show the welcome guide again</div></div>
-      <button class="gbtn" id="showWelcomeBtn" style="font-size:.76rem;padding:.38rem .78rem">Show</button>
-    </div>
-    <div class="s-row"><span class="s-lbl">Version</span><span style="font-size:.84rem;color:var(--mu)">1.0</span></div>
-    <div class="s-row"><div><div class="s-lbl">Privacy</div><div class="s-sub">All data stored on your device only. Nothing is sent anywhere.</div></div></div>
-    <div class="sa"><button class="btn" id="setClose">Done</button></div>
+    <button class="as-cancel" id="aboutBack" aria-label="Back to settings">Back</button>
   </div>
 </div>
 
@@ -864,7 +922,7 @@ function updOD(){
   b.style.display='';
   b.innerHTML='<div class="od-banner" role="alert" aria-label="'+esc(title)+'. '+esc(names)+'. Tap to view.">'
     +'<div style="font-size:1.25rem;flex-shrink:0" aria-hidden="true">📚</div>'
-    +'<div style="flex:1"><div class="od-title">'+esc(title)+'</div><div class="od-sub">'+esc(names)+'</div></div>'
+    +'<div style="flex:1" aria-hidden="true"><div class="od-title">'+esc(title)+'</div><div class="od-sub">'+esc(names)+'</div></div>'
     +'<div style="color:var(--rd);font-size:.85rem;flex-shrink:0" aria-hidden="true">→</div></div>';
   b.querySelector('.od-banner').addEventListener('click',function(){if(od.length===1&&od[0].aisleId)goAisle(od[0].aisleId)});
 }
@@ -877,7 +935,7 @@ function updGoal(){
   var pct=Math.min(100,Math.round((fin/cfg.goal)*100));var done=fin>=cfg.goal;
   gs.style.display='';
   gs.innerHTML='<div class="goal-bar" aria-label="Reading goal: '+fin+' of '+cfg.goal+' books, '+pct+' percent">'
-    +'<div class="goal-row"><span class="goal-label">📖 '+(done?'Goal reached! 🎉':'Reading Goal')+'</span><span class="goal-count">'+fin+' / '+cfg.goal+'</span></div>'
+    +'<div class="goal-row" aria-hidden="true"><span class="goal-label">📖 '+(done?'Goal reached! 🎉':'Reading Goal')+'</span><span class="goal-count">'+fin+' / '+cfg.goal+'</span></div>'
     +'<div class="goal-track"><div class="goal-fill'+(done?' done':'')+'" style="width:'+pct+'%" role="progressbar" aria-valuenow="'+pct+'" aria-valuemin="0" aria-valuemax="100"></div></div></div>';
 }
 
@@ -892,7 +950,7 @@ function updBackupNudge(){
   n.style.display='';
   n.innerHTML='<div class="backup-nudge" role="note" aria-label="'+esc(msg)+'. Tap to back up now.">'
     +'<div style="font-size:1.25rem;flex-shrink:0" aria-hidden="true">💾</div>'
-    +'<div style="flex:1"><div class="nudge-title">Back up your library</div><div class="nudge-sub">'+esc(msg)+'</div></div>'
+    +'<div style="flex:1" aria-hidden="true"><div class="nudge-title">Back up your library</div><div class="nudge-sub">'+esc(msg)+'</div></div>'
     +'<div style="color:var(--acl);font-size:.85rem;flex-shrink:0" aria-hidden="true">→</div></div>';
   n.querySelector('.backup-nudge').addEventListener('click',doBackup);
 }
@@ -967,7 +1025,7 @@ function renderHome(){
     var fin=ab.filter(function(b){return b.status==='finished'}).length;
     var avg=ab.length?ab.reduce(function(s,b){return s+(b.status==='finished'?100:(b.progress||0))},0)/ab.length:0;
     var w=document.createElement('div');w.className='aisle-wrap';w.setAttribute('role','listitem');
-    var mb=document.createElement('button');mb.className='mbtn';mb.textContent=a.name+' menu';mb.setAttribute('aria-label',a.name+' — tap for actions');
+    var mb=document.createElement('button');mb.className='mbtn';mb.textContent='•••';mb.setAttribute('aria-label',a.name+' — tap for actions');
     (function(a,ab,fin,avg){mb.addEventListener('click',function(e){e.stopPropagation();showAS(a.name,[
       {i:'📊',l:'View Statistics',fn:function(){ann(a.name+': '+ab.length+' book'+(ab.length!==1?'s':'')+', '+fin+' returned, '+Math.round(avg)+'% average progress')}},
       {i:'✏️',l:'Edit Aisle',fn:function(){openAisleModal(a.id)}},
@@ -975,8 +1033,8 @@ function renderHome(){
     ])})})(a,ab,fin,avg);
     var card=document.createElement('button');card.className='aisle-card';
     card.setAttribute('aria-label',a.name+' aisle. '+ab.length+' book'+(ab.length!==1?'s':'')+'. '+fin+' returned. Double tap to open.');
-    card.innerHTML='<div class="aisle-card-top"><span class="aisle-emoji" aria-hidden="true">'+esc(a.emoji||'📚')+'</span><div class="aisle-name">'+esc(a.name)+'</div></div>'
-      +'<div class="aisle-card-bottom"><div class="aisle-count">'+ab.length+' book'+(ab.length!==1?'s':'')+' · '+fin+' returned</div>'
+    card.innerHTML='<div class="aisle-card-top" aria-hidden="true"><span class="aisle-emoji">'+esc(a.emoji||'📚')+'</span><div class="aisle-name">'+esc(a.name)+'</div></div>'
+      +'<div class="aisle-card-bottom" aria-hidden="true"><div class="aisle-count">'+ab.length+' book'+(ab.length!==1?'s':'')+' · '+fin+' returned</div>'
       +(ab.length?'<div class="aisle-prog" aria-hidden="true"><div class="aisle-prog-fill" style="width:'+avg+'%"></div></div>':'')+'</div>';
     (function(id){card.addEventListener('click',function(){goAisle(id)})})(a.id);
     w.appendChild(mb);w.appendChild(card);g.appendChild(w);
@@ -1024,7 +1082,7 @@ function renderAisle(){
 function mkCard(b){
   var pct=b.status==='finished'?100:(b.progress||0),ov=odT(b);
   var w=document.createElement('div');w.className='book-wrap';w.setAttribute('role','listitem');
-  var mb=document.createElement('button');mb.className='mbtn';mb.textContent=b.title+' menu';mb.setAttribute('aria-label',b.title+' — tap for actions');
+  var mb=document.createElement('button');mb.className='mbtn';mb.textContent='•••';mb.setAttribute('aria-label',b.title+' — tap for actions');
   (function(bk){mb.addEventListener('click',function(e){e.stopPropagation();showAS(bk.title,[
     {i:'ℹ️',l:'Book Info',fn:function(){openInfo(bk.id)}},
     {i:'✏️',l:'Edit Book',fn:function(){openBookModal(bk.id)}},
@@ -1047,11 +1105,12 @@ function mkCard(b){
     var cc=document.createElement('div');
     cc.className='book-card s-'+b.status+' compact-card'+(ov?' od':'');
     cc.setAttribute('aria-label',al);
-    cc.innerHTML='<div class="book-hdr" style="padding-right:0;flex:1;min-width:0">'
+    cc.setAttribute('tabindex','0');
+    cc.innerHTML='<div class="book-hdr" aria-hidden="true" style="padding-right:0;flex:1;min-width:0">'
       +'<div style="flex:1;min-width:0"><div class="book-title" style="font-size:.82rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+esc(b.title)+'</div>'
       +'<div class="book-author">'+esc(b.author)+'</div></div></div>'
-      +'<span class="badge" style="background:'+bs+';flex-shrink:0;font-size:.54rem;white-space:nowrap">'+SL[b.status]+'</span>'
-      +'<div class="compact-prog compact-prog" style="display:flex">'
+      +'<span class="badge" aria-hidden="true" style="background:'+bs+';flex-shrink:0;font-size:.62rem;white-space:nowrap">'+SL[b.status]+'</span>'
+      +'<div class="compact-prog compact-prog" aria-hidden="true" style="display:flex">'
       +'<div class="compact-pct">'+Math.round(pct)+'%</div>'
       +'<div class="compact-track"><div class="compact-fill s-'+b.status+'" style="width:'+pct+'%;height:100%;border-radius:2px;'+(b.status==='finished'?'background:linear-gradient(90deg,#3a8a55,var(--gr))':b.status==='inprogress'?'background:linear-gradient(90deg,var(--acd),var(--acl))':'background:rgba(122,106,80,.4)')+'"></div></div>'
       +'</div>';
@@ -1065,11 +1124,12 @@ function mkCard(b){
   else if(b.status==='wishlist')bst='background:rgba(138,96,176,.08);color:var(--pu);border:1px solid rgba(138,96,176,.16)';
   else bst='background:rgba(122,106,80,.07);color:var(--mu);border:1px solid rgba(122,106,80,.18)';
   var card=document.createElement('div');card.className='book-card s-'+b.status+(ov?' od':'');card.setAttribute('aria-label',al);
-  card.innerHTML='<div class="book-hdr"><div style="flex:1;min-width:0"><div class="book-title">'+esc(b.title)+'</div><div class="book-author">by '+esc(b.author)+'</div>'+(b.series?'<div class="book-series">'+esc(b.series)+'</div>':'')+(b.narrator?'<div class="book-narrator">Narrated by '+esc(b.narrator)+'</div>':'')+'</div></div>'
-    +'<div class="badges"><span class="badge" style="'+bst+'">'+SL[b.status]+'</span>'+(b.duration?'<span class="badge badge-plain">'+b.duration+'h</span>':'')+'</div>'
-    +(ov?'<div class="od-text">'+esc(ov)+'</div>':'')
-    +'<div class="prog-wrap" role="group" aria-label="Progress: '+Math.round(pct)+' percent"><div class="prog-row"><span>Progress</span><span>'+pT(b)+'</span></div><div class="prog-track" role="progressbar" aria-valuenow="'+Math.round(pct)+'" aria-valuemin="0" aria-valuemax="100"><div class="prog-fill s-'+b.status+'" style="width:'+pct+'%"></div></div></div>'
-    +(b.notes?'<div class="book-notes">'+esc(b.notes)+'</div>':'');
+  card.setAttribute('tabindex','0');
+  card.innerHTML='<div class="book-hdr" aria-hidden="true"><div style="flex:1;min-width:0"><div class="book-title">'+esc(b.title)+'</div><div class="book-author">by '+esc(b.author)+'</div>'+(b.series?'<div class="book-series">'+esc(b.series)+'</div>':'')+(b.narrator?'<div class="book-narrator">Narrated by '+esc(b.narrator)+'</div>':'')+'</div></div>'
+    +'<div class="badges" aria-hidden="true"><span class="badge" style="'+bst+'">'+SL[b.status]+'</span>'+(b.duration?'<span class="badge badge-plain">'+b.duration+'h</span>':'')+'</div>'
+    +(ov?'<div class="od-text" aria-hidden="true">'+esc(ov)+'</div>':'')
+    +'<div class="prog-wrap" aria-hidden="true"><div class="prog-row"><span>Progress</span><span>'+pT(b)+'</span></div><div class="prog-track"><div class="prog-fill s-'+b.status+'" style="width:'+pct+'%"></div></div></div>'
+    +(b.notes?'<div class="book-notes" aria-hidden="true">'+esc(b.notes)+'</div>':'');
   w.appendChild(mb);w.appendChild(card);return w;
 }
 
@@ -1146,7 +1206,7 @@ function openInfo(id){
   var b=books.find(function(b){return b.id===id});if(!b)return;
   $('mInfoT').textContent=b.title;
   var rows=[['Title',b.title],['Author',b.author],b.narrator?['Narrator',b.narrator]:null,b.series?['Series',b.series]:null,b.duration?['Duration',b.duration+'h']:null,(b.totalChapters||0)>0?['Total Chapters',b.totalChapters]:null,['Status',SL[b.status]],['Progress',Math.round(b.progress||0)+'%'],(b.totalChapters||0)>0?['Current Chapter','Ch '+(b.currentChapter||0)+' of '+b.totalChapters]:null,b.dueDate?['Due Date',fD(b.dueDate)]:null,['Date Added',fD(b.addedAt)],['Date Started',b.dateStarted?fD(b.dateStarted):'Not yet started'],['Date Finished',b.dateFinished?fD(b.dateFinished):'Not yet finished'],b.dateStarted&&b.dateFinished?['Time to Finish',dB(b.dateStarted,b.dateFinished)+' days']:null,b.notes?['Notes',b.notes]:null].filter(Boolean);
-  $('infoC').innerHTML=rows.map(function(r){return'<div class="info-row" aria-label="'+esc(r[0])+': '+esc(String(r[1]))+'"><span class="info-lbl">'+esc(r[0])+'</span><span class="info-val">'+esc(String(r[1]))+'</span></div>'}).join('');
+  $('infoC').innerHTML=rows.map(function(r){return'<div class="info-row" aria-label="'+esc(r[0])+': '+esc(String(r[1]))+'"><span class="info-lbl" aria-hidden="true">'+esc(r[0])+'</span><span class="info-val" aria-hidden="true">'+esc(String(r[1]))+'</span></div>'}).join('');
   openModal('mInfo');
 }
 
@@ -1236,18 +1296,32 @@ $('welcomeClose').addEventListener('click',closeWelcome);
 $('mWelcome').addEventListener('click',function(e){if(e.target===this)closeWelcome()});
 $('helpBtn').addEventListener('click',function(){openModal('mWelcome')});
 
-// Settings
-$('settingsBtn').addEventListener('click',function(){
+// Settings — main menu
+function openSettings(){
   $('sAS').value=cfg.as;$('sBS').value=cfg.bs;$('sHrs').value=cfg.hrs||'total';
   $('sGoal').value=cfg.goal||0;$('sCom').checked=!!(cfg.compact);
   updLastBackupLabel();
   document.querySelectorAll('[data-tp]').forEach(function(btn){var a=btn.dataset.tp===(cfg.theme||'system');btn.classList.toggle('active',a);btn.setAttribute('aria-pressed',a?'true':'false')});
   openModal('mSettings');
-});
-$('setClose').addEventListener('click',function(){
-  cfg.goal=parseInt($('sGoal').value)||0;svC(cfg);closeModal('mSettings');
+}
+function closeSettings(){
+  cfg.goal=parseInt($('sGoal').value)||0;svC(cfg);
+  ['mSettings','mSetAppearance','mSetLibrary','mSetSorting','mSetData','mSetAbout'].forEach(function(id){closeModal(id)});
   if(curA)renderAisle();else renderHome();
-});
+}
+$('settingsBtn').addEventListener('click',openSettings);
+$('setClose').addEventListener('click',closeSettings);
+$('setDonate').addEventListener('click',function(){window.open('https://ko-fi.com/st94410093','_blank');});
+$('setAppearance').addEventListener('click',function(){closeModal('mSettings');openModal('mSetAppearance')});
+$('setLibrary').addEventListener('click',function(){closeModal('mSettings');openModal('mSetLibrary')});
+$('setSorting').addEventListener('click',function(){closeModal('mSettings');openModal('mSetSorting')});
+$('setData').addEventListener('click',function(){updLastBackupLabel();closeModal('mSettings');openModal('mSetData')});
+$('setAbout').addEventListener('click',function(){closeModal('mSettings');openModal('mSetAbout')});
+$('appearanceBack').addEventListener('click',function(){closeModal('mSetAppearance');openModal('mSettings')});
+$('libraryBack').addEventListener('click',function(){cfg.goal=parseInt($('sGoal').value)||0;svC(cfg);closeModal('mSetLibrary');openModal('mSettings');if(curA)renderAisle();else renderHome()});
+$('sortingBack').addEventListener('click',function(){closeModal('mSetSorting');openModal('mSettings')});
+$('dataBack').addEventListener('click',function(){closeModal('mSetData');openModal('mSettings')});
+$('aboutBack').addEventListener('click',function(){closeModal('mSetAbout');openModal('mSettings')});
 document.querySelectorAll('[data-tp]').forEach(function(btn){
   btn.addEventListener('click',function(){
     cfg.theme=this.dataset.tp;svC(cfg);applyTheme(cfg.theme);
@@ -1276,10 +1350,10 @@ $('clrBtn').addEventListener('click',function(){
   setTimeout(function(){openModal('mWelcome')},400);
   ann('Library cleared.');
 });
-$('showWelcomeBtn').addEventListener('click',function(){closeModal('mSettings');setTimeout(function(){openModal('mWelcome')},250)});
+$('showWelcomeBtn').addEventListener('click',function(){closeModal('mSetAbout');setTimeout(function(){openModal('mWelcome')},250)});
 
 // Close handlers
-['mAisle','mBook','mProg','mInfo','mMove','mAS','mSettings'].forEach(function(id){$(id).addEventListener('click',function(e){if(e.target===this)closeModal(id)})});
+['mAisle','mBook','mProg','mInfo','mMove','mAS','mSettings','mSetAppearance','mSetLibrary','mSetSorting','mSetData','mSetAbout'].forEach(function(id){$(id).addEventListener('click',function(e){if(e.target===this)closeModal(id)})});
 $('pCancel').addEventListener('click',function(){closeModal('mProg')});
 $('infoClose').addEventListener('click',function(){closeModal('mInfo')});
 $('moveCancel').addEventListener('click',function(){closeModal('mMove')});
@@ -1291,7 +1365,7 @@ $('fSt').addEventListener('change',renderAisle);
 $('fSr').addEventListener('change',renderAisle);
 document.addEventListener('keydown',function(e){
   if(e.key!=='Escape')return;
-  ['mAisle','mBook','mProg','mInfo','mMove','mAS','mSettings'].forEach(function(id){if($(id).classList.contains('open'))closeModal(id)});
+  ['mAisle','mBook','mProg','mInfo','mMove','mAS','mSettings','mSetAppearance','mSetLibrary','mSetSorting','mSetData','mSetAbout'].forEach(function(id){if($(id).classList.contains('open'))closeModal(id)});
 });
 
 goHome();
