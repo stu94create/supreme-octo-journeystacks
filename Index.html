@@ -621,10 +621,13 @@ cursor:pointer;text-decoration:none;transition:all .2s;
     <h2 class="sheet-title" id="mBookT">Add Book</h2>
     <div class="import-box">
       <div style="font-size:.76rem;color:var(--acl);font-weight:600;margin-bottom:.25rem;font-family:var(--fd)">📥 Import from Audible</div>
-      <div style="font-size:.68rem;color:var(--mu);margin-bottom:.6rem;line-height:1.45">Paste an Audible book link below to auto-fill the details.</div>
-      <div style="display:flex;gap:.5rem">
-        <input type="url" id="audPaste" placeholder="" inputmode="url" aria-label="Paste Audible link" style="flex:1;background:var(--sf);border:1px solid var(--bd2);color:var(--tx);font-family:var(--fb);font-size:.82rem;padding:.5rem .75rem;border-radius:8px;outline:none;-webkit-appearance:none"/>
-        <button class="gbtn" id="impBtn" aria-label="Import from Audible link" style="font-size:.8rem;padding:.5rem .78rem;flex-shrink:0">Import</button>
+      <div style="font-size:.68rem;color:var(--mu);margin-bottom:.6rem;line-height:1.5">Paste an Audible link and the book title, then tap Import to auto-fill.</div>
+      <div style="display:flex;flex-direction:column;gap:.4rem">
+        <input type="url" id="audPaste" placeholder="Paste Audible link" inputmode="url" aria-label="Paste Audible link" style="background:var(--sf);border:1px solid var(--bd2);color:var(--tx);font-family:var(--fb);font-size:.82rem;padding:.5rem .75rem;border-radius:8px;outline:none;-webkit-appearance:none;width:100%"/>
+        <div style="display:flex;gap:.4rem">
+          <input type="text" id="audTitle" placeholder="Book title" autocomplete="off" aria-label="Book title for searching" style="flex:1;background:var(--sf);border:1px solid var(--bd2);color:var(--tx);font-family:var(--fb);font-size:.82rem;padding:.5rem .75rem;border-radius:8px;outline:none;-webkit-appearance:none"/>
+          <button class="gbtn" id="impBtn" aria-label="Import book details" style="font-size:.8rem;padding:.5rem .78rem;flex-shrink:0">Import</button>
+        </div>
       </div>
       <div id="impSt" style="font-size:.68rem;color:var(--mu);margin-top:.38rem;font-style:italic;min-height:1rem;line-height:1.4" aria-live="polite"></div>
     </div>
@@ -1187,7 +1190,7 @@ function openBookModal(id){
   $('bTi').value=b?b.title:'';$('bAu').value=b?b.author:'';$('bNa').value=b?(b.narrator||''):'';
   $('bSe').value=b?(b.series||''):'';$('bDu').value=b?(b.duration||''):'';$('bCh').value=b?(b.totalChapters||''):'';
   $('bSt').value=b?(b.status||'notstarted'):'notstarted';$('bDd').value=b?(b.dueDate||''):'';$('bNo').value=b?(b.notes||''):'';
-  $('bDel').style.display=id?'':'none';$('impSt').textContent='';$('audPaste').value='';
+  $('bDel').style.display=id?'':'none';$('impSt').textContent='';$('audPaste').value='';$('audTitle').value='';
   openModal('mBook');
 }
 $('bCancel').addEventListener('click',function(){closeModal('mBook')});
@@ -1205,21 +1208,25 @@ function saveBook(){
 
 // Audible import
 $('impBtn').addEventListener('click',function(){
-  var text=($('audPaste').value||'').trim();
-  var ok=text&&(text.includes('audible.com')||text.includes('audible.co.uk')||text.includes('audible.com.au')||text.includes('adbl.co'));
-  if(!ok){$('impSt').textContent='Please paste an Audible link first.';$('audPaste').focus();return}
-  $('impSt').textContent='Fetching book details…';
-  var asin=extASIN(text);
-  fetch('https://openlibrary.org/search.json?q='+encodeURIComponent(asin)+'&fields=title,author_name,number_of_pages_median&limit=1')
+  var link=($('audPaste').value||'').trim();
+  var title=($('audTitle').value||'').trim();
+  var isAudible=link&&(link.includes('audible.com')||link.includes('audible.co.uk')||link.includes('audible.com.au')||link.includes('adbl.co'));
+  if(!isAudible&&!title){$('impSt').textContent='Paste an Audible link or enter a title to search.';$('audPaste').focus();return}
+  // Search by title if provided, otherwise fall back to ASIN
+  var searchTerm=title||extASIN(link);
+  if(!searchTerm){$('impSt').textContent='Please enter a book title to search.';$('audTitle').focus();return}
+  $('impSt').textContent='Searching for book details…';
+  fetch('https://openlibrary.org/search.json?q='+encodeURIComponent(searchTerm)+'&fields=title,author_name,number_of_pages_median&limit=1')
     .then(function(r){return r.json()})
     .then(function(d){
       var doc=(d.docs&&d.docs[0])||{};
       if(doc.title&&!$('bTi').value)$('bTi').value=doc.title;
       if(doc.author_name&&!$('bAu').value)$('bAu').value=doc.author_name[0]||'';
       if(doc.number_of_pages_median&&!$('bDu').value)$('bDu').value=Math.round((doc.number_of_pages_median/100*1.5)*2)/2;
-      $('impSt').textContent=doc.title?'✅ Imported: '+doc.title:'Book not found — fill in manually.';
-      ann(doc.title?'Book imported: '+doc.title:'Book not found');
-    }).catch(function(){$('impSt').textContent='Could not fetch details. Fill in manually.';});
+      var found=!!(doc.title);
+      $('impSt').textContent=found?'✅ Imported: '+doc.title:'Book not found — try a different title or fill in manually.';
+      ann(found?'Book imported: '+doc.title:'Book not found');
+    }).catch(function(){$('impSt').textContent='Could not fetch. Fill in manually.';});
 });
 function extASIN(url){var p=[/\/([A-Z0-9]{10})(?:\?|$|\/)/,/asin=([A-Z0-9]{10})/,/\/dp\/([A-Z0-9]{10})/];for(var i=0;i<p.length;i++){var m=url.match(p[i]);if(m)return m[1]}return url.split('/').pop().split('?')[0]}
 
