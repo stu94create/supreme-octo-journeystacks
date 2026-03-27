@@ -958,14 +958,26 @@ function setLastBackup(){try{ss('st_lb',Date.now())}catch(e){}}
 function updBackupNudge(){
   var n=$('backupNudge');if(!n)return;
   var lb=getLastBackup();var days=lb?Math.floor((Date.now()-lb)/(864e5)):999;
+  // Check if dismissed recently (within 3 days)
+  try{var dismissed=parseInt(sg('st_dismissed'))||0;if(dismissed&&Math.floor((Date.now()-dismissed)/(864e5))<3){n.style.display='none';return}}catch(e){}
   if(days<30){n.style.display='none';return}
   var msg=lb?'Last backed up '+days+' days ago':'No backup yet';
   n.style.display='';
-  n.innerHTML='<div class="backup-nudge" role="note" aria-label="'+esc(msg)+'. Tap to back up now.">'
+  n.innerHTML='<div style="display:flex;align-items:center;gap:.75rem">'
+    +'<div class="backup-nudge" role="button" tabindex="0" aria-label="Back up your library. '+esc(msg)+'. Tap to back up now." style="flex:1;cursor:pointer;display:flex;align-items:center;gap:.75rem;background:linear-gradient(135deg,rgba(201,151,31,.09),rgba(201,151,31,.03));border:1px solid rgba(201,151,31,.2);border-radius:var(--r);padding:.8rem 1rem;">'
     +'<div style="font-size:1.25rem;flex-shrink:0" aria-hidden="true">💾</div>'
     +'<div style="flex:1" aria-hidden="true"><div class="nudge-title">Back up your library</div><div class="nudge-sub">'+esc(msg)+'</div></div>'
-    +'<div style="color:var(--acl);font-size:.85rem;flex-shrink:0" aria-hidden="true">→</div></div>';
+    +'<div style="color:var(--acl);font-size:.85rem;flex-shrink:0" aria-hidden="true">→</div>'
+    +'</div>'
+    +'<button aria-label="Dismiss backup reminder" style="background:none;border:1px solid var(--bd2);color:var(--mu);font-size:1rem;width:32px;height:32px;border-radius:50%;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;" id="nudgeDismiss">×</button>'
+    +'</div>';
   n.querySelector('.backup-nudge').addEventListener('click',doBackup);
+  n.querySelector('#nudgeDismiss').addEventListener('click',function(e){
+    e.stopPropagation();
+    try{ss('st_dismissed',Date.now())}catch(ex){}
+    n.style.display='none';
+    ann('Backup reminder dismissed. It will reappear in 3 days.');
+  });
 }
 function updLastBackupLabel(){
   var lb=getLastBackup();var lbl=$('lastBackupLbl');if(!lbl)return;
