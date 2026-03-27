@@ -531,7 +531,7 @@ main{padding:1rem .85rem calc(1.25rem + var(–sb))}
 (function(){
   try{
     var cfg=JSON.parse(localStorage.getItem('st_c'))||{};
-    var t=cfg.theme||'system';
+    var t=cfg.theme||'dark';
     var e=t==='system'?(window.matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light'):t;
     document.documentElement.setAttribute('data-theme',e);
   }catch(ex){
@@ -543,7 +543,7 @@ main{padding:1rem .85rem calc(1.25rem + var(–sb))}
 </script>
 
 </head>
-<body>
+<body data-theme="dark">
 <div id="live" aria-live="polite" aria-atomic="true" class="sr-only"></div>
 <div id="pw">
 <header role="banner">
@@ -942,7 +942,7 @@ function sg(k){try{return localStorage.getItem(k)}catch(e){return M[k]||null}}
 function ss(k,v){try{localStorage.setItem(k,v)}catch(e){M[k]=v}}
 function lA(){try{return JSON.parse(sg('st_a'))||[]}catch{return[]}}
 function lB(){try{return JSON.parse(sg('st_b'))||[]}catch{return[]}}
-function lC(){try{return Object.assign({as:'dateCreated',bs:'recent',theme:'system',compact:false,hrs:'total',goal:0,sounds:true},JSON.parse(sg('st_c'))||{})}catch{return{as:'dateCreated',bs:'recent',theme:'system',compact:false,hrs:'total',goal:0}}}
+function lC(){try{return Object.assign({as:'dateCreated',bs:'recent',theme:'dark',compact:false,hrs:'total',goal:0,sounds:true},JSON.parse(sg('st_c'))||{})}catch{return{as:'dateCreated',bs:'recent',theme:'system',compact:false,hrs:'total',goal:0}}}
 function svA(a){try{ss('st_a',JSON.stringify(a))}catch(e){}}
 function svB(b){try{ss('st_b',JSON.stringify(b))}catch(e){}}
 function svC(c){try{ss('st_c',JSON.stringify(c))}catch(e){}}
@@ -1042,7 +1042,7 @@ function applyTheme(t){
   document.documentElement.setAttribute('data-theme',e);
   document.body.setAttribute('data-theme',e);
 }
-applyTheme(cfg.theme||'system');
+applyTheme(cfg.theme||'dark');
 window.matchMedia('(prefers-color-scheme:dark)').addEventListener('change',function(){if(cfg.theme==='system')applyTheme('system')});
 
 // Modal management — inert for VoiceOver
@@ -1160,7 +1160,7 @@ function doRestore(file){
       confirmSheet('Restore from backup? This will replace your current library.','Restore Library',function(){
         aisles=rd.aisles||[];books=rd.books||[];if(rd.settings)cfg=Object.assign(cfg,rd.settings);
         svA(aisles);svB(books);svC(cfg);setLastBackup();
-        closeModal('mSetData');applyTheme(cfg.theme||'system');goHome();
+        closeModal('mSetData');applyTheme(cfg.theme||'dark');goHome();
         ann('Library restored. '+aisles.length+' aisles and '+books.length+' books.');
       });
     }catch(err){ann('Could not read backup file.');}
