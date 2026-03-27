@@ -37,11 +37,11 @@
 
 [data-theme=“light”]{
 –bg:#f2ead8;
-–sf:#e8dfc8;
-–sf2:#ddd4ba;
-–sf3:#d0c7ac;
-–bd:#bfb598;
-–bd2:#a89e80;
+–sf:#ede3cc;
+–sf2:#e6d8be;
+–sf3:#dacbb0;
+–bd:#c8b898;
+–bd2:#b8a880;
 –ac:#7a5c0f;
 –acl:#5a4008;
 –acd:#c89830;
@@ -1176,10 +1176,9 @@ function renderHome(){
   if(!s.length){
     var emp=document.createElement('div');emp.className='empty';
     emp.innerHTML='<div class="empty-icon" aria-hidden="true">📚</div>'
-      +'<div class="empty-title">Welcome to Stacks</div>'
-      +'<div class="empty-sub">Your personal audiobook library. Create aisles to organise your books.</div>'
-      +'<button class="welcome-btn" aria-label="Open welcome guide — how to get started">📖 How to get started</button>'
-      +'<div class="tap-hint">Then tap <strong style="color:var(--tx2)">+</strong> to create your first aisle</div>';
+      +'<div class="empty-title">Your library is empty</div>'
+      +'<div class="empty-sub">Tap <strong style="color:var(--tx2)">+</strong> to create your first aisle</div>'
+      +'<button class="welcome-btn" aria-label="Open welcome guide — how to get started">📖 How to get started</button>';
     emp.querySelector('.welcome-btn').addEventListener('click',function(){openModal('mWelcome')});
     c.appendChild(emp);return;
   }
